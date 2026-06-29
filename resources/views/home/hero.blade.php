@@ -1,5 +1,4 @@
 <section class="relative min-h-[900px] flex flex-col justify-between overflow-hidden bg-[#031129]">
-
     <div class="absolute inset-0 z-0">
         <img
             src="{{ asset('images/hero/hero-main.png') }}"
