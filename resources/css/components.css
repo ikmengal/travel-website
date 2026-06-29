@@ -1,0 +1,81 @@
+/* .section-title{
+
+    @apply text-5xl lg:text-6xl font-black;
+
+}
+
+.section-subtitle{
+
+    @apply text-slate-500 mt-5 leading-8;
+
+}
+
+.btn-primary{
+
+    @apply rounded-xl bg-blue-600 px-8 py-4 text-white font-semibold transition hover:bg-blue-700;
+
+}
+
+.btn-outline{
+
+    @apply rounded-xl border border-slate-300 px-8 py-4 font-semibold;
+
+} */
+
+
+/* Custom Components CSS */
+
+/* Hero */
+.hero-bg {
+    background-position: center;
+    background-size: cover;
+}
+
+/* Glass Effect */
+.glass {
+    backdrop-filter: blur(16px);
+    background: rgba(255,255,255,.1);
+}
+
+/* Card Hover */
+.card-hover {
+    transition: all .4s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-10px);
+}
+
+/* .section{
+    @apply py-24;
+}
+
+.section-title{
+
+    @apply text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900;
+
+}
+
+.section-description{
+
+    @apply mt-4 text-slate-500 max-w-2xl leading-8;
+
+}
+
+.badge{
+
+    @apply inline-flex items-center rounded-full bg-blue-50 text-blue-600 px-4 py-2 text-xs font-bold uppercase tracking-widest;
+
+}
+
+.btn-primary{
+
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-7 py-3.5 font-semibold text-white shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-xl;
+
+}
+
+.btn-outline{
+
+    @apply inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-7 py-3.5 font-semibold transition duration-300 hover:border-blue-600 hover:text-blue-600;
+
+} */

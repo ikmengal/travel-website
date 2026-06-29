@@ -1,0 +1,33 @@
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:20px;
+
+}
+
+::selection{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* .container-custom{
+
+    @apply mx-auto max-w-7xl px-6 lg:px-8;
+
+}
+
+.card{
+
+    @apply rounded-3xl bg-white shadow-[0_10px_40px_rgba(15,23,42,.06)] transition duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(15,23,42,.12)];
+
+} */

@@ -1,0 +1,16 @@
+html{
+    scroll-behavior:smooth;
+}
+
+.fade-up{
+    opacity:0;
+    transform:translateY(40px);
+}
+
+.scale-hover{
+    transition:.4s;
+}
+
+.scale-hover:hover{
+    transform:translateY(-8px);
+}
