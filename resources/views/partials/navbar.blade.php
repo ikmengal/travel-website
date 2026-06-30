@@ -164,7 +164,7 @@
                              x-cloak>
                             <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">About Us</a>
                             <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">Our Pricing</a>
-                            <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">Testimonials</a>
+                            <a href="#testimonials" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">Testimonials</a>
                             <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">FAQ</a>
                         </div>
                     </div>

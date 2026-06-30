@@ -80,15 +80,15 @@
 
             <div class="lg:col-span-1 space-y-5">
                 <div class="flex items-center gap-3">
-                    <div class="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center text-base font-black shadow-lg shadow-blue-600/10 tracking-tighter">
-                        TB
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-black tracking-tight leading-none">TravelBook</h2>
-                        <span class="text-[10px] text-slate-500 font-bold tracking-widest uppercase block mt-1">
-                            Explore Beyond Limits
-                        </span>
-                    </div>
+                    <a href="/" class="flex items-center gap-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white text-xl transition duration-300 hover:rotate-6 hover:scale-110">
+                            TB
+                        </div>
+                        <div>
+                            <h2 class="font-black text-2xl">TravelBook</h2>
+                            <p class="text-sm text-gray-500">Explore Beyond Limits</p>
+                        </div>
+                    </a>
                 </div>
                 <p class="text-slate-400 text-sm leading-relaxed max-w-xs">
                     Your trusted travel partner for unforgettable journeys.
