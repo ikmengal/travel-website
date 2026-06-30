@@ -4,19 +4,13 @@
 @import "./components.css";
 @import "./utilities.css";
 
-/* html{
-    scroll-behavior:smooth;
+html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
-
-body{
-    font-family:'Inter',sans-serif;
-    background:#f8fafc;
-    color:#0f172a;
+html::-webkit-scrollbar {
+    display: none;
 }
-
-h1,h2,h3,h4,h5,h6{
-    font-family:'Plus Jakarta Sans',sans-serif;
-} */
 
 [x-cloak]{
     display:none !important;

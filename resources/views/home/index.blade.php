@@ -14,11 +14,11 @@
 
 @include('home.tours')
 
+@include('home.gallery')
+
 @include('home.why-choose-us')
 
 @include('home.banner-section')
-
-@include('home.gallery')
 
 @include('home.testimonials')
 

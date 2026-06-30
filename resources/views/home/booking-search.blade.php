@@ -1,4 +1,4 @@
-<section class="relative z-40 -mt-20 sm:-mt-32 lg:-mt-44">
+<section class="relative z-40 -mt-20 sm:-mt-24 lg:-mt-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div x-data="{ tab: 'flight' }" class="bg-[#f4f7fc] rounded-[24px] sm:rounded-[36px] p-4 sm:p-6 lg:p-8 shadow-[0_25px_60px_rgba(0,0,0,0.12)] border border-white">
 

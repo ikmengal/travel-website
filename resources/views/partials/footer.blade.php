@@ -184,11 +184,23 @@
         </div>
     </div>
 
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="absolute right-6 bottom-16 md:bottom-20 z-30 h-10 w-10 rounded-xl bg-blue-500/10 text-blue-400 hover:bg-blue-600 hover:text-white flex items-center justify-center transition duration-200 border border-blue-500/20 shadow-md backdrop-blur-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-        </svg>
-    </button>
+    <div x-data="{ showButton: false }"
+        @scroll.window="showButton = (window.pageYOffset > 300)"
+        x-show="showButton"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-10"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-10"
+        x-cloak
+        class="fixed right-6 bottom-6 z-50">
 
+        <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="h-10 w-10 rounded-xl bg-slate-300 text-blue-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition duration-200 border border-blue-500/20 shadow-md backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+        </button>
+    </div>
 </footer>

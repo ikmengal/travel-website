@@ -1,16 +1,8 @@
-<nav
-    id="navbar"
-    x-data="{ open: false }"
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-
+{{-- <nav id="navbar" x-data="{ open: false }" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
     <div class="max-w-7xl mx-auto px-6 pt-6">
-
         <div class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl">
-
             <div class="flex items-center justify-between h-20 px-8">
-
                 <!-- Logo -->
-
                 <a href="/" class="flex items-center gap-4">
 
                     <div
@@ -38,7 +30,6 @@
                 </a>
 
                 <!-- Desktop Menu -->
-
                 <div class="hidden lg:flex items-center gap-10">
 
                     <a href="#"
@@ -69,7 +60,6 @@
                 </div>
 
                 <!-- Desktop Buttons -->
-
                 <div class="hidden lg:flex items-center gap-5">
 
                     <a href="#">
@@ -88,7 +78,6 @@
                 </div>
 
                 <!-- Mobile Button -->
-
                 <button
                     @click="open=!open"
                     class="lg:hidden text-3xl">
@@ -96,13 +85,10 @@
                     ☰
 
                 </button>
-
             </div>
-
         </div>
 
         <!-- Mobile Menu -->
-
         <div
             x-show="open"
             x-transition:enter="transition ease-out duration-300"
@@ -134,7 +120,110 @@
             </div>
 
         </div>
-
     </div>
+</nav> --}}
 
+<nav id="navbar" x-data="{ open: false, pagesOpen: false }" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-6 pt-6">
+        <div class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl">
+            <div class="flex items-center justify-between h-20 px-8">
+                <a href="/" class="flex items-center gap-4">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 font-bold text-white text-xl transition duration-300 hover:rotate-6 hover:scale-110">
+                        TB
+                    </div>
+                    <div>
+                        <h2 class="font-black text-2xl">TravelBook</h2>
+                        <p class="text-sm text-gray-500">Explore Beyond Limits</p>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-10">
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Destinations</a>
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Tours</a>
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Hotels</a>
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Blog</a>
+                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Contact</a>
+
+                    <div class="relative" @click.away="pagesOpen = false">
+                        <button @click="pagesOpen = !pagesOpen" class="flex items-center gap-1.5 font-medium text-slate-700 transition duration-300 hover:text-blue-600 focus:outline-none">
+                            <span>Pages</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 transform transition-transform duration-200" :class="pagesOpen ? 'rotate-180' : ''">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+
+                        <div x-show="pagesOpen"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute left-0 mt-3 w-48 rounded-2xl bg-white p-2 shadow-xl border border-slate-100"
+                             x-cloak>
+                            <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">About Us</a>
+                            <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">Our Pricing</a>
+                            <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">Testimonials</a>
+                            <a href="#" class="block rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition">FAQ</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden lg:flex items-center gap-6">
+                    <a href="#" class="font-semibold text-slate-700 hover:text-blue-600 transition duration-300">
+                        Login
+                    </a>
+
+                    <a href="#" class="rounded-2xl bg-blue-600 px-7 py-3 font-semibold text-white transition duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl">
+                        Get Started
+                    </a>
+                </div>
+
+                <button @click="open=!open" class="lg:hidden text-3xl focus:outline-none">
+                    ☰
+                </button>
+            </div>
+        </div>
+
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-5"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-5"
+             @click.outside="open=false"
+             class="lg:hidden mt-4 bg-white rounded-3xl shadow-xl overflow-hidden"
+             x-cloak>
+            <a href="#" class="block px-6 py-4 border-b">Home</a>
+            <a href="#" class="block px-6 py-4 border-b">Destinations</a>
+            <a href="#" class="block px-6 py-4 border-b">Tours</a>
+            <a href="#" class="block px-6 py-4 border-b">Hotels</a>
+            <a href="#" class="block px-6 py-4 border-b">Blog</a>
+            <a href="#" class="block px-6 py-4 border-b">Contact</a>
+
+            <div x-data="{ mobilePagesOpen: false }" class="border-b">
+                <button @click="mobilePagesOpen = !mobilePagesOpen" class="w-full flex items-center justify-between px-6 py-4 font-medium text-left">
+                    <span>Pages</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 transform transition-transform" :class="mobilePagesOpen ? 'rotate-180' : ''">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+                <div x-show="mobilePagesOpen" class="bg-slate-50/50 px-8 pb-3">
+                    <a href="#" class="block py-2 text-sm text-slate-600">About Us</a>
+                    <a href="#" class="block py-2 text-sm text-slate-600">Our Pricing</a>
+                    <a href="#" class="block py-2 text-sm text-slate-600">Testimonials</a>
+                    <a href="#" class="block py-2 text-sm text-slate-600">FAQ</a>
+                </div>
+            </div>
+
+            <div class="p-6 flex flex-col gap-4">
+                <a href="#" class="block w-full text-center font-semibold text-slate-700 py-2">Login</a>
+                <a href="#" class="block w-full text-center bg-blue-600 text-white py-4 rounded-2xl font-semibold shadow-md shadow-blue-600/10">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </div>
 </nav>
