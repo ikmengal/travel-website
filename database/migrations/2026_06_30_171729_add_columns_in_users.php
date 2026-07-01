@@ -12,17 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->nullable()->after('name');
-            $table->string('phone')->nullable()->after('email');
+            $table->foreignId('country_id')->nullable()->after('id')->constrained()->nullOnDelete();
+            $table->foreignId('state_id')->nullable()->after('country_id')->constrained()->nullOnDelete();
+            $table->foreignId('city_id')->nullable()->after('state_id')->constrained()->nullOnDelete();
+
+            $table->string('username')->unique()->nullable()->after('name');
+            $table->string('phone')->nullable()->unique()->after('email');
             $table->string('avatar')->nullable()->after('password');
-            $table->bigInteger('country_id')->nullable()->after('avatar');
-            $table->bigInteger('city_id')->nullable()->after('country_id');
-            $table->string('gender')->nullable()->after('city_id');
-            $table->string('date_of_birth')->nullable()->after('gender');
+
+
+            $table->enum('gender', ['Male', 'Female', 'Other'])->nullable()->after('remember_token');
+            $table->date('date_of_birth')->nullable()->after('gender');
             $table->longText('address')->nullable()->after('date_of_birth');
             $table->text('bio')->nullable()->after('address');
-            $table->enum('status',['Active', 'Inactive'])->default('Active')->after('bio');
-            $table->softDeletes();
+            $table->enum('status', ['Active', 'Inactive'])->default('Active')->after('bio');
+
+            $table->softDeletes()->after('status');
         });
     }
 
@@ -32,16 +37,29 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
-            $table->dropColumn('phone');
-            $table->dropColumn('avatar');
-            $table->dropColumn('country_id');
-            $table->dropColumn('city_id');
-            $table->dropColumn('gender');
-            $table->dropColumn('date_of_birth');
-            $table->dropColumn('address');
-            $table->dropColumn('bio');
-            $table->dropColumn('status');
+
+            // Drop Foreign Keys
+            $table->dropForeign(['country_id']);
+            $table->dropForeign(['state_id']);
+            $table->dropForeign(['city_id']);
+
+            // Drop Columns
+            $table->dropColumn([
+                'username',
+                'phone',
+                'avatar',
+                'country_id',
+                'state_id',
+                'city_id',
+                'gender',
+                'date_of_birth',
+                'address',
+                'bio',
+                'status',
+            ]);
+
+            // Drop deleted_at
+            $table->dropSoftDeletes();
         });
     }
 };
