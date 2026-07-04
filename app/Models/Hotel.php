@@ -2,70 +2,129 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hotel extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'destination_id',
 
-    public function owner(): BelongsTo
+        'name',
+        'slug',
+        'hotel_code',
+
+        'star_rating',
+
+        'phone',
+        'email',
+        'website',
+
+        'address',
+
+        'short_description',
+        'description',
+
+        'featured_image',
+
+        'check_in_time',
+        'check_out_time',
+
+        'latitude',
+        'longitude',
+
+        'starting_price',
+
+        'rating',
+        'reviews_count',
+
+        'featured',
+        'popular',
+        'status',
+
+        'sort_order',
+
+        'meta_title',
+        'meta_description',
+    ];
+
+    protected $casts = [
+        'starting_price'=>'decimal:2',
+
+        'rating'=>'decimal:2',
+
+        'featured'=>'boolean',
+
+        'popular'=>'boolean',
+
+        'status'=>'boolean',
+
+    ];
+
+    // -------------------------------- Relationships -------------------------------- //
+
+    public function destination()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Destination::class);
     }
 
-    public function hotelType(): BelongsTo
+    public function images()
     {
-        return $this->belongsTo(HotelType::class);
+        return $this->hasMany(HotelImage::class)
+            ->orderBy('sort_order');
     }
 
-    public function country(): BelongsTo
+    public function featuredImage()
     {
-        return $this->belongsTo(Country::class);
+        return $this->hasOne(HotelImage::class)
+            ->where('is_featured', true);
     }
 
-    public function state(): BelongsTo
+    public function rooms()
     {
-        return $this->belongsTo(State::class);
+        return $this->hasMany(HotelRoom::class);
     }
 
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
-
-    public function rooms(): HasMany
-    {
-        return $this->hasMany(Room::class);
-    }
-
-    public function amenities(): BelongsToMany
+    public function amenities()
     {
         return $this->belongsToMany(
-            Amenity::class,
-            'hotel_amenities'
+            HotelAmenity::class,
+            'hotel_amenity_hotel',
+            'hotel_id',
+            'hotel_amenity_id'
         )->withTimestamps();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Future Relations
-    |--------------------------------------------------------------------------
-    */
+    public function wishlists()
+    {
+        return $this->morphMany(
+            Wishlist::class,
+            'wishlistable'
+        );
+    }
 
-    // public function reviews()
-    // {
-    //     return $this->hasMany(Review::class);
-    // }
+    public function faqs()
+    {
+        return $this->morphMany(
+            Faq::class,
+            'faqable'
+        );
+    }
+
+    // ------------ Future Modules ------------ //
+    public function reviews()
+    {
+        return $this->morphMany(
+            Review::class,
+            'reviewable'
+        );
+    }
 
     // public function bookings()
     // {
-    //     return $this->hasMany(Booking::class);
+    //     return $this->hasMany(HotelBooking::class);
     // }
 }

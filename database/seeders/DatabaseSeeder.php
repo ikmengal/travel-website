@@ -24,11 +24,10 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             AdminSeeder::class,
 
+            UserSeeder::class,
             AssignPermissionSeeder::class,
-
-            HotelTypeSeeder::class,
-            AmenitySeeder::class,
-            RoomTypeSeeder::class,
+            SocialLinkSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }
