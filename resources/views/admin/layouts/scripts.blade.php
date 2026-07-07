@@ -25,7 +25,6 @@
 <script src="{{ asset('admin/assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('admin/assets/vendor/libs/tagify/tagify.js') }}"></script>
-<script src="{{ asset('admin/assets/js/dashboard-graph.js') }}"></script>
 <!-- Page JS -->
 <script src="{{ asset('admin/assets/js/toastr.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/action-gateway.js?v=1.0.14') }}"></script>
@@ -48,6 +47,12 @@
     function hideFancyBox() {
         $.fancybox.close();
     }
+
+    $('.form-select').each(function() {
+        $(this).select2({
+            dropdownParent: $(this).parent(),
+        });
+    });
 
     if (typeof description !== 'undefined') {
         CKEDITOR.replace('description');

@@ -36,7 +36,7 @@
             <a href="javascript:;"
                 class="dropdown-item delete"
                 data-del-url="{{ route('users.destroy', $user->id) }}">
-                Ddelete
+                Delete
             </a>
         @endcan
     </div>

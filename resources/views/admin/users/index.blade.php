@@ -18,10 +18,10 @@
                     @if(request()->is('users/trashed'))
                         @can('users-list')
                             <div class="dt-buttons btn-group flex-wrap float-end mt-4">
-                                <a data-toggle="tooltip" data-placement="top" title="View ALl Records" href="{{ route('users.index') }}" class="btn btn-success btn-primary mx-3">
+                                <a data-toggle="tooltip" data-placement="top" title="View All Records" href="{{ route('users.index') }}" class="btn btn-success btn-primary mx-3">
                                     <span>
                                         <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">{{ __('messages.all_records') }}</span>
+                                        <span class="d-none d-sm-inline-block">View All Records</span>
                                     </span>
                                 </a>
                             </div>
@@ -29,23 +29,15 @@
                     @else
                         <div class="dt-buttons btn-group flex-wrap float-end mt-4">
                             @can('users-create')
-                                {{-- <button
-                                    id="add-btn"
-                                    data-toggle="tooltip" data-placement="top"
-                                    data-url="{{ route('users.store') }}"
-                                    data-create-url="{{ route('users.create') }}"
+                                <a href="{{ route('users.create') }}"
                                     class="btn add-new btn-primary mb-3 mb-md-0 mx-3"
                                     tabindex="0" aria-controls="DataTables_Table_0"
-                                    type="button" data-bs-toggle="modal"
-                                    title="Add User"
-                                    data-bs-target="#addUserModal">
+                                    type="button"
+                                    title="Add User">
                                     <span>
                                         <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                         <span class="d-none d-sm-inline-block"> Add User </span>
                                     </span>
-                                </button> --}}
-                                <a href="{{ route('users.create') }}" class="menu-link">
-                                    <div data-i18n="create user">Add User</div>
                                 </a>
                             @endcan
                         </div>
@@ -71,7 +63,7 @@
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="container-fluid">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column data_table table-responsive"
-                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                        id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px; display:table;">
                             <thead>
                                 <tr>
                                     <th>S.No</th>

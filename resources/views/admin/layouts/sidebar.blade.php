@@ -58,10 +58,13 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
-                <div data-i18n="Roles & Permissions">Roles & Permissions</div>
+                <div data-i18n="Administration">Administration</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('roles') ||
+                                        request()->is('permissions') ?
+                                        'open active' : ''
+                                    }}">
                     <a href="{{ route('roles.index') }}" class="menu-link">
                         <div data-i18n="Roles">Roles</div>
                     </a>
@@ -69,6 +72,11 @@
                 <li class="menu-item">
                     <a href="{{ route('permissions.index') }}" class="menu-link">
                         <div data-i18n="Permission">Permission</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('settings.index') }}" class="menu-link">
+                        <div data-i18n="Settings">Settings</div>
                     </a>
                 </li>
             </ul>
@@ -82,6 +90,19 @@
                 <li class="menu-item">
                     <a href="{{ route('users.index') }}" class="menu-link">
                     <div data-i18n="User List">User List</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-users"></i>
+                <div data-i18n="Destinations">Destinations</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('destinations.index') }}" class="menu-link">
+                    <div data-i18n="Destinations">Destinations</div>
                     </a>
                 </li>
             </ul>
