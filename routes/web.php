@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\{
     DestinationController,
     PermissionController,
     DashboardController,
+    TourImageController,
     SettingController,
     TourCountroller,
     RoleController,
@@ -45,6 +46,11 @@ Route::middleware(['auth'])->group(function(){
         Route::post('change-popular', 'changePopular')->name('change-popular');
     });
 
+    Route::controller(TourImageController::class)->prefix('tour_images')->name('tour_images.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
     // Destination Custom Routes
     Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
         Route::delete('{setting}/toggle-status', 'toggleStatus')->name('bulk-delete');
@@ -53,6 +59,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('tour_categories', TourCategoryController::class);
     Route::resource('destinations', DestinationController::class);
     Route::resource('permissions', PermissionController::class);
+    Route::resource('tour_images', TourImageController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('tours', TourCountroller::class);
     Route::resource('roles', RoleController::class);

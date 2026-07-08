@@ -107,23 +107,32 @@
             </ul>
         </li>
         @canany(['tour-category-list', 'tours-list'])
-            <li class="menu-item {{ Route::is('tour_categories.*') ? 'active open' : '' }}">
+            <li class="menu-item {{ Route::is('tour_categories.*') ||
+                                    Route::is('tour_images.*') ||
+                                    Route::is('tours.*') ? 'active open' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons ti ti-map-2"></i>
                     <div data-i18n="Tours">Tours</div>
                 </a>
                 <ul class="menu-sub">
                     @can('tour-category-list')
-                        <li class="menu-item {{ request()->is('tour_categories') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_categories.*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_categories.index') }}" class="menu-link">
                             <div data-i18n="Tour Categories">Tour Categories</div>
                             </a>
                         </li>
                     @endcan
                     @can('tours-list')
-                        <li class="menu-item {{ request()->is('tours') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tours.*') ? 'open active' : '' }}">
                             <a href="{{ route('tours.index') }}" class="menu-link">
                             <div data-i18n="Tours">Tours</div>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('tours-list')
+                        <li class="menu-item {{ request()->is('tour_images.*') ? 'open active' : '' }}">
+                            <a href="{{ route('tour_images.index') }}" class="menu-link">
+                            <div data-i18n="Tour Images">Tour Images</div>
                             </a>
                         </li>
                     @endcan
