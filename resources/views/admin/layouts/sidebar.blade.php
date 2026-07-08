@@ -44,8 +44,8 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link">
+        <li class="menu-item {{ Route::is('admin.dashboard') ? 'active open' : '' }} ">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
             </a>
@@ -55,57 +55,80 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Route::is('permissions.*') ||
+                                Route::is('settings.*') ||
+                                Route::is('roles.*') ? 'active open' : '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
                 <div data-i18n="Administration">Administration</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('roles') ||
-                                        request()->is('permissions') ?
-                                        'open active' : ''
-                                    }}">
+                <li class="menu-item {{ request()->is('roles') ? 'open active' : '' }}">
                     <a href="{{ route('roles.index') }}" class="menu-link">
                         <div data-i18n="Roles">Roles</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('permissions') ? 'open active' : '' }}">
                     <a href="{{ route('permissions.index') }}" class="menu-link">
                         <div data-i18n="Permission">Permission</div>
                     </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('settings') ? 'open active' : '' }}">
                     <a href="{{ route('settings.index') }}" class="menu-link">
                         <div data-i18n="Settings">Settings</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Route::is('users.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="User Management">User Management</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('users') ? 'open active' : '' }}">
                     <a href="{{ route('users.index') }}" class="menu-link">
                     <div data-i18n="User List">User List</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Route::is('destinations.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-users"></i>
+                <i class="menu-icon tf-icons ti ti-route"></i>
                 <div data-i18n="Destinations">Destinations</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item {{ request()->is('destinations') ? 'open active' : '' }}">
                     <a href="{{ route('destinations.index') }}" class="menu-link">
                     <div data-i18n="Destinations">Destinations</div>
                     </a>
                 </li>
             </ul>
         </li>
+        @canany(['tour-category-list', 'tours-list'])
+            <li class="menu-item {{ Route::is('tour_categories.*') ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-map-2"></i>
+                    <div data-i18n="Tours">Tours</div>
+                </a>
+                <ul class="menu-sub">
+                    @can('tour-category-list')
+                        <li class="menu-item {{ request()->is('tour_categories') ? 'open active' : '' }}">
+                            <a href="{{ route('tour_categories.index') }}" class="menu-link">
+                            <div data-i18n="Tour Categories">Tour Categories</div>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('tours-list')
+                        <li class="menu-item {{ request()->is('tours') ? 'open active' : '' }}">
+                            <a href="{{ route('tours.index') }}" class="menu-link">
+                            <div data-i18n="Tours">Tours</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcanany
     </ul>
 </aside>

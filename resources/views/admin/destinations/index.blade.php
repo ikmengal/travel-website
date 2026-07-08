@@ -215,9 +215,7 @@
         </div>
         <div class="card-datatable table-responsive">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                <div class="container-fluid"
-                    {{-- table-hover align-middle datatables-users --}}
-                >
+                <div class="container-fluid">
                     <table id="destinationTable" class="table border-top dataTable no-footer data_table table-responsive" aria-describedby="DataTables_Table_0_info" style="width: 1227px; display:table;">
                         <thead>
                             <tr>

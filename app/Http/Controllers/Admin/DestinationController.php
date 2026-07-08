@@ -60,72 +60,72 @@ class DestinationController extends Controller
             }
 
             return DataTables::eloquent($query)
-                ->addIndexColumn()
-                ->addColumn('checkbox', function ($destination) {
-                    return view(
-                        'admin.destinations.partials.checkbox',
-                        compact('destination')
-                    )->render();
-                })
-                ->addColumn('image', function ($destination) {
-                    return view(
-                        'admin.destinations.partials.image',
-                        compact('destination')
-                    )->render();
-                })
-                ->addColumn('destination', function ($destination) {
-                    return view('admin.destinations.partials.destination', compact('destination'))->render();
-                })
-                ->addColumn('country', function ($destination) {
-                    return $destination->country
-                        ? '<span class="badge bg-label-primary">'
-                            .$destination->country->name.
-                        '</span>'
-                        : '-';
-                })
-                ->addColumn('tours', function ($destination) {
-                    return '<span class="badge bg-label-info">'
-                        .$destination->tours_count.
-                        '</span>';
-                })
-                ->addColumn('hotels', function ($destination) {
-                    return '<span class="badge bg-label-success">'
-                        .$destination->hotels_count.
-                        '</span>';
-                })
-                ->addColumn('featured', function ($destination) {
-                    return $destination->is_featured
-                        ? '<span class="badge bg-success">Featured</span>'
-                        : '<span class="badge bg-secondary">No</span>';
-                })
-                ->addColumn('popular', function ($destination) {
-                    return $destination->is_popular
-                        ? '<span class="badge bg-warning">Popular</span>'
-                        : '<span class="badge bg-secondary">No</span>';
-                })
-                ->addColumn('status', function ($destination) {
-                    return view('admin.destinations.partials.status',compact('destination'))->render();
-                })
-                ->editColumn('created_at', function ($destination) {
-                    return $destination->created_at
-                        ->format('d M Y');
-                })
-                ->addColumn('action', function ($destination) {
-                    return view('admin.destinations.partials.action',compact('destination'))->render();
-                })
-                ->rawColumns([
-                    'checkbox',
-                    'image',
-                    'destination',
-                    'country',
-                    'tours',
-                    'hotels',
-                    'featured',
-                    'popular',
-                    'status',
-                    'action'
-                ])
-                ->make(true);
+            ->addIndexColumn()
+            ->addColumn('checkbox', function ($destination) {
+                return view(
+                    'admin.destinations.partials.checkbox',
+                    compact('destination')
+                )->render();
+            })
+            ->addColumn('image', function ($destination) {
+                return view(
+                    'admin.destinations.partials.image',
+                    compact('destination')
+                )->render();
+            })
+            ->addColumn('destination', function ($destination) {
+                return view('admin.destinations.partials.destination', compact('destination'))->render();
+            })
+            ->addColumn('country', function ($destination) {
+                return $destination->country
+                    ? '<span class="badge bg-label-primary">'
+                        .$destination->country->name.
+                    '</span>'
+                    : '-';
+            })
+            ->addColumn('tours', function ($destination) {
+                return '<span class="badge bg-label-info">'
+                    .$destination->tours_count.
+                    '</span>';
+            })
+            ->addColumn('hotels', function ($destination) {
+                return '<span class="badge bg-label-success">'
+                    .$destination->hotels_count.
+                    '</span>';
+            })
+            ->addColumn('featured', function ($destination) {
+                return $destination->is_featured
+                    ? '<span class="badge bg-success">Featured</span>'
+                    : '<span class="badge bg-secondary">No</span>';
+            })
+            ->addColumn('popular', function ($destination) {
+                return $destination->is_popular
+                    ? '<span class="badge bg-warning">Popular</span>'
+                    : '<span class="badge bg-secondary">No</span>';
+            })
+            ->addColumn('status', function ($destination) {
+                return view('admin.destinations.partials.status',compact('destination'))->render();
+            })
+            ->editColumn('created_at', function ($destination) {
+                return $destination->created_at
+                    ->format('d M Y');
+            })
+            ->addColumn('action', function ($destination) {
+                return view('admin.destinations.partials.action',compact('destination'))->render();
+            })
+            ->rawColumns([
+                'checkbox',
+                'image',
+                'destination',
+                'country',
+                'tours',
+                'hotels',
+                'featured',
+                'popular',
+                'status',
+                'action'
+            ])
+            ->make(true);
         }
         return view('admin.destinations.index', get_defined_vars());
     }
@@ -228,8 +228,8 @@ class DestinationController extends Controller
                 'short_description' => $request->short_description,
                 'description'       => $request->description,
 
-                'featured_image' => $featuredImage ? 'images/destinations/'.$featuredImage : null,
-                'banner_image'   => $featuredImage ? 'images/destinations/'.$bannerImage : null,
+                'featured_image' => $featuredImage,
+                'banner_image'   => $featuredImage,
 
                 'starting_price' => $request->starting_price,
 
@@ -258,7 +258,7 @@ class DestinationController extends Controller
                     );
                     DestinationImage::create([
                         'destination_id' => $destination->id,
-                        'image'          => $imageName ? 'images/destinations/'.$imageName : null,
+                        'image'          => $imageName,
                         'sort_order'     => $index + 1,
                     ]);
                 }
@@ -296,7 +296,7 @@ class DestinationController extends Controller
 
     public function show(Destination $destination)
     {
-        $this->authorize('destinations-show');
+        // $this->authorize('destinations-show');
 
         $title = 'Destination Details';
 
@@ -310,14 +310,7 @@ class DestinationController extends Controller
             'reviews.user',
             'faqs'
         ]);
-
-        return view(
-            'admin.destinations.show',
-            compact(
-                'title',
-                'destination'
-            )
-        );
+        return view('admin.destinations.show', get_defined_vars());
     }
 
     public function edit(Destination $destination)
@@ -403,7 +396,6 @@ class DestinationController extends Controller
         DB::beginTransaction();
 
         try {
-
             // ----------------- Featured Image ----------------- //
             $featuredImage = $destination->featured_image;
             if ($request->hasFile('featured_image')) {
@@ -452,8 +444,8 @@ class DestinationController extends Controller
                 'short_description'  => $request->short_description,
                 'description'        => $request->description,
 
-                'featured_image' => $featuredImage ? 'images/destinations/'.$featuredImage : null,
-                'banner_image'   => $bannerImage ? 'images/destinations/'.$bannerImage : null,
+                'featured_image' => $featuredImage,
+                'banner_image'   => $bannerImage,
 
                 'starting_price' => $request->starting_price,
 
@@ -484,7 +476,7 @@ class DestinationController extends Controller
 
                     DestinationImage::create([
                         'destination_id' => $destination->id,
-                        'image'          => $imageName ? 'images/destinations/'.$imageName : null,
+                        'image'          => $imageName,
                         'sort_order'     => ++$lastOrder,
                     ]);
                 }
@@ -563,29 +555,21 @@ class DestinationController extends Controller
         $this->authorize('destinations-edit');
 
         try {
-
             $path = public_path($image->image);
-
-            if (File::exists($path)) {
-                File::delete($path);
+            if (File::exists('images/destinations/'.$path)) {
+                File::delete('images/destinations/'.$path);
             }
-
             $image->delete();
-
             return response()->json([
                 'success' => true,
                 'message' => 'Gallery image deleted successfully.'
             ]);
-
         } catch (\Exception $e) {
-
             Log::error($e);
-
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ],500);
-
         }
     }
 

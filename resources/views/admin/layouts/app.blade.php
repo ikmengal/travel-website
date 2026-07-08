@@ -35,6 +35,5 @@
         </div>
     <!-- / Layout wrapper -->
     @include('admin.layouts.scripts')
-    @stack('scripts')
   </body>
 </html>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('title',$title)
 @section('content')
-    {{-- Breadcrumb --}}
+    {{------------------- Breadcrumb -------------------}}
     <div class="d-flex justify-content-between align-items-center mb-4">
 
         <div>
@@ -33,7 +33,7 @@
         @csrf
         <div class="row">
 
-            {{-- LEFT SIDE --}}
+            {{------------------- LEFT SIDE -------------------}}
             <div class="col-lg-8">
                 {{-------------------  GENERAL INFORMATION -------------------}}
                 <div class="card mb-4">
@@ -505,19 +505,17 @@
 @push('js')
 <script>
     $(function(){
-        // ============ SELECT2 ============ //
+        // ------------------- SELECT2 ------------------- //
         $('.select2').select2({
             width:'100%'
         });
 
-        // ============ CKEDITOR ============ //
+        // ------------------- CKEDITOR ------------------- //
         if($('#description').length){
-            console.log(typeof ClassicEditor);
-            console.log(typeof CKEDITOR);
             CKEDITOR.replace('description');
         }
 
-        // ============ SLUG ============ //
+        // ------------------- SLUG ------------------- //
         $('#name').keyup(function(){
             let slug = $(this).val()
                 .toLowerCase()
@@ -526,7 +524,7 @@
             $('#slug').val(slug);
         });
 
-        // ============ COUNTRY -> STATE ============ //
+        // ------------------- COUNTRY -> STATE ------------------- //
         $('#country_id').change(function(){
             let country_id=$(this).val();
             $('#state_id').html('<option value="">Loading...</option>');
@@ -551,7 +549,7 @@
             });
         });
 
-        // ============ STATE -> CITY ============ //
+        // ------------------- STATE -> CITY ------------------- //
         $('#state_id').change(function(){
             let state_id=$(this).val();
             $('#city_id').html('<option>Loading...</option>');
@@ -575,7 +573,7 @@
             });
         });
 
-        // ============ FEATURED IMAGE PREVIEW ============ //
+        // ------------------- FEATURED IMAGE PREVIEW ------------------- //
         $('#featured_image').change(function(e){
             let reader=new FileReader();
             reader.onload=function(e){
@@ -584,7 +582,7 @@
             reader.readAsDataURL(this.files[0]);
         });
 
-        // ============ BANNER IMAGE PREVIEW ============ //
+        // ------------------- BANNER IMAGE PREVIEW ------------------- //
         $('#banner_image').change(function(e){
             let reader=new FileReader();
             reader.onload=function(e){
@@ -593,7 +591,7 @@
             reader.readAsDataURL(this.files[0]);
         });
 
-        // ============ GALLERY PREVIEW ============ //
+        // ------------------- GALLERY PREVIEW ------------------- //
         $('#gallery').change(function(){
             $('#galleryPreview').html('');
             $.each(this.files,function(index,file){
@@ -613,15 +611,10 @@
             });
         });
 
-        // ============ SUBMIT ============ //
+        // ------------------- SUBMIT ------------------- //
         $('#destinationForm').submit(function(e){
             e.preventDefault();
             $('.error').html('');
-
-            // if(window.descriptionEditor){
-            //     $('textarea[name=description]')
-            //         .val(descriptionEditor.getData());
-            // }
 
             CKEDITOR.instances.description.updateElement();
 
