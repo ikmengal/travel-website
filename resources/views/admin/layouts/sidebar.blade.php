@@ -127,49 +127,49 @@
                 </a>
                 <ul class="menu-sub">
                     @can('tour-category-list')
-                        <li class="menu-item {{ request()->is('tour_categories.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_categories/') || request()->is('tour_categories/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_categories.index') }}" class="menu-link">
                             <div data-i18n="Tour Categories">Tour Categories</div>
                             </a>
                         </li>
                     @endcan
                     @can('tours-list')
-                        <li class="menu-item {{ request()->is('tours.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tours') || request()->is('tours/*') ? 'open active' : '' }}">
                             <a href="{{ route('tours.index') }}" class="menu-link">
                             <div data-i18n="Tours">Tours</div>
                             </a>
                         </li>
                     @endcan
                     @can('tour-images-list')
-                        <li class="menu-item {{ request()->is('tour_images.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_images') || request()->is('tour_images/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_images.index') }}" class="menu-link">
                             <div data-i18n="Tour Images">Tour Images</div>
                             </a>
                         </li>
                     @endcan
                     @can('tour-itineraries-list')
-                        <li class="menu-item {{ request()->is('tour_itineraries.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_itineraries') || request()->is('tour_itineraries/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_itineraries.index') }}" class="menu-link">
                             <div data-i18n="Tour Itinerary">Tour Itinerary</div>
                             </a>
                         </li>
                     @endcan
                     @can('tour-includes-list')
-                        <li class="menu-item {{ request()->is('tour_includes.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_includes') || request()->is('tour_includes/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_includes.index') }}" class="menu-link">
                             <div data-i18n="Tour Includes">Tour Includes</div>
                             </a>
                         </li>
                     @endcan
                     @can('tour-excludes-list')
-                        <li class="menu-item {{ request()->is('tour_excludes.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_excludes') || request()->is('tour_excludes/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_excludes.index') }}" class="menu-link">
                             <div data-i18n="Tour Excludes">Tour Excludes</div>
                             </a>
                         </li>
                     @endcan
                     @can('tour-departures-list')
-                        <li class="menu-item {{ request()->is('tour_departures.*') ? 'open active' : '' }}">
+                        <li class="menu-item {{ request()->is('tour_departures') || request()->is('tour_departures/*') ? 'open active' : '' }}">
                             <a href="{{ route('tour_departures.index') }}" class="menu-link">
                             <div data-i18n="Tour Departures">Tour Departures</div>
                             </a>
