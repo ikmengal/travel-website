@@ -32,7 +32,7 @@
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">
                                 Total Images
@@ -53,7 +53,7 @@
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">
                                 Featured
@@ -73,7 +73,7 @@
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">
                                 Active
@@ -93,7 +93,7 @@
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">
                                 Tours Covered
@@ -121,7 +121,7 @@
 
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <label class="form-label">
                         Tour
                     </label>
@@ -138,11 +138,23 @@
                     </select>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label class="form-label">
+                        Tour
+                    </label>
+                    <select id="status_filter" class="form-select select2">
+                        <option value="">
+                            All Status
+                        </option>
+                        <option value="1">Active</option>
+                        <option value="0">In Active</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
                     <label class="form-label">
                         Search
                     </label>
-
                     <input type="text" id="search" class="form-control" placeholder="Search image...">
                 </div>
             </div>

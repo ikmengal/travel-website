@@ -1,27 +1,21 @@
 <script>
-    const csrfToken = "{{ csrf_token() }}";
-    const tourImageIndexUrl = "{{ route('tour_images.index') }}";
-    const changeStatusUrl = "{{ route('tour_images.change-status') }}";
-    const bulkDeleteUrl = "{{ route('tour_images.bulk-delete') }}";
-</script>
-<script>
     $(function () {
-        // ----------------- SELECT2 ----------------- //
+        // -------------- SELECT2 -------------- //
         $('.select2').select2({
             width: '100%'
         });
 
-        // ----------------- DATATABLE ----------------- //
-        let table = $('#tourImageTable').DataTable({
+        // -------------- DATATABLE -------------- //
+        let table = $('#tourItineraryTable').DataTable({
             processing: true,
             serverSide: true,
-            responsive: true,
+            responsive: false,
             autoWidth: false,
             pageLength: 25,
-            order: [[7, 'desc']],
+            order: [[6,'desc']],
 
             ajax: {
-                url: tourImageIndexUrl,
+                url: "{{ route('tour_itineraries.index') }}",
                 data: function (d) {
                     d.loaddata = "yes";
                     d.tour = $('#tour_filter').val();
@@ -36,9 +30,8 @@
                     searchable: false
                 },
                 {
-                    data: 'image',
-                    orderable: false,
-                    searchable: false
+                    data: 'day',
+                    name: 'day'
                 },
                 {
                     data: 'tour',
@@ -49,12 +42,8 @@
                     name: 'title'
                 },
                 {
-                    data: 'caption',
-                    name: 'caption'
-                },
-                {
-                    data: 'sort_order',
-                    name: 'sort_order'
+                    data: 'description',
+                    name: 'description'
                 },
                 {
                     data: 'status',
@@ -73,7 +62,7 @@
             ]
         });
 
-        // ----------------- FILTERS ----------------- //
+        // -------------- FILTERS -------------- //
         $('#tour_filter').change(function(){
             table.draw();
         });
@@ -86,12 +75,12 @@
             table.draw();
         });
 
-        // ----------------- REFRESH ----------------- //
+        // -------------- REFRESH -------------- //
         $('#refreshTable').click(function(){
             table.ajax.reload(null,false);
         });
 
-        // ----------------- CHECK ALL ----------------- //
+        // -------------- CHECK ALL -------------- //
         $(document).on('change','#checkAll',function(){
             $('.row-checkbox').prop('checked',$(this).is(':checked'));
             toggleBulkDelete();
@@ -114,7 +103,7 @@
             }
         }
 
-        // ----------------- BULK DELETE ----------------- //
+        // -------------- BULK DELETE -------------- //
         $(document).on('click','#bulkDelete',function(){
             let ids = [];
 
@@ -127,21 +116,22 @@
             }
 
             Swal.fire({
-                title:'Delete Selected Images?',
-                text:'This action cannot be undone.',
-                icon:'warning',
-                showCancelButton:true,
-                confirmButtonColor:'#d33',
-                confirmButtonText:'Delete'
+                title: 'Delete Selected Itineraries?',
+                text: 'This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#8592a3',
+                confirmButtonText: 'Delete'
             }).then((result)=>{
                 if(!result.isConfirmed){
                     return;
                 }
                 $.ajax({
-                    url: bulkDeleteUrl,
-                    type:'POST',
-                    data:{
-                        _token: csrfToken,
+                    url: "{{ route('tour_itineraries.bulk-delete') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
                         ids: ids
                     },
                     success:function(response){
@@ -151,21 +141,21 @@
                         $('#checkAll').prop('checked',false);
                     },
                     error:function(){
-                        toastr.error('Delete failed.');
+                        toastr.error("Delete failed.");
                     }
                 });
             });
         });
 
-        // ----------------- STATUS TOGGLE ----------------- //
+        // -------------- STATUS -------------- //
         $(document).on('change','.changeStatus',function(){
             let id = $(this).data('id');
 
             $.ajax({
-                url: changeStatusUrl,
-                type:'POST',
-                data:{
-                    _token: csrfToken,
+                url: "{{ route('tour_itineraries.change-status') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
                     id:id
                 },
                 success:function(response){
@@ -173,23 +163,24 @@
                     table.ajax.reload(null,false);
                 },
                 error:function(){
-                    toastr.error('Status update failed.');
+                    toastr.error("Status update failed.");
                     table.ajax.reload(null,false);
                 }
             });
         });
 
-        // ----------------- SINGLE DELETE ----------------- //
+        // -------------- SINGLE DELETE -------------- //
         $(document).on('click','.deleteRecord',function(e){
             e.preventDefault();
             let url = $(this).data('url');
 
             Swal.fire({
-                title:'Delete Image?',
+                title:'Delete Itinerary?',
                 text:'This action cannot be undone.',
                 icon:'warning',
                 showCancelButton:true,
                 confirmButtonColor:'#d33',
+                cancelButtonColor:'#8592a3',
                 confirmButtonText:'Delete'
             }).then((result)=>{
                 if(!result.isConfirmed){
@@ -199,14 +190,14 @@
                     url:url,
                     type:'DELETE',
                     data:{
-                        _token: csrfToken
+                        _token:"{{ csrf_token() }}"
                     },
                     success:function(response){
                         toastr.success(response.message);
                         table.ajax.reload(null,false);
                     },
                     error:function(){
-                        toastr.error('Delete failed.');
+                        toastr.error("Delete failed.");
                     }
                 });
             });

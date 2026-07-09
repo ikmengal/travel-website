@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\{
     Validator, File, DB, Log
 };
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\{
     TourImage, Tour
 };
@@ -43,9 +43,9 @@ class TourImageController extends Controller
                 return '<input type="checkbox" value="' . $row->id . '" class="form-check-input row-checkbox">';
             })
             ->addColumn('image', function ($row) {
-                $image = asset($row->image);
+                $image = asset('images/gallery/'.$row->image);
                 return '
-                    <img src="' . $image . '"
+                    <img src="'.$image.'"
                         width="70"
                         height="70"
                         class="rounded shadow"
@@ -54,7 +54,10 @@ class TourImageController extends Controller
             ->addColumn('tour', function ($row) {
                 return $row->tour?->title ?? '-';
             })
-             ->addColumn('status', function ($row) {
+            ->addColumn('caption', function ($row) {
+                return str::words($row->caption, 10) ?? '-';
+            })
+            ->addColumn('status', function ($row) {
                 $checked = $row->status ? 'checked' : '';
                 return ' <div class="form-check form-switch">
                         <input class="form-check-input changeStatus" type="checkbox" data-id="' . $row->id . '"' . $checked . '></div>';
@@ -113,7 +116,7 @@ class TourImageController extends Controller
                 foreach ($request->file('images') as $key => $image) {
                     $name = time().'_'.$key.'_'.uniqid().'.'.$image->getClientOriginalExtension();
                     $image->move(
-                        public_path('uploads/tours/gallery'),
+                        public_path('images/gallery'),
                         $name
                     );
 
@@ -121,12 +124,10 @@ class TourImageController extends Controller
                         'tour_id'    => $request->tour_id,
                         'title'      => $request->title,
                         'caption'    => $request->caption,
-                        'sort_order' => $request->sort_order
-                            ? $request->sort_order + $key
-                            : $key + 1,
-                        'featured'   => $request->feature ? 1 : 0,
+                        'sort_order' => $request->sort_order ? $request->sort_order + $key : $key + 1,
+                        'feature'    => $request->featured ? 1 : 0,
                         'status'     => $request->status ? 1 : 0,
-                        'image'      => 'uploads/tours/gallery/'.$name,
+                        'image'      => 'images/gallery/'.$name,
                     ]);
                 }
             }
@@ -148,7 +149,7 @@ class TourImageController extends Controller
     {
         $title = "View Tour Image";
         $image = $tourImage->load('tour');
-        return view('admin.tour-images.show', get_defined_vars());
+        return view('admin.tour_images.show', get_defined_vars());
     }
 
     /**
@@ -159,7 +160,7 @@ class TourImageController extends Controller
         $title = "Edit Tour Image";
         $image = $tourImage;
         $tours = Tour::orderBy('title')->get();
-        return view('admin.tour-images.edit', get_defined_vars());
+        return view('admin.tour_images.edit', get_defined_vars());
     }
 
     /**
@@ -188,13 +189,13 @@ class TourImageController extends Controller
 
         if($request->hasFile('image')){
             if($tourImage->image && File::exists(public_path($tourImage->image))){
-                File::delete(public_path('images/tours/'.$tourImage->image));
+                File::delete(public_path('images/gallery/'.$tourImage->image));
             }
 
             $image = $request->file('image');
             $name = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('images/tours/'),$name);
-            $tourImage->image = 'images/tours/'.$name;
+            $image->move(public_path('images/gallery/'),$name);
+            $tourImage->image = $name;
         }
 
         $tourImage->save();
@@ -206,8 +207,8 @@ class TourImageController extends Controller
      */
     public function destroy(TourImage $tourImage)
     {
-        if ($tourImage->image && File::exists(public_path('images/tours/'.$tourImage->image))) {
-            File::delete(public_path('images/tours/'.$tourImage->image));
+        if ($tourImage->image && File::exists(public_path('images/gallery/'.$tourImage->image))) {
+            File::delete(public_path('images/gallery/'.$tourImage->image));
         }
 
         $tourImage->delete();
@@ -220,11 +221,8 @@ class TourImageController extends Controller
     public function changeStatus(Request $request)
     {
         $image = TourImage::findOrFail($request->id);
-
         $image->status = !$image->status;
-
         $image->save();
-
         return response()->json([
             'success' => true,
             'message' => 'Status Updated Successfully.'

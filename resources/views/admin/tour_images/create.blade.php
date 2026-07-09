@@ -135,7 +135,7 @@
                         </div>
 
                         <div class="card-body">
-                            <img id="previewImage" src="{{ asset('admin/assets/img/illustrations/placeholder.jpg') }}"
+                            <img id="previewImage" src="{{ asset('admin/assets/img/illustrations/girl-sitting-with-laptop.png') }}"
                                 class="img-fluid rounded border mb-3" style="width:100%;height:240px;object-fit:cover;">
 
                             <input type="file" id="image" name="images[]" multiple
