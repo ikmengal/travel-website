@@ -13,9 +13,12 @@ use App\Http\Controllers\Admin\{
     DashboardController,
     TourImageController,
     SettingController,
+    BookingController,
+    ReviewController,
     TourCountroller,
     RoleController,
-    UserController
+    UserController,
+    FaqsController
 };
 
 Route::get('/', function () {
@@ -34,6 +37,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 Route::middleware(['auth'])->group(function(){
+    // Setting Custom Routes
+    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
+        Route::delete('{setting}/toggle-status', 'toggleStatus')->name('bulk-delete');
+    });
 
     // Destination Custom Routes
     Route::controller(DestinationController::class)->prefix('destinations')->name('destinations.')->group(function () {
@@ -82,9 +89,31 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
     });
 
-    // Setting Custom Routes
-    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
-        Route::delete('{setting}/toggle-status', 'toggleStatus')->name('bulk-delete');
+    // Faqs Custom Routes
+    Route::controller(FaqsController::class)->prefix('faqs')->name('faqs.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('get-models', 'getModels')->name('get-models');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Reviews Custom Routes
+    Route::controller(ReviewController::class)->prefix('reviews')->name('reviews.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-verified', 'changeVerified')->name('change-verified');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+        Route::get('get-models', 'getModels')->name('get-models');
+    });
+
+    // Bookings Custom Routes
+    Route::controller(BookingController::class)->prefix('bookings')->name('bookings.')->group(function () {
+        Route::post('change-payment-status', 'changePaymentStatus')->name('change-payment-status');
+        Route::post('get-departures', 'getDepartures')->name('get-departures');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('get-customers', 'getCustomers')->name('get-customers');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+        Route::post('get-tours', 'getTours')->name('get-tours');
     });
 
     Route::resource('tour_itineraries', TourItineraryController::class);
@@ -96,9 +125,12 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('permissions', PermissionController::class);
     Route::resource('tour_images', TourImageController::class);
     Route::resource('settings', SettingController::class);
+    Route::resource('bookings', BookingController::class);
+    Route::resource('reviews', ReviewController::class);
     Route::resource('tours', TourCountroller::class);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('faqs', FaqsController::class);
 });
 
 Route::get('/states/{country}', function ($country) {

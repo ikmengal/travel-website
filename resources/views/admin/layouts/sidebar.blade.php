@@ -93,6 +93,45 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-item {{ Route::is('faqs.*') ? 'active open' : '' }} ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-help"></i>
+                <div data-i18n="FAQ Management">FAQ Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('faqs') ? 'open active' : '' }}">
+                    <a href="{{ route('faqs.index') }}" class="menu-link">
+                        <div data-i18n="faqs">faqs</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item {{ Route::is('reviews.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-star"></i>
+                <div data-i18n="Reviews">Reviews</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('reviews') ? 'open active' : '' }}">
+                    <a href="{{ route('reviews.index') }}" class="menu-link">
+                    <div data-i18n="Reviews">Reviews</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item {{ Route::is('bookings.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-star"></i>
+                <div data-i18n="Booking Management">Booking Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('bookings') ? 'open active' : '' }}">
+                    <a href="{{ route('bookings.index') }}" class="menu-link">
+                    <div data-i18n="Booking Management">Booking Management</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="menu-item {{ Route::is('destinations.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-route"></i>
