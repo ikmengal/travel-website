@@ -34,8 +34,8 @@
             }
 
             $.ajax({
-                url: "{{ route('bookings.getDepartures') }}",
-                type: "GET",
+                url: "{{ route('bookings.get-departures') }}",
+                type: "POST",
                 data: {
                     tour_id: tourId
                 },

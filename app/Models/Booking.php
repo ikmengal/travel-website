@@ -39,7 +39,6 @@ class Booking extends Model
     ];
 
     protected $casts = [
-
         'tour_price'     => 'decimal:2',
         'subtotal'       => 'decimal:2',
         'discount'       => 'decimal:2',
@@ -49,15 +48,9 @@ class Booking extends Model
         'confirmed_at'   => 'datetime',
         'cancelled_at'   => 'datetime',
         'completed_at'   => 'datetime',
-
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
+    // ------------- Relationships ------------- //
     // Booking belongs to User
     public function user()
     {
@@ -100,12 +93,7 @@ class Booking extends Model
         return $this->hasMany(BookingStatusHistory::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Query Scopes
-    |--------------------------------------------------------------------------
-    */
-
+    // ------------- Query Scopes ------------- //
     public function scopePending($query)
     {
         return $query->where('booking_status', 'pending');
@@ -131,12 +119,7 @@ class Booking extends Model
         return $query->where('payment_status', 'paid');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Accessors
-    |--------------------------------------------------------------------------
-    */
-
+    // ------------- Accessors ------------- //
     public function getTotalTravelersAttribute()
     {
         return $this->adults + $this->children + $this->infants;

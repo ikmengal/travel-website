@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    BookingTravelerController,
     AuthenticationController,
     TourItineraryController,
     TourDepartureController,
@@ -116,6 +117,14 @@ Route::middleware(['auth'])->group(function(){
         Route::post('get-tours', 'getTours')->name('get-tours');
     });
 
+    // Booking Travelers Custom Routes
+    Route::controller(BookingTravelerController::class)->prefix('booking_travelers')->name('booking_travelers.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('get-bookings', 'getBookings')->name('get-bookings');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    Route::resource('booking_travelers', BookingTravelerController::class);
     Route::resource('tour_itineraries', TourItineraryController::class);
     Route::resource('tour_departures', TourDepartureController::class);
     Route::resource('tour_categories', TourCategoryController::class);

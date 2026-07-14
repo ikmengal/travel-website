@@ -106,6 +106,24 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-item {{ Route::is('bookings.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-ticket"></i>
+                <div data-i18n="Booking Management">Booking Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('bookings.*') ? 'open active' : '' }}">
+                    <a href="{{ route('bookings.index') }}" class="menu-link">
+                    <div data-i18n="Bookings">Bookings</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('booking_travelers.*') ? 'open active' : '' }}">
+                    <a href="{{ route('booking_travelers.index') }}" class="menu-link">
+                    <div data-i18n="Booking Travelers">Booking Travelers</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="menu-item {{ Route::is('reviews.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-star"></i>
@@ -115,19 +133,6 @@
                 <li class="menu-item {{ request()->is('reviews') ? 'open active' : '' }}">
                     <a href="{{ route('reviews.index') }}" class="menu-link">
                     <div data-i18n="Reviews">Reviews</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="menu-item {{ Route::is('bookings.*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-star"></i>
-                <div data-i18n="Booking Management">Booking Management</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('bookings') ? 'open active' : '' }}">
-                    <a href="{{ route('bookings.index') }}" class="menu-link">
-                    <div data-i18n="Booking Management">Booking Management</div>
                     </a>
                 </li>
             </ul>

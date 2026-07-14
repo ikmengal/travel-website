@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\{
@@ -14,27 +16,15 @@ use App\Models\{
     User
 };
 
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
-
 class BookingController extends Controller implements HasMiddleware
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:bookings-list')->only(['index']);
-    //     $this->middleware('permission:bookings-create')->only(['create', 'store']);
-    //     $this->middleware('permission:bookings-edit')->only(['edit', 'update']);
-    //     $this->middleware('permission:bookings-show')->only(['show']);
-    //     $this->middleware('permission:bookings-delete')->only(['destroy', 'bulkDelete']);
-    // }
-
     public static function middleware(): array
     {
         return [
             new Middleware('permission:bookings-list', only: ['index']),
             new Middleware('permission:bookings-create', only: ['create','store']),
             new Middleware('permission:bookings-edit', only: ['edit','update']),
-            new Middleware('permission:bookings-show', only: ['show']),
+            new Middleware('permission:bookings-view', only: ['show']),
             new Middleware('permission:bookings-delete', only: ['destroy','bulkDelete']),
         ];
     }
@@ -46,15 +36,18 @@ class BookingController extends Controller implements HasMiddleware
     {
         $title = 'Bookings Management';
 
-
         $totalBookings = Booking::count();
         $pendingBookings = Booking::where('booking_status', 'pending')->count();
         $confirmedBookings = Booking::where('booking_status', 'confirmed')->count();
         $completedBookings = Booking::where('booking_status', 'completed')->count();
         $cancelledBookings = Booking::where('booking_status', 'cancelled')->count();
+        $pendingPayments = Booking::where('payment_status', 'pending')->count();
         $paid = Booking::where('payment_status', 'paid')->count();
         $todayBookings = Booking::where('created_at', now())->count();
-        $revenue = Booking::where('payment_status', 'paid')->sum('grand_total');
+        $totalRevenue = Booking::where('payment_status', 'paid')->sum('grand_total');
+        $customers = User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Customer');
+                    })->get();
 
         // --------------------- Filters --------------------- //
         $users = User::orderBy('name')->get();
@@ -65,12 +58,12 @@ class BookingController extends Controller implements HasMiddleware
             $query = Booking::with(['user','tour','departure']);
 
             // --------------------- Filters --------------------- //
-            if ($request->filled('user_id')) {
-                $query->where('user_id', $request->user_id);
+            if ($request->filled('customer_filter')) {
+                $query->where('user_id', $request->customer_filter);
             }
 
-            if ($request->filled('tour_id')) {
-                $query->where('tour_id', $request->tour_id);
+            if ($request->filled('tour_filter')) {
+                $query->where('tour_id', $request->tour_filter);
             }
 
             if ($request->filled('booking_status')) {
@@ -129,7 +122,8 @@ class BookingController extends Controller implements HasMiddleware
                 return $row->created_at->format('d M Y');
             })
             ->addColumn('action', function ($row) {
-                return view('admin.bookings.partials.action',compact('row'));
+                return view('admin.bookings.partials.action', compact('row'))->render();
+
             })
             ->rawColumns(['checkbox', 'booking_status', 'payment_status', 'action'])
             ->make(true);
@@ -142,22 +136,12 @@ class BookingController extends Controller implements HasMiddleware
      */
     public function create()
     {
-                $title = "Create Booking";
+        $title = "Create Booking";
 
         $users = User::orderBy('name')->get();
+        $tours = Tour::where('status', true)->orderBy('title')->get();
 
-        $tours = Tour::where('status', true)
-            ->orderBy('title')
-            ->get();
-
-        return view(
-            'admin.bookings.create',
-            compact(
-                'title',
-                'users',
-                'tours'
-            )
-        );
+        return view('admin.bookings.create',get_defined_vars());
     }
 
     /**
@@ -246,24 +230,8 @@ class BookingController extends Controller implements HasMiddleware
     public function show(Booking $booking)
     {
         $title = "Booking Details";
-
-        $booking->load([
-            'user',
-            'tour',
-            'departure',
-            'payments',
-            'travelers',
-            'notes',
-            'reviews'
-        ]);
-
-        return view(
-            'admin.bookings.show',
-            compact(
-                'title',
-                'booking'
-            )
-        );
+        $booking->load(['user','tour','departure','payments','travelers','notes','reviews']);
+        return view('admin.bookings.show', get_defined_vars());
     }
 
     /**
@@ -274,27 +242,10 @@ class BookingController extends Controller implements HasMiddleware
         $title = "Edit Booking";
 
         $users = User::orderBy('name')->get();
+        $tours = Tour::with('departures')->where('status', true)->orderBy('title')->get();
+        $booking->load(['departure','user','tour']);
 
-        $tours = Tour::with('departures')
-            ->where('status', true)
-            ->orderBy('title')
-            ->get();
-
-        $booking->load([
-            'departure',
-            'user',
-            'tour'
-        ]);
-
-        return view(
-            'admin.bookings.edit',
-            compact(
-                'title',
-                'booking',
-                'users',
-                'tours'
-            )
-        );
+        return view('admin.bookings.edit', get_defined_vars());
     }
 
     /**
@@ -384,12 +335,10 @@ class BookingController extends Controller implements HasMiddleware
         $booking->delete();
 
         if ($request->ajax()) {
-
             return response()->json([
                 'success' => true,
                 'message' => 'Booking deleted successfully.'
             ]);
-
         }
 
         return redirect()

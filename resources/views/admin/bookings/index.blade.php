@@ -1,13 +1,11 @@
 @extends('admin.layouts.app')
 @section('title', $title)
 @section('content')
-    {{-- ========================================= --}}
-    {{-- Page Header --}}
-    {{-- ========================================= --}}
+    {{--------------- Page Header ---------------}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="fw-bold mb-1">
-                <i class="ti ti-ticket me-2 text-primary"></i>
+                <i class="ti ti-ticket ti-md me-2 text-primary"></i>
                 Booking Management
             </h4>
             <p class="text-muted mb-0">
@@ -25,12 +23,10 @@
         </div>
     </div>
 
-    {{-- ========================================================= --}}
-    {{-- Dashboard Cards --}}
-    {{-- ========================================================= --}}
-    <div class="row mb-4">
+    {{--------------- Dashboard Cards ---------------}}
+    <div class="row mb-3">
         {{-- Total Bookings --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -54,7 +50,7 @@
         </div>
 
         {{-- Today's Bookings --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -78,7 +74,7 @@
         </div>
 
         {{-- Pending Bookings --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -93,7 +89,7 @@
 
                         <div class="avatar">
                             <span class="avatar-initial rounded bg-label-warning">
-                                <i class="ti ti-clock-hour-4 fs-3"></i>
+                                <i class="ti ti-clock-off fs-3"></i>
                             </span>
                         </div>
                     </div>
@@ -102,7 +98,7 @@
         </div>
 
         {{-- Confirmed Bookings --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -126,9 +122,9 @@
         </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-3">
         {{-- Completed --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -152,7 +148,7 @@
         </div>
 
         {{-- Cancelled --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -176,7 +172,7 @@
         </div>
 
         {{-- Pending Payments --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -200,7 +196,7 @@
         </div>
 
         {{-- Total Revenue --}}
-        <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+        <div class="col-xl-3 col-md-6 col-sm-6 mb-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -224,9 +220,7 @@
         </div>
     </div>
 
-    {{-- ========================================= --}}
-    {{-- Filters --}}
-    {{-- ========================================= --}}
+    {{--------------- Filters ---------------}}
     <div class="card mb-4">
         <div class="card-header">
             <div class="row g-3">
@@ -323,9 +317,9 @@
                     </button>
 
                     @can('bookings-bulk-delete')
-                        <button class="btn btn-danger" id="bulkDeleteBtn">
+                        <button class="btn btn-danger d-none" id="bulkDeleteBtn">
                             <i class="ti ti-trash me-1"></i>
-                            Delete Selected
+                            Delete Bulk
                         </button>
                     @endcan
                 </div>
@@ -333,32 +327,34 @@
         </div>
     </div>
 
-    {{-- ========================================= --}}
-    {{-- DataTable --}}
-    {{-- ========================================= --}}
+    {{--------------- DataTable ---------------}}
     <div class="card">
         <div class="card-datatable table-responsive">
-            <table class="table table-bordered table-hover" id="bookingTable" width="100%">
-                <thead>
-                    <tr>
-                        <th width="40">
-                            <input type="checkbox" id="checkAll" class="form-check-input">
-                        </th>
-                        <th width="60"># S.No</th>
-                        <th width="140">Booking #</th>
-                        <th width="220">Customer</th>
-                        <th width="220">Tour</th>
-                        <th width="160">Departure</th>
-                        <th width="100">Travelers</th>
-                        <th width="120">Total Amount</th>
-                        <th width="130">Payment Status</th>
-                        <th width="130">Booking Status</th>
-                        <th width="150">Created At</th>
-                        <th width="100">Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="container-fluid">
+                    <table class="bookingTable table border-top dataTable no-footer dtr-column data_table table-responsive"
+                        id="bookingTable" aria-describedby="DataTables_Table_0_info" style="width: 1227px; display:table;">
+                        <thead>
+                            <tr>
+                                <th width="40">
+                                    <input type="checkbox" id="checkAll" class="form-check-input">
+                                </th>
+                                <th width="60">#</th>
+                                <th width="140">Booking #</th>
+                                <th width="220">Customer</th>
+                                <th width="220">Tour</th>
+                                <th width="160">Departure</th>
+                                <th width="130">Payment Status</th>
+                                <th width="130">Booking Status</th>
+                                <th width="120">Total Amount</th>
+                                <th width="150">Created At</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

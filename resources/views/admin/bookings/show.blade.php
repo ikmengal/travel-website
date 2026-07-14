@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="fw-bold">
-                <i class="ti ti-eye me-2 text-primary"></i>
+                <i class="ti ti-eye ti-md me-2 text-primary"></i>
                 Booking Details
             </h4>
             <p class="text-muted mb-0">
@@ -147,9 +147,7 @@
                 </div>
             </div>
 
-            {{-- =============================================== --}}
             {{-- Pricing Information --}}
-            {{-- =============================================== --}}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
@@ -216,9 +214,7 @@
                 </div>
             </div>
 
-            {{-- =============================================== --}}
             {{-- Special Request --}}
-            {{-- =============================================== --}}
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">

@@ -243,7 +243,7 @@
                         {{-- Booking Status --}}
                         <div class="mb-3">
                             <label class="form-label">Booking Status</label>
-                            <select name="booking_status" class="form-select @error('booking_status') is-invalid @enderror">
+                            <select name="booking_status" class="form-select select2 @error('booking_status') is-invalid @enderror">
                                 <option value="pending" {{ old('booking_status','pending') == 'pending' ? 'selected' : '' }}>
                                     Pending
                                 </option>
@@ -265,7 +265,7 @@
                         {{-- Payment Status --}}
                         <div class="mb-3">
                             <label class="form-label">Payment Status</label>
-                            <select name="payment_status" class="form-select @error('payment_status') is-invalid @enderror">
+                            <select name="payment_status" class="form-select select2 @error('payment_status') is-invalid @enderror">
                                 <option value="pending" {{ old('payment_status','pending') == 'pending' ? 'selected' : '' }}>
                                     Pending
                                 </option>
@@ -284,7 +284,7 @@
                         {{-- Currency --}}
                         <div class="mb-3">
                             <label class="form-label">Currency</label>
-                            <select name="currency" class="form-select">
+                            <select name="currency" class="form-select select2">
                                 <option value="PKR" {{ old('currency','PKR') == 'PKR' ? 'selected' : '' }}>
                                     PKR
                                 </option>
