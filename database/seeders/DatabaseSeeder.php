@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             AssignPermissionSeeder::class,
             SocialLinkSeeder::class,
             SettingSeeder::class,
+
+            NewsletterSeeder::class,
+            ContactMessageSeeder::class,
         ]);
     }
 }

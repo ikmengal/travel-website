@@ -55,7 +55,8 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
-        <li class="menu-item {{ Route::is('permissions.*') ||
+        <li class="menu-item {{ Route::is('contact_messages.*') ||
+                                Route::is('permissions.*') ||
                                 Route::is('settings.*') ||
                                 Route::is('roles.*') ? 'active open' : '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -76,6 +77,11 @@
                 <li class="menu-item {{ request()->is('settings') ? 'open active' : '' }}">
                     <a href="{{ route('settings.index') }}" class="menu-link">
                         <div data-i18n="Settings">Settings</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('contact_messages*') ? 'open active' : '' }}">
+                    <a href="{{ route('contact_messages.index') }}" class="menu-link">
+                        <div data-i18n="Contact Messages">Contact Messages</div>
                     </a>
                 </li>
             </ul>
@@ -117,9 +123,19 @@
                     <div data-i18n="Bookings">Bookings</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->is('booking_travelers.*') ? 'open active' : '' }}">
-                    <a href="{{ route('booking_travelers.index') }}" class="menu-link">
+                <li class="menu-item {{ request()->is('payments.*') ? 'open active' : '' }}">
+                    <a href="{{ route('payments.index') }}" class="menu-link">
                     <div data-i18n="Booking Travelers">Booking Travelers</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('payments.*') ? 'open active' : '' }}">
+                    <a href="{{ route('payments.index') }}" class="menu-link">
+                    <div data-i18n="Payments">Payments</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('coupons.*') ? 'open active' : '' }}">
+                    <a href="{{ route('coupons.index') }}" class="menu-link">
+                    <div data-i18n="Coupons">Coupons</div>
                     </a>
                 </li>
             </ul>
@@ -146,6 +162,19 @@
                 <li class="menu-item {{ request()->is('destinations') ? 'open active' : '' }}">
                     <a href="{{ route('destinations.index') }}" class="menu-link">
                     <div data-i18n="Destinations">Destinations</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item {{ Route::is('newsletter_subscribers.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-route"></i>
+                <div data-i18n="Newsletter Subscribers">Newsletter Subscribers</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('newsletter_subscribers') ? 'open active' : '' }}">
+                    <a href="{{ route('newsletter_subscribers.index') }}" class="menu-link">
+                    <div data-i18n="News Letter">News Letter</div>
                     </a>
                 </li>
             </ul>

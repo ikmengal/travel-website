@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    NewsletterSubscriberController,
     BookingTravelerController,
     AuthenticationController,
+    ContactMessageController,
     TourItineraryController,
     TourDepartureController,
     TourCategoryController,
@@ -13,9 +15,11 @@ use App\Http\Controllers\Admin\{
     PermissionController,
     DashboardController,
     TourImageController,
+    PaymentsController,
     SettingController,
     BookingController,
     ReviewController,
+    CouponController,
     TourCountroller,
     RoleController,
     UserController,
@@ -124,7 +128,41 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
     });
 
+    // Payments Custom Routes
+    Route::controller(PaymentsController::class)->prefix('payments')->name('payments.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('get-bookings', 'getBookings')->name('get-bookings');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    //  Coupons Custom Routes
+    Route::controller(CouponController::class)->prefix('coupons')->name('coupons.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('generate-code', 'generateCode')->name('generate-code');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    //  News Letter Custom Routes
+    Route::controller(NewsletterSubscriberController::class)->prefix('newsletter_subscribers')->name('newsletter_subscribers.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::get('generate-code', 'generateCode')->name('generate-code');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    //  Contact Messages Custom Routes
+    Route::controller(ContactMessageController::class)->prefix('contact_messages')->name('contact_messages.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('change-read-status', 'changeReadStatus')->name('change-read-status');
+        Route::post('change-reply-status', 'changeReplyStatus')->name('change-reply-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+        Route::get('get-reply', 'getReply')->name('get-reply');
+        Route::post('send-reply', 'sendReply')->name('send-reply');
+        Route::get('view-reply', 'viewReply')->name('view-reply');
+    });
+
+    Route::resource('newsletter_subscribers', NewsletterSubscriberController::class);
     Route::resource('booking_travelers', BookingTravelerController::class);
+    Route::resource('contact_messages', ContactMessageController::class);
     Route::resource('tour_itineraries', TourItineraryController::class);
     Route::resource('tour_departures', TourDepartureController::class);
     Route::resource('tour_categories', TourCategoryController::class);
@@ -133,8 +171,10 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('destinations', DestinationController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('tour_images', TourImageController::class);
+    Route::resource('payments', PaymentsController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('bookings', BookingController::class);
+    Route::resource('coupons', CouponController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('tours', TourCountroller::class);
     Route::resource('roles', RoleController::class);

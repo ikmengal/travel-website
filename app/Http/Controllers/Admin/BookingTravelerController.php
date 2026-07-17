@@ -127,12 +127,13 @@ class BookingTravelerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'booking_id' => 'required|exists:bookings,id',
-            'full_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female,other',
             'date_of_birth' => 'nullable|date',
             'nationality' => 'nullable|string|max:100',
             'cnic' => 'nullable|string|max:30',
-            'passport_no' => 'nullable|string|max:100',
+            'passport_number' => 'nullable|string|max:100',
             'passport_expiry' => 'nullable|date',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:30',
@@ -152,12 +153,13 @@ class BookingTravelerController extends Controller
         try {
             BookingTraveler::create([
                 'booking_id' => $request->booking_id,
-                'first_name' => $request->full_name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'gender' => $request->gender,
                 'date_of_birth' => $request->date_of_birth,
                 'nationality' => $request->nationality,
                 'cnic' => $request->cnic,
-                'passport_number' => $request->passport_no,
+                'passport_number' => $request->passport_number,
                 'passport_expiry' => $request->passport_expiry,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -229,12 +231,13 @@ class BookingTravelerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'booking_id' => 'required|exists:bookings,id',
-            'full_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'gender' => 'required|in:male,female,other',
             'date_of_birth' => 'nullable|date',
             'nationality' => 'nullable|string|max:100',
             'cnic' => 'nullable|string|max:30',
-            'passport_no' => 'nullable|string|max:100',
+            'passport_number' => 'nullable|string|max:100',
             'passport_expiry' => 'nullable|date',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:30',
@@ -255,6 +258,7 @@ class BookingTravelerController extends Controller
             $bookingTraveler->update([
                 'booking_id' => $request->booking_id,
                 'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'gender' => $request->gender,
                 'date_of_birth' => $request->date_of_birth,
                 'nationality' => $request->nationality,

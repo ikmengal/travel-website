@@ -167,183 +167,70 @@
 
     {{------------- Filters -------------}}
     <div class="card mb-4">
-
         <div class="card-header">
-
             <h5 class="mb-0">
-
                 Filters
-
             </h5>
-
         </div>
 
         <div class="card-body">
-
             <div class="row">
-
                 {{-- Part 1B --}}
-
-                                <div class="col-md-3 mb-3">
-
-                    <label class="form-label">
-
-                        Booking
-
-                    </label>
-
-                    <select
-                        id="booking_filter"
-                        class="form-select select2">
-
-                        <option value="">
-
-                            All Bookings
-
-                        </option>
-
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Booking</label>
+                    <select id="booking_filter" class="form-select select2">
+                        <option value="">All Bookings</option>
                         @foreach($bookings as $booking)
-
                             <option value="{{ $booking->id }}">
-
                                 {{ $booking->booking_no }}
-
                             </option>
-
                         @endforeach
-
                     </select>
-
                 </div>
 
                 <div class="col-md-3 mb-3">
-
-                    <label class="form-label">
-
-                        Gender
-
-                    </label>
-
-                    <select
-                        id="gender_filter"
-                        class="form-select">
-
-                        <option value="">
-
-                            All
-
-                        </option>
-
-                        <option value="male">
-
-                            Male
-
-                        </option>
-
-                        <option value="female">
-
-                            Female
-
-                        </option>
-
-                        <option value="other">
-
-                            Other
-
-                        </option>
-
+                    <label class="form-label">Gender</label>
+                    <select id="gender_filter" class="form-select select2">
+                        <option value="">All</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
                     </select>
-
                 </div>
 
                 <div class="col-md-3 mb-3">
-
-                    <label class="form-label">
-
-                        Nationality
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nationality_filter"
-                        class="form-control"
-                        placeholder="Nationality">
-
+                    <label class="form-label">Nationality</label>
+                    <input type="text" id="nationality_filter" class="form-control"placeholder="Nationality">
                 </div>
 
                 <div class="col-md-3 mb-3">
-
-                    <label class="form-label">
-
-                        Status
-
-                    </label>
-
-                    <select
-                        id="status_filter"
-                        class="form-select">
-
-                        <option value="">
-
-                            All
-
-                        </option>
-
-                        <option value="1">
-
-                            Active
-
-                        </option>
-
-                        <option value="0">
-
-                            Inactive
-
-                        </option>
-
+                    <label class="form-label">Status</label>
+                    <select id="status_filter" class="form-select select2">
+                        <option value="">All</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
                     </select>
-
                 </div>
 
                 <div class="col-md-9">
-
-                    <input
-                        type="text"
-                        id="search"
-                        class="form-control"
-                        placeholder="Search traveler, passport, phone, email...">
-
+                    <input type="text" id="search" class="form-control"placeholder="Search traveler, passport, phone, email...">
                 </div>
 
                 <div class="col-md-3 text-end">
-
-                    <button
-                        type="button"
-                        id="btnFilter"
-                        class="btn btn-primary">
-
+                    <button type="button" id="btnFilter" class="btn btn-primary">
                         <i class="ti ti-search me-1"></i>
-
                         Search
-
                     </button>
 
-                    <button
-                        type="button"
-                        id="btnReset"
-                        class="btn btn-outline-secondary">
-
+                    <button type="button" id="btnReset" class="btn btn-outline-secondary">
                         <i class="ti ti-refresh"></i>
-
                     </button>
-
+                    <button type="button" id="btnReset" class="btn btn-outline-danger d-none">
+                        <i class="ti ti-trash"></i>
+                    </button>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     {{------------- DataTable -------------}}

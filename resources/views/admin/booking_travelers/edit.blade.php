@@ -85,18 +85,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                                <input type="text" name="full_name" class="form-control @error('first_name') is-invalid @enderror"
-                                    value="{{ old('first_name', $traveler->first_name) }}" placeholder="Enter traveler full name">
+                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror"
+                                    value="{{ old('first_name', $traveler->first_name) }}" placeholder="Enter traveler First Name">
 
-                                @error('full_name')
+                                @error('first_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name </label>
+                                <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
+                                    value="{{ old('last_name', $traveler->last_name) }}" placeholder="Enter traveler Last Name">
+
+                                @error('last_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Gender <span class="text-danger">*</span></label>
 
                                 <select name="gender" class="form-select select2 @error('gender') is-invalid @enderror">
@@ -121,11 +133,11 @@
                                 @enderror
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Date of Birth</label>
 
                                 <input type="date" name="date_of_birth" class="form-control @error('date_of_birth') is-invalid @enderror"
-                                    value="{{ old('date_of_birth', optional($traveler->date_of_birth)->format('Y-m-d')) }}">
+                                    value="{{ old('date_of_birth', $traveler->date_of_birth) }}">
 
                                 @error('date_of_birth')
                                     <div class="invalid-feedback">
@@ -174,13 +186,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Passport No</label>
+                                <label class="form-label">Passport Number</label>
 
-                                <input type="text" name="passport_no" class="form-control @error('passport_number') is-invalid @enderror"
+                                <input type="text" name="passport_number" class="form-control @error('passport_number') is-invalid @enderror"
                                     value="{{ old('passport_number', $traveler->passport_number) }}"
                                     placeholder="Passport Number">
 
-                                @error('passport_no')
+                                @error('passport_number')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -191,7 +203,7 @@
                                 <label class="form-label">Passport Expiry</label>
 
                                 <input type="date" name="passport_expiry" class="form-control @error('passport_expiry') is-invalid @enderror"
-                                    value="{{ old('passport_expiry', optional($traveler->passport_expiry)->format('Y-m-d')) }}">
+                                    value="{{ old('passport_expiry', $traveler->passport_expiry) }}">
 
                                 @error('passport_expiry')
                                     <div class="invalid-feedback">

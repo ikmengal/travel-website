@@ -187,7 +187,7 @@
                         <div class="col-md-6">
                             <label class="fw-semibold">Passport Expiry</label>
                             <p>
-                                {{ optional($traveler->passport_expiry)->format('d M Y') }}
+                                {{ $traveler->passport_expiry ?? '' }}
                             </p>
                         </div>
                     </div>
