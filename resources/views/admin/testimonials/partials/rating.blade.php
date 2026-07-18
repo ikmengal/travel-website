@@ -1,5 +1,6 @@
 <label class="switch switch-warning mb-0">
-    <input type="checkbox" class="switch-input changeFeatured" data-id="{{ $row->id }}" {{ $row->featured ? 'checked' : '' }}>
+    <input type="checkbox" class="switch-input changeFeatured"
+        data-id="{{ $row->id }}" {{ $row->featured ? 'checked' : '' }}>
     <span class="switch-toggle-slider">
         <span class="switch-on">
             <i class="ti ti-star-filled"></i>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\{
     TourItineraryController,
     TourDepartureController,
     TourCategoryController,
+    BlogCategoryController,
     DestinationController,
     TourIncludeController,
     TourExcludeController,
@@ -24,6 +25,7 @@ use App\Http\Controllers\Admin\{
     TourCountroller,
     RoleController,
     UserController,
+    BlogController,
     FaqsController
 };
 
@@ -168,12 +170,26 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
     });
 
+    //  Blog Category Custom Routes
+    Route::controller(BlogCategoryController::class)->prefix('blog_categories')->name('blog_categories.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Blogs Custom Routes
+    Route::controller(BlogController::class)->prefix('blogs')->name('blogs.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
     Route::resource('newsletter_subscribers', NewsletterSubscriberController::class);
     Route::resource('booking_travelers', BookingTravelerController::class);
     Route::resource('contact_messages', ContactMessageController::class);
     Route::resource('tour_itineraries', TourItineraryController::class);
     Route::resource('tour_departures', TourDepartureController::class);
     Route::resource('tour_categories', TourCategoryController::class);
+    Route::resource('blog_categories', BlogCategoryController::class);
     Route::resource('tour_includes', TourIncludeController::class);
     Route::resource('tour_excludes', TourExcludeController::class);
     Route::resource('destinations', DestinationController::class);
@@ -187,6 +203,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('reviews', ReviewController::class);
     Route::resource('tours', TourCountroller::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('blogs', BlogController::class);
     Route::resource('users', UserController::class);
     Route::resource('faqs', FaqsController::class);
 });

@@ -56,6 +56,7 @@
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
         <li class="menu-item {{ Route::is('contact_messages.*') ||
+                                Route::is('testimonials.*') ||
                                 Route::is('permissions.*') ||
                                 Route::is('settings.*') ||
                                 Route::is('roles.*') ? 'active open' : '' }} ">
@@ -84,6 +85,11 @@
                         <div data-i18n="Contact Messages">Contact Messages</div>
                     </a>
                 </li>
+                <li class="menu-item {{ request()->is('testimonials*') ? 'open active' : '' }}">
+                    <a href="{{ route('testimonials.index') }}" class="menu-link">
+                        <div data-i18n="Testimonials">Testimonials</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item {{ Route::is('users.*') ? 'active open' : '' }}">
@@ -108,6 +114,24 @@
                 <li class="menu-item {{ request()->is('faqs') ? 'open active' : '' }}">
                     <a href="{{ route('faqs.index') }}" class="menu-link">
                         <div data-i18n="faqs">faqs</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item {{ Route::is('blog_categories.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-ticket"></i>
+                <div data-i18n="Blog Management">Blog Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('blog_categories.*') ? 'open active' : '' }}">
+                    <a href="{{ route('blog_categories.index') }}" class="menu-link">
+                    <div data-i18n="Blog Category">Blog Category</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('blogs.*') ? 'open active' : '' }}">
+                    <a href="{{ route('blogs.index') }}" class="menu-link">
+                    <div data-i18n="Blogs">Blogs</div>
                     </a>
                 </li>
             </ul>

@@ -1,4 +1,4 @@
-<label class="switch switch-success mb-0">
+<label class="switch switch-success">
     <input type="checkbox" class="switch-input changeStatus" data-id="{{ $row->id }}" {{ $row->status ? 'checked' : '' }}>
     <span class="switch-toggle-slider">
         <span class="switch-on">
@@ -7,9 +7,5 @@
         <span class="switch-off">
             <i class="ti ti-x"></i>
         </span>
-    </span>
-
-    <span class="switch-label fw-semibold {{ $row->status ? 'text-success' : 'text-danger' }}">
-        {{ $row->status ? 'Active' : 'Inactive' }}
     </span>
 </label>

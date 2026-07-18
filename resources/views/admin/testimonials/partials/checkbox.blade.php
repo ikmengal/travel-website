@@ -1,1 +1,1 @@
-<input type="checkbox" class="record-checkbox" value="{{ $row->id }}">
+<input type="checkbox" class="form-check-input checkBoxClass" value="{{ $row->id }}" id="checkbox{{ $row->id }}">

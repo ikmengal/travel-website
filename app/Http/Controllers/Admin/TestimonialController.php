@@ -17,6 +17,7 @@ class TestimonialController extends Controller
      */
     public function index(Request $request)
     {
+        $title = "All Testimonials";
         if ($request->ajax()) {
             $query = Testimonial::query();
 
@@ -44,12 +45,20 @@ class TestimonialController extends Controller
                 $query->where('rating', $request->rating);
             }
 
+            if ($request->filled('date_from')) {
+                $query->whereDate('created_at','>=', $request->date_from);
+            }
+
+            if ($request->filled('date_to')) {
+                $query->whereDate('created_at','<=', $request->date_to);
+            }
+
             // --------- DataTable --------- //
             return DataTables::of($query)
                 ->addColumn('checkbox', function ($row) {
                     return view('admin.testimonials.partials.checkbox', compact('row'))->render();
                 })
-                ->editColumn('image', function ($row) {
+                ->editColumn('customer', function ($row) {
                     return view('admin.testimonials.partials.user', compact('row'))->render();
                 })
                 ->editColumn('rating', function ($row) {
@@ -64,10 +73,18 @@ class TestimonialController extends Controller
                 ->addColumn('action', function ($row) {
                     return view('admin.testimonials.action', compact('row'))->render();
                 })
-                ->rawColumns(['checkbox', 'image', 'featured', 'status', 'action'])
+                ->rawColumns(['checkbox', 'customer', 'rating', 'featured', 'status', 'action' ])
                 ->make(true);
         }
-        return view('admin.testimonials.index');
+        $cards = [
+            'total'      => Testimonial::count(),
+            'published'  => Testimonial::where('status',1)->count(),
+            'draft'      => Testimonial::where('status',0)->count(),
+            'featured'   => Testimonial::where('featured',1)->count(),
+            'five_star'  => Testimonial::where('rating',5)->count(),
+            'today'      => Testimonial::whereDate('created_at',today())->count(),
+        ];
+        return view('admin.testimonials.index', get_defined_vars());
     }
 
     /**
@@ -75,7 +92,8 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Add Testimonials";
+        return view('admin.testimonials.create', get_defined_vars());
     }
 
     /**
@@ -83,7 +101,55 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'              => 'required|string|max:255',
+            'designation'       => 'required|string|max:255',
+            'company'           => 'nullable|string|max:255',
+            'image'             => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'rating'            => 'required|integer|min:1|max:5',
+            'review'            => 'required|string',
+            'featured'          => 'required|boolean',
+            'status'            => 'required|boolean',
+            'sort_order'        => 'nullable|integer|min:0',
+            'meta_title'        => 'nullable|string|max:255',
+            'meta_description'  => 'nullable|string',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $imageName = null;
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/testimonials'), $imageName);
+            }
+
+            Testimonial::create([
+                'name' => $request->name,
+                'designation' => $request->designation,
+                'company' => $request->company,
+                'image' => $imageName,
+                'rating' => $request->rating,
+                'review' => $request->review,
+                'featured' => $request->featured,
+                'status' => $request->status,
+                'sort_order' => $request->sort_order ?? 0,
+                'meta_title' => $request->meta_title,
+                'meta_description' => $request->meta_description,
+            ]);
+
+            DB::commit();
+            return redirect()->route('testimonials.index')->with('success', 'Testimonial created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            if (!empty($imageName) && file_exists(public_path('images/testimonials/' . $imageName))) {
+                unlink(public_path('images/testimonials/' . $imageName));
+            }
+
+            return back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -91,7 +157,8 @@ class TestimonialController extends Controller
      */
     public function show(Testimonial $testimonial)
     {
-        //
+        $title = "Testimonial Details";
+        return view('admin.testimonials.show', compact(['testimonial', 'title']));
     }
 
     /**
@@ -99,7 +166,8 @@ class TestimonialController extends Controller
      */
     public function edit(Testimonial $testimonial)
     {
-        //
+        $title = "Edit Testimonial";
+        return view('admin.testimonials.edit', compact('testimonial', 'title'));
     }
 
     /**
@@ -107,7 +175,64 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, Testimonial $testimonial)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'name'              => 'required|string|max:255',
+            'designation'       => 'required|string|max:255',
+            'company'           => 'nullable|string|max:255',
+            'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'rating'            => 'required|integer|min:1|max:5',
+            'review'            => 'required|string',
+            'featured'          => 'required|boolean',
+            'status'            => 'required|boolean',
+            'sort_order'        => 'nullable|integer|min:0',
+            'meta_title'        => 'nullable|string|max:255',
+            'meta_description'  => 'nullable|string',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validate)
+                ->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $imageName = $testimonial->image;
+            if ($request->hasFile('image')) {
+                // Delete old image
+                if (
+                    $testimonial->image &&
+                    file_exists(public_path('images/testimonials/' . $testimonial->image))
+                ) {
+                    unlink(public_path('images/testimonials/' . $testimonial->image));
+                }
+
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/testimonials'), $imageName);
+            }
+
+            $testimonial->update([
+                'name' => $request->name,
+                'designation' => $request->designation,
+                'company' => $request->company,
+                'image' => $imageName,
+                'rating' => $request->rating,
+                'review' => $request->review,
+                'featured' =>  $request->boolean('status'),
+                'status' =>  $request->boolean('status'),
+                'sort_order' => $request->sort_order ?? 0,
+                'meta_title' => $request->meta_title,
+                'meta_description' => $request->meta_description,
+            ]);
+
+            DB::commit();
+            return redirect()->route('testimonials.index')->with('success', 'Testimonial updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -115,7 +240,29 @@ class TestimonialController extends Controller
      */
     public function destroy(Testimonial $testimonial)
     {
-        //
+        DB::beginTransaction();
+        try {
+            if (
+                $testimonial->image &&
+                file_exists(public_path('images/testimonials/' . $testimonial->image))
+            ) {
+                unlink(public_path('images/testimonials/' . $testimonial->image));
+            }
+
+            $testimonial->delete();
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Testimonial deleted successfully.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
      /**
@@ -123,7 +270,20 @@ class TestimonialController extends Controller
      */
     public function changeStatus(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required|exists:testimonials,id',
+            'status' => 'required|boolean',
+        ]);
+
+        $testimonial = Testimonial::findOrFail($request->id);
+        $testimonial->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Status updated successfully.'
+        ]);
     }
 
     /**
@@ -131,7 +291,35 @@ class TestimonialController extends Controller
      */
     public function changeFeatured(Request $request)
     {
-        //
+        $request->validate([
+            'id' => ['required', 'exists:testimonials,id'],
+            'featured' => ['required', 'boolean'],
+        ]);
+
+        try {
+
+            $testimonial = Testimonial::findOrFail($request->id);
+
+            $testimonial->update([
+                'featured' => $request->boolean('featured'),
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => $testimonial->featured
+                    ? 'Testimonial marked as featured successfully.'
+                    : 'Testimonial removed from featured successfully.',
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to update featured status.',
+                'error' => config('app.debug') ? $e->getMessage() : null,
+            ], 500);
+
+        }
     }
 
     /**
@@ -139,6 +327,35 @@ class TestimonialController extends Controller
      */
     public function bulkDelete(Request $request)
     {
-        //
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'exists:testimonials,id',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $testimonials = Testimonial::whereIn('id', $request->ids)->get();
+            foreach ($testimonials as $testimonial) {
+                if (
+                    $testimonial->image &&
+                    file_exists(public_path('images/testimonials/' . $testimonial->image))
+                ) {
+                    unlink(public_path('images/testimonials/' . $testimonial->image));
+                }
+                $testimonial->delete();
+            }
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Selected testimonials deleted successfully.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
