@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\{
     BlogCategory,
-    Blog
+    Blog, BlogTag
 };
 
 class BlogController extends Controller
@@ -39,7 +39,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Blog::with('category');
+            $query = Blog::with(['category', 'tags']);
             // --------------- Search --------------- //
             if ($request->filled('search')) {
 
@@ -97,6 +97,15 @@ class BlogController extends Controller
                 ->editColumn('title', function ($row) {
                     return view('admin.blogs.partials.title', compact('row'))->render();
                 })
+                ->addColumn('tags', function ($row) {
+                    return $row->tags
+                        ->map(function ($tag) {
+                            return '<span class="badge bg-label-primary me-1">'
+                                    .$tag->name.
+                                '</span>';
+                        })
+                        ->implode(' ');
+                })
                 ->addColumn('category', function ($row) {
                     return $row->category?->name ?? '-';
                 })
@@ -118,6 +127,7 @@ class BlogController extends Controller
                     'checkbox',
                     'image',
                     'title',
+                    'tags',
                     'featured',
                     'status',
                     'action'
@@ -125,7 +135,11 @@ class BlogController extends Controller
                 ->make(true);
         }
         $categories = BlogCategory::where('status', 1)->orderBy('name')->get();
-        return view('admin.blogs.index', compact('categories'));
+        $totalBlogs = Blog::count();
+        $publishedBlogs = Blog::whereNotNull('published_at')->count();
+        $featuredBlogs = Blog::where('featured', 1)->count();
+        $inActiveBlogs = Blog::where('status','!=',1)->count();
+        return view('admin.blogs.index', get_defined_vars());
     }
 
     /**
@@ -135,12 +149,13 @@ class BlogController extends Controller
     {
         $title = "Create Blog";
 
+        $tags = BlogTag::active()->ordered()->get();
         $categories = BlogCategory::where('status', 1)
-        ->orderBy('sort_order')
-        ->orderBy('name')
-        ->get();
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
 
-        return view('admin.blogs.create', compact('categories', 'title'));
+        return view('admin.blogs.create', get_defined_vars());
     }
 
     /**
@@ -150,6 +165,7 @@ class BlogController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'blog_category_id' => 'required|exists:blog_categories,id',
+            'tags' => 'nullable|array',
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blogs,slug',
             'author' => 'nullable|string|max:255',
@@ -184,7 +200,7 @@ class BlogController extends Controller
                 $image = 'images/blogs/' . $imageName;
             }
 
-            Blog::create([
+            $blog = Blog::create([
                 'blog_category_id' => $request->blog_category_id,
                 'title' => $request->title,
                 'slug' => $request->filled('slug')
@@ -201,6 +217,8 @@ class BlogController extends Controller
                 'meta_title' => $request->meta_title,
                 'meta_description' => $request->meta_description,
             ]);
+
+            $blog->tags()->sync($request->tags ?? []);
 
             DB::commit();
             return response()->json([
@@ -235,6 +253,8 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         $title = "Edit Blog";
+
+        $tags = BlogTag::active()->ordered()->get();
         $categories = BlogCategory::where('status', 1)
             ->orderBy('sort_order')
             ->orderBy('name')
@@ -308,6 +328,8 @@ class BlogController extends Controller
             $blog->meta_title = $request->meta_title;
             $blog->meta_description = $request->meta_description;
             $blog->save();
+
+            $blog->tags()->sync($request->tags ?? []);
 
             DB::commit();
             return response()->json([

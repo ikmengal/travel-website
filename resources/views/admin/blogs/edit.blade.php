@@ -120,6 +120,19 @@
 
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Blog Tags</label>
+                                <select name="tags[]" id="tags" class="form-select select2" multiple>
+                                    @foreach($tags as $tag)
+                                        <option value="{{ $tag->id }}"
+                                            {{ $blog->tags->contains($tag->id) ? 'selected' : '' }}>
+                                            {{ $tag->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback tags_error"></div>
+                            </div>
+
                             {{-- Title --}}
                             <div class="col-md-8 mb-3">
 

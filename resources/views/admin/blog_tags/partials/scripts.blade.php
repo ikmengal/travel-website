@@ -13,41 +13,28 @@
         });
 
         // -------------- DataTable -------------- //
-        let table = $('#blogsDatatable').DataTable({
+        let table = $('#blogTagsDatatable').DataTable({
             processing: true,
             serverSide: true,
             responsive: false,
             autoWidth: false,
             ordering: true,
-            searching: true,
+            searching: false,
             lengthChange: true,
             pageLength: 10,
             lengthMenu: [
-                [10,25,50,100],
-                [10,25,50,100]
+                [10, 25, 50, 100],
+                [10, 25, 50, 100]
             ],
             ajax: {
-
-                url: "{{ route('blogs.index') }}",
-
+                url: "{{ route('blog_tags.index') }}",
                 type: "GET",
-
-                data: function (d) {
-
+                data: function(d) {
                     d.search = $('#search').val();
-
-                    d.category = $('#category_filter').val();
-
                     d.status = $('#status_filter').val();
-
-                    d.featured = $('#featured_filter').val();
-
                     d.date_from = $('#date_from').val();
-
                     d.date_to = $('#date_to').val();
-
                 }
-
             },
             columns: [
                 {
@@ -59,160 +46,126 @@
                 {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'image',
-                    name: 'featured_image',
-                    orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'name',
+                    name: 'name'
                 },
                 {
-                    data: 'tags',
-                    name: 'tags'
-                },
-                {
-                    data: 'category',
-                    name: 'category.name'
-                },
-                {
-                    data: 'author',
-                    name: 'author'
-                },
-                {
-                    data: 'views',
-                    name: 'views'
-                },
-                {
-                    data: 'featured',
-                    name: 'featured',
-                    orderable: false,
+                    data: 'blogs_count',
+                    name: 'blogs_count',
+                    className: 'text-center',
                     searchable: false
                 },
                 {
                     data: 'status',
                     name: 'status',
+                    className: 'text-center',
                     orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'published_at',
-                    name: 'published_at'
+                    data: 'created_at',
+                    name: 'created_at'
                 },
                 {
                     data: 'action',
                     name: 'action',
+                    className: 'text-center',
                     orderable: false,
                     searchable: false
                 }
             ],
             order: [
-                [9, 'desc']
+                [5, 'desc']
             ],
-            drawCallback: function () {
+            drawCallback: function() {
                 $('#checkAll').prop('checked', false);
                 $('#bulkDelete').addClass('d-none');
             }
         });
 
-        // -------------- Apply Filters -------------- //
-        $('#filterBtn').on('click', function () {
+        // -------------- Search -------------- //
+        $('#search').keyup(function () {
             table.ajax.reload();
         });
 
-        // -------------- Search -------------- //
-        $('#search').on('keyup', function (e) {
-            if (e.keyCode == 13) {
-                table.ajax.reload();
-            }
-        });
-
-        // -------------- Select Filters -------------- //
-        $('#category_filter, #status_filter, #featured_filter').on('change', function () {
+        // -------------- Status Filter -------------- //
+        $('#status_filter').change(function () {
             table.ajax.reload();
         });
 
         // -------------- Date Filters -------------- //
-        $('#date_from, #date_to').on('change', function () {
+        $('#date_from').change(function () {
+            table.ajax.reload();
+        });
+
+        $('#date_to').change(function () {
             table.ajax.reload();
         });
 
         // -------------- Check All -------------- //
-        $(document).on('change', '#checkAll', function () {
-            $('.record-checkbox').prop('checked', this.checked).trigger('change');
+        $('#checkAll').on('change', function () {
+            $('.record-checkbox').prop('checked', this.checked);
+            toggleBulkDelete();
         });
 
-        // -------------- Single Checkbox -------------- //
         $(document).on('change', '.record-checkbox', function () {
-            let total = $('.record-checkbox').length;
-            let checked = $('.record-checkbox:checked').length;
+            toggleBulkDelete();
+        });
 
-            $('#checkAll').prop('checked', total === checked);
+        function toggleBulkDelete() {
+            let checked = $('.record-checkbox:checked').length;
+            let total = $('.record-checkbox').length;
+
+            $('#checkAll').prop(
+                'checked',
+                checked === total && total > 0
+            );
+
             if (checked > 0) {
                 $('#bulkDelete').removeClass('d-none');
             } else {
                 $('#bulkDelete').addClass('d-none');
             }
-        });
+        }
 
         // -------------- Reset Filters -------------- //
-        $('#resetFilters, #resetFiltersBottom').on('click', function () {
+        $('#resetFilters').click(function () {
             $('#search').val('');
-
-            $('#category_filter').val('').trigger('change');
-
             $('#status_filter').val('').trigger('change');
-
-            $('#featured_filter').val('').trigger('change');
-
             $('#date_from').val('');
-
             $('#date_to').val('');
-
             table.ajax.reload();
         });
 
         // -------------- Change Status -------------- //
         $(document).on('change', '.changeStatus', function () {
-            let status = $(this).is(':checked') ? 1 : 0;
-            $.ajax({
-                url: "{{ route('blogs.change-status') }}",
-                type: "POST",
-                data: {
-                    id: $(this).data('id'),
-                    status: status
-                },
-                success: function (response) {
-                    toastr.success(response.message);
-                },
-                error: function (xhr) {
-                    toastr.error(xhr.responseJSON.message ?? 'Something went wrong.');
-                    table.ajax.reload(null, false);
-                }
-            });
-        });
+            let checkbox = $(this);
 
-        // -------------- Change Featured -------------- //
-        $(document).on('change', '.changeFeatured', function () {
-            let featured = $(this).is(':checked') ? 1 : 0;
             $.ajax({
-                url: "{{ route('blogs.change-featured') }}",
+                url: "{{ route('blog_tags.change-status') }}",
                 type: "POST",
                 data: {
-                    id: $(this).data('id'),
-                    featured: featured
+                    id: checkbox.data('id'),
+                    status: checkbox.is(':checked') ? 1 : 0
                 },
                 success: function (response) {
                     toastr.success(response.message);
                 },
                 error: function (xhr) {
-                    toastr.error(xhr.responseJSON.message ?? 'Something went wrong.');
-                    table.ajax.reload(null, false);
+                    checkbox.prop('checked', !checkbox.is(':checked'));
+                    if (xhr.status === 403) {
+                        toastr.error(xhr.responseJSON.message ??
+                            'You are not authorized.');
+                        return;
+                    }
+                    if (xhr.status === 422) {
+                        toastr.error('Validation failed.');
+                        return;
+                    }
+                    toastr.error('Unable to update status.');
                 }
             });
         });
@@ -220,16 +173,17 @@
         // -------------- Delete Record -------------- //
         $(document).on('click', '.deleteRecord', function () {
             let url = $(this).data('url');
+
             Swal.fire({
-                title: 'Delete Blog?',
-                text: "This action cannot be undone.",
+                title: 'Delete Tag?',
+                text: 'This action cannot be undone.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Delete',
                 cancelButtonText: 'Cancel',
                 customClass: {
                     confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-label-secondary'
+                    cancelButton: 'btn btn-secondary'
                 },
                 buttonsStyling: false
             }).then((result) => {
@@ -245,7 +199,15 @@
                             table.ajax.reload(null, false);
                         },
                         error: function (xhr) {
-                            toastr.error(xhr.responseJSON.message ?? 'Unable to delete.');
+                            if (xhr.status === 403) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            if (xhr.status === 404) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            toastr.error('Unable to delete tag.');
                         }
                     });
                 }
@@ -253,44 +215,53 @@
         });
 
         // -------------- Bulk Delete -------------- //
-        $('#bulkDelete').on('click', function () {
+        $('#bulkDelete').click(function () {
             let ids = [];
+
             $('.record-checkbox:checked').each(function () {
                 ids.push($(this).val());
             });
 
             if (ids.length === 0) {
-                toastr.warning('Please select at least one record.');
+                toastr.warning('Please select at least one tag.');
                 return;
             }
             Swal.fire({
-                title: 'Delete Selected Blogs?',
-                text: "Selected records will be deleted permanently.",
+                title: 'Delete Selected Tags?',
+                text: 'Selected tags will be permanently deleted.',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Delete',
+                confirmButtonText: 'Delete',
                 cancelButtonText: 'Cancel',
                 customClass: {
                     confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-label-secondary'
+                    cancelButton: 'btn btn-secondary'
                 },
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blogs.bulk-delete') }}",
+                        url: "{{ route('blog_tags.bulk-delete') }}",
                         type: "POST",
                         data: {
                             ids: ids
                         },
                         success: function (response) {
                             toastr.success(response.message);
-                            $('#checkAll').prop('checked', false);
+                            table.ajax.reload(null, false);
                             $('#bulkDelete').addClass('d-none');
-                            table.ajax.reload();
+                            $('#checkAll').prop('checked', false);
                         },
                         error: function (xhr) {
-                            toastr.error(xhr.responseJSON.message ?? 'Bulk delete failed.');
+                            if (xhr.status === 403) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            if (xhr.status === 422) {
+                                toastr.error('Please select valid records.');
+                                return;
+                            }
+                            toastr.error('Bulk delete failed.');
                         }
                     });
                 }

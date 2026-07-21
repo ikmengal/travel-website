@@ -30,7 +30,7 @@
                                 Total Blogs
                             </span>
                             <h3 class="fw-bold mt-2 mb-0" id="totalBlogs">
-                                --
+                                {{ $totalBlogs }}
                             </h3>
                         </div>
                         <div class="avatar">
@@ -52,7 +52,7 @@
                                 Published
                             </span>
                             <h3 class="fw-bold mt-2 mb-0" id="publishedBlogs">
-                                --
+                                {{ $publishedBlogs }}
                             </h3>
                         </div>
                         <div class="avatar">
@@ -74,12 +74,12 @@
                                 Featured
                             </span>
                             <h3 class="fw-bold mt-2 mb-0" id="featuredBlogs">
-                                --
+                                {{ $featuredBlogs }}
                             </h3>
                         </div>
                         <div class="avatar">
                             <span class="avatar-initial rounded bg-label-warning">
-                                <i class="ti ti-star-filled fs-3"></i>
+                                <i class="ti ti-diamond fs-3"></i>
                             </span>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                 Draft / Inactive
                             </span>
                             <h3 class="fw-bold mt-2 mb-0" id="draftBlogs">
-                                --
+                                {{ $inActiveBlogs }}
                             </h3>
                         </div>
                         <div class="avatar">
@@ -216,31 +216,33 @@
                 @endcan
             </div>
         </div>
-
-        <div class="card-datatable table-responsive">
-            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                <div class="container-fluid">
-                    <table class="datatable table border-top dataTable no-footer dtr-column data_table table-responsive"
-                        id="blogsDatatable" aria-describedby="DataTables_Table_0_info" style="width: 1227px; display:table;">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="40">
-                                    <input type="checkbox" id="checkAll" class="form-check-input">
-                                </th>
-                                <th width="60">#</th>
-                                <th width="90">Image</th>
-                                <th>Blog</th>
-                                <th width="180">Category</th>
-                                <th width="160">Author</th>
-                                <th width="90">Views</th>
-                                <th width="100" class="text-center">Featured</th>
-                                <th width="90" class="text-center">Status</th>
-                                <th width="150">Published</th>
-                                <th width="120" class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+        <div class="card-body p-0">
+            <div class="card-datatable table-responsive">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="container-fluid">
+                        <table class="datatable table border-top dataTable no-footer dtr-column data_table table-responsive"
+                            id="blogsDatatable" aria-describedby="DataTables_Table_0_info" style="width: 1227px; display:table;">
+                            <thead>
+                                <tr>
+                                    <th width="40">
+                                        <input type="checkbox" id="checkAll" class="form-check-input">
+                                    </th>
+                                    <th width="60">#</th>
+                                    <th width="90">Image</th>
+                                    <th>Blog</th>
+                                    <th>Tags</th>
+                                    <th width="180">Category</th>
+                                    <th width="160">Author</th>
+                                    <th width="90">Views</th>
+                                    <th width="100" class="text-center">Featured</th>
+                                    <th width="90" class="text-center">Status</th>
+                                    <th width="150">Published</th>
+                                    <th width="120" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

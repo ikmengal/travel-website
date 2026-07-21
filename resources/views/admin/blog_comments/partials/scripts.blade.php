@@ -1,25 +1,31 @@
 <script>
     $(function () {
-        // -------------- CSRF Token -------------- //
+        // ==========================================================
+        // CSRF Token
+        // ==========================================================
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        // -------------- Select2 -------------- //
+        // ==========================================================
+        // Select2
+        // ==========================================================
         $('.select2').select2({
             width: '100%'
         });
 
-        // -------------- DataTable -------------- //
-        let table = $('#blogsDatatable').DataTable({
+        // ==========================================================
+        // DataTable
+        // ==========================================================
+        let table = $('#blogCommentsDatatable').DataTable({
             processing: true,
             serverSide: true,
             responsive: false,
             autoWidth: false,
             ordering: true,
-            searching: true,
+            searching: false,
             lengthChange: true,
             pageLength: 10,
             lengthMenu: [
@@ -27,27 +33,15 @@
                 [10,25,50,100]
             ],
             ajax: {
-
-                url: "{{ route('blogs.index') }}",
-
+                url: "{{ route('blog_comments.index') }}",
                 type: "GET",
-
                 data: function (d) {
-
                     d.search = $('#search').val();
-
-                    d.category = $('#category_filter').val();
-
+                    d.blog_id = $('#blog_filter').val();
                     d.status = $('#status_filter').val();
-
-                    d.featured = $('#featured_filter').val();
-
                     d.date_from = $('#date_from').val();
-
                     d.date_to = $('#date_to').val();
-
                 }
-
             },
             columns: [
                 {
@@ -59,38 +53,23 @@
                 {
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'image',
-                    name: 'featured_image',
-                    orderable: false,
                     searchable: false
                 },
                 {
-                    data: 'title',
-                    name: 'title'
+                    data: 'blog',
+                    name: 'blog.title'
                 },
                 {
-                    data: 'tags',
-                    name: 'tags'
+                    data: 'user',
+                    name: 'name'
                 },
                 {
-                    data: 'category',
-                    name: 'category.name'
+                    data: 'comment',
+                    name: 'comment'
                 },
                 {
-                    data: 'author',
-                    name: 'author'
-                },
-                {
-                    data: 'views',
-                    name: 'views'
-                },
-                {
-                    data: 'featured',
-                    name: 'featured',
+                    data: 'type',
+                    name: 'type',
                     orderable: false,
                     searchable: false
                 },
@@ -101,8 +80,8 @@
                     searchable: false
                 },
                 {
-                    data: 'published_at',
-                    name: 'published_at'
+                    data: 'created_at',
+                    name: 'created_at'
                 },
                 {
                     data: 'action',
@@ -112,7 +91,7 @@
                 }
             ],
             order: [
-                [9, 'desc']
+                [7,'desc']
             ],
             drawCallback: function () {
                 $('#checkAll').prop('checked', false);
@@ -120,108 +99,105 @@
             }
         });
 
-        // -------------- Apply Filters -------------- //
-        $('#filterBtn').on('click', function () {
+        // ==========================================================
+        // Search & Filters
+        // ==========================================================
+        $('#search').keyup(function () {
             table.ajax.reload();
         });
 
-        // -------------- Search -------------- //
-        $('#search').on('keyup', function (e) {
-            if (e.keyCode == 13) {
-                table.ajax.reload();
-            }
-        });
-
-        // -------------- Select Filters -------------- //
-        $('#category_filter, #status_filter, #featured_filter').on('change', function () {
+        $('#blog_filter').change(function () {
             table.ajax.reload();
         });
 
-        // -------------- Date Filters -------------- //
-        $('#date_from, #date_to').on('change', function () {
+        $('#status_filter').change(function () {
             table.ajax.reload();
         });
 
-        // -------------- Check All -------------- //
-        $(document).on('change', '#checkAll', function () {
-            $('.record-checkbox').prop('checked', this.checked).trigger('change');
+        $('#date_from').change(function () {
+            table.ajax.reload();
         });
 
-        // -------------- Single Checkbox -------------- //
+        $('#date_to').change(function () {
+            table.ajax.reload();
+        });
+
+        // ==========================================================
+        // Check All
+        // ==========================================================
+        $('#checkAll').change(function () {
+            $('.record-checkbox').prop(
+                'checked',
+                $(this).prop('checked')
+            );
+            toggleBulkDelete();
+        });
+
         $(document).on('change', '.record-checkbox', function () {
+            toggleBulkDelete();
+        });
+
+        function toggleBulkDelete() {
             let total = $('.record-checkbox').length;
             let checked = $('.record-checkbox:checked').length;
 
-            $('#checkAll').prop('checked', total === checked);
+            $('#checkAll').prop(
+                'checked',
+                total === checked && total > 0
+            );
+
             if (checked > 0) {
                 $('#bulkDelete').removeClass('d-none');
             } else {
                 $('#bulkDelete').addClass('d-none');
             }
-        });
+        }
 
-        // -------------- Reset Filters -------------- //
-        $('#resetFilters, #resetFiltersBottom').on('click', function () {
+        // ==========================================================
+        // Reset Filters
+        // ==========================================================
+        $('#resetFilters').click(function () {
             $('#search').val('');
-
-            $('#category_filter').val('').trigger('change');
-
+            $('#blog_filter').val('').trigger('change');
             $('#status_filter').val('').trigger('change');
-
-            $('#featured_filter').val('').trigger('change');
-
             $('#date_from').val('');
-
             $('#date_to').val('');
-
             table.ajax.reload();
         });
 
-        // -------------- Change Status -------------- //
+        // ==========================================================
+        // Change Status
+        // ==========================================================
         $(document).on('change', '.changeStatus', function () {
-            let status = $(this).is(':checked') ? 1 : 0;
+            let checkbox = $(this);
             $.ajax({
-                url: "{{ route('blogs.change-status') }}",
+                url: "{{ route('blog_comments.change-status') }}",
                 type: "POST",
                 data: {
-                    id: $(this).data('id'),
-                    status: status
+                    id: checkbox.data('id'),
+                    status: checkbox.is(':checked') ? 1 : 0
                 },
                 success: function (response) {
                     toastr.success(response.message);
                 },
                 error: function (xhr) {
-                    toastr.error(xhr.responseJSON.message ?? 'Something went wrong.');
-                    table.ajax.reload(null, false);
+                    checkbox.prop('checked', !checkbox.is(':checked'));
+                    if (xhr.status === 403) {
+                        toastr.error(xhr.responseJSON.message);
+                        return;
+                    }
+                    toastr.error("Unable to update status.");
                 }
             });
         });
 
-        // -------------- Change Featured -------------- //
-        $(document).on('change', '.changeFeatured', function () {
-            let featured = $(this).is(':checked') ? 1 : 0;
-            $.ajax({
-                url: "{{ route('blogs.change-featured') }}",
-                type: "POST",
-                data: {
-                    id: $(this).data('id'),
-                    featured: featured
-                },
-                success: function (response) {
-                    toastr.success(response.message);
-                },
-                error: function (xhr) {
-                    toastr.error(xhr.responseJSON.message ?? 'Something went wrong.');
-                    table.ajax.reload(null, false);
-                }
-            });
-        });
-
-        // -------------- Delete Record -------------- //
+        // ==========================================================
+        // Delete Record
+        // ==========================================================
         $(document).on('click', '.deleteRecord', function () {
             let url = $(this).data('url');
             Swal.fire({
-                title: 'Delete Blog?',
+                title: 'Delete Comment?',
                 text: "This action cannot be undone.",
                 icon: 'warning',
                 showCancelButton: true,
@@ -229,7 +205,7 @@
                 cancelButtonText: 'Cancel',
                 customClass: {
                     confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-label-secondary'
+                    cancelButton: 'btn btn-secondary'
                 },
                 buttonsStyling: false
             }).then((result) => {
@@ -238,59 +214,73 @@
                         url: url,
                         type: "POST",
                         data: {
-                            _method: "DELETE"
+                            _method: 'DELETE'
                         },
                         success: function (response) {
                             toastr.success(response.message);
                             table.ajax.reload(null, false);
                         },
                         error: function (xhr) {
-                            toastr.error(xhr.responseJSON.message ?? 'Unable to delete.');
+                            if (xhr.status === 403) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            if (xhr.status === 404) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            toastr.error("Unable to delete record.");
                         }
                     });
                 }
             });
         });
 
-        // -------------- Bulk Delete -------------- //
-        $('#bulkDelete').on('click', function () {
+        // ==========================================================
+        // Bulk Delete
+        // ==========================================================
+        $('#bulkDelete').click(function () {
             let ids = [];
+
             $('.record-checkbox:checked').each(function () {
                 ids.push($(this).val());
             });
 
             if (ids.length === 0) {
-                toastr.warning('Please select at least one record.');
+                toastr.warning("Please select at least one comment.");
                 return;
             }
             Swal.fire({
-                title: 'Delete Selected Blogs?',
-                text: "Selected records will be deleted permanently.",
+                title: 'Delete Selected Comments?',
+                text: "Selected comments will be permanently deleted.",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Delete',
+                confirmButtonText: 'Delete',
                 cancelButtonText: 'Cancel',
                 customClass: {
                     confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-label-secondary'
+                    cancelButton: 'btn btn-secondary'
                 },
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ route('blogs.bulk-delete') }}",
+                        url: "{{ route('blog_comments.bulk-delete') }}",
                         type: "POST",
                         data: {
                             ids: ids
                         },
                         success: function (response) {
                             toastr.success(response.message);
-                            $('#checkAll').prop('checked', false);
+                            table.ajax.reload(null, false);
                             $('#bulkDelete').addClass('d-none');
-                            table.ajax.reload();
                         },
                         error: function (xhr) {
-                            toastr.error(xhr.responseJSON.message ?? 'Bulk delete failed.');
+                            if (xhr.status === 403) {
+                                toastr.error(xhr.responseJSON.message);
+                                return;
+                            }
+                            toastr.error("Bulk delete failed.");
                         }
                     });
                 }

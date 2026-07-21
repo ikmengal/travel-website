@@ -59,6 +59,7 @@
                                 Route::is('testimonials.*') ||
                                 Route::is('permissions.*') ||
                                 Route::is('settings.*') ||
+                                Route::is('banners.*') ||
                                 Route::is('roles.*') ? 'active open' : '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
@@ -88,6 +89,16 @@
                 <li class="menu-item {{ request()->is('testimonials*') ? 'open active' : '' }}">
                     <a href="{{ route('testimonials.index') }}" class="menu-link">
                         <div data-i18n="Testimonials">Testimonials</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('banners*') ? 'open active' : '' }}">
+                    <a href="{{ route('banners.index') }}" class="menu-link">
+                        <div data-i18n="Banners">Banners</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('pages*') ? 'open active' : '' }}">
+                    <a href="{{ route('pages.index') }}" class="menu-link">
+                        <div data-i18n="Pages">Pages</div>
                     </a>
                 </li>
             </ul>
@@ -132,6 +143,16 @@
                 <li class="menu-item {{ request()->is('blogs.*') ? 'open active' : '' }}">
                     <a href="{{ route('blogs.index') }}" class="menu-link">
                     <div data-i18n="Blogs">Blogs</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('blog_comments.*') ? 'open active' : '' }}">
+                    <a href="{{ route('blog_comments.index') }}" class="menu-link">
+                    <div data-i18n="Blog Comments">Blog Comments</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('blog_tags.*') ? 'open active' : '' }}">
+                    <a href="{{ route('blog_tags.index') }}" class="menu-link">
+                    <div data-i18n="Blog Tags">Blog Tags</div>
                     </a>
                 </li>
             </ul>

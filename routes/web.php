@@ -13,20 +13,24 @@ use App\Http\Controllers\Admin\{
     DestinationController,
     TourIncludeController,
     TourExcludeController,
+    BlogCommentController,
     TestimonialController,
     PermissionController,
     DashboardController,
     TourImageController,
     PaymentsController,
     SettingController,
+    BlogTagController,
     BookingController,
     ReviewController,
     CouponController,
+    BannerController,
     TourCountroller,
     RoleController,
     UserController,
     BlogController,
-    FaqsController
+    FaqsController,
+    PageController
 };
 
 Route::get('/', function () {
@@ -183,6 +187,32 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
     });
 
+    // Blog Comments Custom Routes
+    Route::controller(BlogCommentController::class)->prefix('blog_comments')->name('blog_comments.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Blog Tags Custom Routes
+    Route::controller(BlogTagController::class)->prefix('blog_tags')->name('blog_tags.')->group(function () {
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Banners Custom Routes
+    Route::controller(BannerController::class)->prefix('banners')->name('banners.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Pages Custom Routes
+    Route::controller(PageController::class)->prefix('pages')->name('pages.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
     Route::resource('newsletter_subscribers', NewsletterSubscriberController::class);
     Route::resource('booking_travelers', BookingTravelerController::class);
     Route::resource('contact_messages', ContactMessageController::class);
@@ -192,19 +222,23 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('blog_categories', BlogCategoryController::class);
     Route::resource('tour_includes', TourIncludeController::class);
     Route::resource('tour_excludes', TourExcludeController::class);
+    Route::resource('blog_comments', BlogCommentController::class);
     Route::resource('destinations', DestinationController::class);
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('tour_images', TourImageController::class);
     Route::resource('payments', PaymentsController::class);
+    Route::resource('blog_tags', BlogTagController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('bookings', BookingController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('reviews', ReviewController::class);
+    Route::resource('banners', BannerController::class);
     Route::resource('tours', TourCountroller::class);
     Route::resource('roles', RoleController::class);
     Route::resource('blogs', BlogController::class);
     Route::resource('users', UserController::class);
+    Route::resource('pages', PageController::class);
     Route::resource('faqs', FaqsController::class);
 });
 
