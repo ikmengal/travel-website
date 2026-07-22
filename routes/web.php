@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\MainPageController;
 use App\Http\Controllers\Admin\{
     NewsletterSubscriberController,
     BookingTravelerController,
@@ -16,12 +17,16 @@ use App\Http\Controllers\Admin\{
     BlogCommentController,
     TestimonialController,
     PermissionController,
+    TeamMemberController,
     DashboardController,
     TourImageController,
     PaymentsController,
     SettingController,
+    PartnerController,
     BlogTagController,
+    CounterController,
     BookingController,
+    GalleryController,
     ReviewController,
     CouponController,
     BannerController,
@@ -36,6 +41,8 @@ use App\Http\Controllers\Admin\{
 Route::get('/', function () {
     return view('home.index');
 });
+
+Route::get('/pages/{slug}', [MainPageController::class, 'show'])->name('pages.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
@@ -213,6 +220,34 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
     });
 
+    // Partners Custom Routes
+    Route::controller(PartnerController::class)->prefix('partners')->name('partners.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Counters Custom Routes
+    Route::controller(CounterController::class)->prefix('counters')->name('counters.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Team Members Custom Routes
+    Route::controller(TeamMemberController::class)->prefix('team_members')->name('team_members.')->group(function () {
+        Route::post('change-featured', 'changeFeatured')->name('change-featured');
+        Route::post('change-status', 'changeStatus')->name('change-status');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+    });
+
+    // Gallery Custom Routes
+    Route::controller(GalleryController::class)->prefix('gallery')->name('gallery.')->group(function () {
+        Route::post('change-featured','changeFeatured')->name('change-featured');
+        Route::post('change-status','changeStatus')->name('change-status');
+        Route::post('bulk-delete','bulkDelete')->name('bulk-delete');
+    });
+
     Route::resource('newsletter_subscribers', NewsletterSubscriberController::class);
     Route::resource('booking_travelers', BookingTravelerController::class);
     Route::resource('contact_messages', ContactMessageController::class);
@@ -225,12 +260,16 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('blog_comments', BlogCommentController::class);
     Route::resource('destinations', DestinationController::class);
     Route::resource('testimonials', TestimonialController::class);
+    Route::resource('team_members', TeamMemberController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('tour_images', TourImageController::class);
     Route::resource('payments', PaymentsController::class);
     Route::resource('blog_tags', BlogTagController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('bookings', BookingController::class);
+    Route::resource('partners', PartnerController::class);
+    Route::resource('counters', CounterController::class);
+    Route::resource('gallery', GalleryController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('banners', BannerController::class);

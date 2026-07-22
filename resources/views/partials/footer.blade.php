@@ -114,7 +114,7 @@
                     Company
                 </h3>
                 <ul class="space-y-3 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition duration-150">About Us</a></li>
+                    <li><a href="{{ route('pages.show', 'about-us') }}" class="hover:text-white transition duration-150">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition duration-150">Careers</a></li>
                     <li><a href="#" class="hover:text-white transition duration-150">Press Center</a></li>
                     <li><a href="#" class="hover:text-white transition duration-150">Partners</a></li>

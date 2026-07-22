@@ -57,9 +57,14 @@
         </li>
         <li class="menu-item {{ Route::is('contact_messages.*') ||
                                 Route::is('testimonials.*') ||
+                                Route::is('team_members.*') ||
                                 Route::is('permissions.*') ||
                                 Route::is('settings.*') ||
+                                Route::is('partners.*') ||
+                                Route::is('counters.*') ||
+                                Route::is('gallery.*') ||
                                 Route::is('banners.*') ||
+                                Route::is('pages.*') ||
                                 Route::is('roles.*') ? 'active open' : '' }} ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
@@ -99,6 +104,26 @@
                 <li class="menu-item {{ request()->is('pages*') ? 'open active' : '' }}">
                     <a href="{{ route('pages.index') }}" class="menu-link">
                         <div data-i18n="Pages">Pages</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('partners*') ? 'open active' : '' }}">
+                    <a href="{{ route('partners.index') }}" class="menu-link">
+                        <div data-i18n="Partners">Partners</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('counters*') ? 'open active' : '' }}">
+                    <a href="{{ route('counters.index') }}" class="menu-link">
+                        <div data-i18n="Counters">Counters</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('team_members*') ? 'open active' : '' }}">
+                    <a href="{{ route('team_members.index') }}" class="menu-link">
+                        <div data-i18n="Team Members">Team Members</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('gallery*') ? 'open active' : '' }}">
+                    <a href="{{ route('gallery.index') }}" class="menu-link">
+                        <div data-i18n="Gallery">Gallery</div>
                     </a>
                 </li>
             </ul>

@@ -211,7 +211,7 @@
                     </svg>
                 </button>
                 <div x-show="mobilePagesOpen" class="bg-slate-50/50 px-8 pb-3">
-                    <a href="#" class="block py-2 text-sm text-slate-600">About Us</a>
+                    <a href="{{ route('pages.show', 'about-us') }}" class="block py-2 text-sm text-slate-600">About Us</a>
                     <a href="#" class="block py-2 text-sm text-slate-600">Our Pricing</a>
                     <a href="#" class="block py-2 text-sm text-slate-600">Testimonials</a>
                     <a href="#" class="block py-2 text-sm text-slate-600">FAQ</a>
