@@ -15,4 +15,13 @@ class TourImage extends Model
     {
         return $this->belongsTo(Tour::class);
     }
+
+    // ----------------- Accessor ----------------- //
+    public function getImageAttribute($value)
+    {
+        if ($value && file_exists(public_path('images/tours/'.$value))) {
+            return asset('images/tours/'.$value);
+        }
+        return asset('images/destinations/hero.jpg');
+    }
 }

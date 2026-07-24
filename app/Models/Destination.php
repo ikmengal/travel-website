@@ -18,6 +18,27 @@ class Destination extends Model
         'status' => 'boolean',
     ];
 
+    // ----------------- Scopes ----------------- //
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    // ----------------- Accessor ----------------- //
+    public function getFeaturedImageAttribute($value)
+    {
+        if ($value && file_exists(public_path('images/destinations/' . $value))) {
+            return asset('images/destinations/' . $value);
+        }
+        return asset('images/destinations/hero.jpg');
+    }
+
+    // ----------------- Relations ----------------- //
     public function country()
     {
         return $this->belongsTo(Country::class);

@@ -1,41 +1,4 @@
 <footer class="bg-slate-950 text-white relative mt-32">
-
-    {{-- <div class="max-w-7xl mx-auto px-6 relative -top-20 z-20">
-        <div class="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-800/60 py-10 px-8 md:px-16 flex flex-col lg:flex-row lg:items-center justify-between gap-8 shadow-2xl">
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-950/20 pointer-events-none z-0"></div>
-
-            <div class="max-w-xl text-left space-y-2 relative z-10">
-                <span class="text-xs font-bold text-blue-400 tracking-widest uppercase block">
-                    Subscribe to Newsletter
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                    Get Travel Deals & Updates
-                </h2>
-                <p class="text-slate-400 text-sm leading-relaxed">
-                    Be the first to know about exclusive offers, new destinations and travel tips.
-                </p>
-            </div>
-
-            <div class="w-full lg:max-w-md relative z-10">
-                <form class="relative flex items-center bg-slate-950/40 border border-slate-800 rounded-2xl p-1.5 backdrop-blur-md">
-                    <input
-                        type="email"
-                        placeholder="Enter your email address"
-                        required
-                        class="w-full bg-transparent pl-4 pr-32 py-3 text-sm text-white outline-none placeholder:text-slate-500">
-                    <button
-                        type="submit"
-                        class="absolute right-1.5 top-1.5 bottom-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-6 rounded-xl transition duration-200 shadow-sm">
-                        Subscribe
-                    </button>
-                </form>
-                <span class="text-[11px] text-slate-500 block mt-2 text-left pl-2">
-                    No spam. Unsubscribe anytime.
-                </span>
-            </div>
-        </div>
-    </div> --}}
-
     <!-- Top Overlapping Newsletter CTA Banner (Exactly as seen in image_e68204.png) -->
     <div class="max-w-7xl mx-auto px-6 relative -top-20 z-20">
         <div class="relative rounded-[32px] overflow-hidden bg-cover bg-center py-12 px-10 md:px-16 flex flex-col lg:flex-row lg:items-center justify-between gap-8 shadow-2xl"

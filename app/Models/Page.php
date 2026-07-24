@@ -14,6 +14,7 @@ class Page extends Model
         'slug',
         'page_type',
         'featured_image',
+        'thumbnail_image',
         'short_description',
         'description',
         'meta_title',
@@ -45,11 +46,22 @@ class Page extends Model
         return $query->orderBy('sort_order')->orderByDesc('created_at');
     }
 
-    // ---------------- Accessor ---------------- //
+    // ---------------- Accessors ---------------- //
     public function getImageAttribute()
     {
-        if ($this->featured_image && file_exists(public_path('images/pages/' . $this->featured_image))) {
-            return asset('images/pages/' . $this->featured_image);
+        return $this->getImageUrl($this->featured_image);
+    }
+
+    // public function getThumbnailImageAttribute()
+    // {
+    //     return $this->getImageUrl($this->thumbnail_image);
+    // }
+
+    private function getImageUrl($image)
+    {
+        $path = public_path('images/pages/' . $image);
+        if (!empty($image) && file_exists($path)) {
+            return asset('images/pages/' . $image);
         }
         return asset('admin/assets/img/placeholder.jpg');
     }
@@ -66,4 +78,10 @@ class Page extends Model
         'why-choose-us' => 'Why Choose Us',
         'custom' => 'Custom Page',
     ];
+
+    // ---------------- Relationships ---------------- //
+    public function images()
+    {
+        return $this->hasMany(PageImage::class);
+    }
 }

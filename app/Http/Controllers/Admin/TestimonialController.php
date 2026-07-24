@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\{
 };
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
+use App\Models\Country;
+use App\Models\State;
+use App\Models\City;
 
 class TestimonialController extends Controller
 {
@@ -93,6 +96,7 @@ class TestimonialController extends Controller
     public function create()
     {
         $title = "Add Testimonials";
+        $countries = Country::get();
         return view('admin.testimonials.create', get_defined_vars());
     }
 
@@ -101,8 +105,10 @@ class TestimonialController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name'              => 'required|string|max:255',
+            'country_id'        => 'required',
+            'state_id'          => 'required',
             'designation'       => 'required|string|max:255',
             'company'           => 'nullable|string|max:255',
             'image'             => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -115,19 +121,24 @@ class TestimonialController extends Controller
             'meta_description'  => 'nullable|string',
         ]);
 
-        DB::beginTransaction();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
+        DB::beginTransaction();
         try {
             $imageName = null;
-
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('images/testimonials'), $imageName);
             }
 
-            Testimonial::create([
+            $testimonial = Testimonial::create([
                 'name' => $request->name,
+                'country_id' => $request->country_id,
+                'state_id' => $request->state_id,
+                'city_id' => $request->city_id ?? null,
                 'designation' => $request->designation,
                 'company' => $request->company,
                 'image' => $imageName,
@@ -147,7 +158,6 @@ class TestimonialController extends Controller
             if (!empty($imageName) && file_exists(public_path('images/testimonials/' . $imageName))) {
                 unlink(public_path('images/testimonials/' . $imageName));
             }
-
             return back()->withInput()->with('error', $e->getMessage());
         }
     }
@@ -167,7 +177,8 @@ class TestimonialController extends Controller
     public function edit(Testimonial $testimonial)
     {
         $title = "Edit Testimonial";
-        return view('admin.testimonials.edit', compact('testimonial', 'title'));
+        $countries = Country::get();
+        return view('admin.testimonials.edit', get_defined_vars());
     }
 
     /**
@@ -177,6 +188,8 @@ class TestimonialController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name'              => 'required|string|max:255',
+            'country_id'        => 'required',
+            'state_id'          => 'required',
             'designation'       => 'required|string|max:255',
             'company'           => 'nullable|string|max:255',
             'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
@@ -215,6 +228,9 @@ class TestimonialController extends Controller
 
             $testimonial->update([
                 'name' => $request->name,
+                'country_id' => $request->country_id,
+                'state_id' => $request->state_id,
+                'city_id' => $request->city_id ?? null,
                 'designation' => $request->designation,
                 'company' => $request->company,
                 'image' => $imageName,
@@ -352,6 +368,54 @@ class TestimonialController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Bulk Delete
+     */
+    public function getState(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+            $states = State::where('country_id', $request->id)->get();
+            return response()->json([
+                'status' => true,
+                'message' => 'Selected testimonials deleted successfully.',
+                'data' => $states
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Bulk Delete
+     */
+    public function getCity(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+            $cities = City::where('state_id', $request->id)->get();
+            return response()->json([
+                'status' => true,
+                'message' => 'Selected testimonials deleted successfully.',
+                'data' => $cities
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage()

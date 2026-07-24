@@ -1,6 +1,5 @@
 <section class="py-16 bg-slate-50/50 overflow-hidden" id="testimonials">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
-
         <div class="flex items-end justify-between mb-10">
             <div>
                 <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1">
@@ -18,7 +17,6 @@
                 </a>
             </div>
         </div>
-
         @php
             $reviews = [
                 [
@@ -53,42 +51,72 @@
                 ]
             ];
         @endphp
-
         <div class="relative px-4 sm:px-0">
             <div class="swiper testimonialSwiper">
                 <div class="swiper-wrapper">
-                    @foreach($reviews as $review)
-                        <div class="swiper-slide h-auto">
-                            <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] flex flex-col justify-between h-full">
+                    @if (isset($testimonials) && !blank($testimonials))
+                        @foreach($testimonials as $testimonial)
+                            <div class="swiper-slide h-auto">
+                                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] flex flex-col justify-between h-full">
+                                    <div>
+                                        <div class="flex items-center gap-0.5 text-amber-400 text-xs mb-4">
+                                            @for ($i = 1; $i <= $testimonial->rating; $i++)
+                                                <span>★</span>
+                                            @endfor
+                                        </div>
 
-                                <div>
-                                    <div class="flex items-center gap-0.5 text-amber-400 text-xs mb-4">
-                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                    </div>
-
-                                    <div class="flex items-center gap-3">
-                                        <img
-                                            src="{{ asset('images/users/'.$review['avatar']) }}"
-                                            alt="{{ $review['name'] }}"
-                                            class="w-11 h-11 rounded-full object-cover bg-slate-100 shrink-0">
-                                        <div>
-                                            <h3 class="font-bold text-slate-800 text-sm tracking-tight leading-snug">
-                                                {{ $review['name'] }}
-                                            </h3>
-                                            <p class="text-[11px] text-slate-400 font-medium mt-0.5">
-                                                {{ $review['country'] }}
-                                            </p>
+                                        <div class="flex items-center gap-3">
+                                            <img
+                                                src="{{ $testimonial['image'] }}"
+                                                alt="{{ $testimonial['name'] }}"
+                                                class="w-11 h-11 rounded-full object-cover bg-slate-100 shrink-0">
+                                            <div>
+                                                <h3 class="font-bold text-slate-800 text-sm tracking-tight leading-snug">
+                                                    {{ $testimonial['name'] }}
+                                                </h3>
+                                                <p class="text-[11px] text-slate-400 font-medium mt-0.5">
+                                                    {{ isset($testimonial['city']->name) && !empty($testimonial['city']->name) ? $testimonial['city']->name.', ' : $testimonial['state']->name.', ' }} {{ $testimonial['country']->name ?? '' }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="mt-5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed flex-1">
+                                        {!! $testimonial->review !!}
+                                    </div>
                                 </div>
-
-                                <p class="mt-5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed flex-1">
-                                    “{{ $review['review'] }}”
-                                </p>
-
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @else
+                        @foreach($reviews as $review)
+                            <div class="swiper-slide h-auto">
+                                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] flex flex-col justify-between h-full">
+                                    <div>
+                                        <div class="flex items-center gap-0.5 text-amber-400 text-xs mb-4">
+                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        </div>
+
+                                        <div class="flex items-center gap-3">
+                                            <img
+                                                src="{{ asset('images/users/'.$review['avatar']) }}"
+                                                alt="{{ $review['name'] }}"
+                                                class="w-11 h-11 rounded-full object-cover bg-slate-100 shrink-0">
+                                            <div>
+                                                <h3 class="font-bold text-slate-800 text-sm tracking-tight leading-snug">
+                                                    {{ $review['name'] }}
+                                                </h3>
+                                                <p class="text-[11px] text-slate-400 font-medium mt-0.5">
+                                                    {{ $review['country'] }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed flex-1">
+                                        “{{ $review['review'] }}”
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
 
@@ -107,10 +135,8 @@
                     </svg>
                 </button>
             </div>
-
             <div class="testimonial-pagination mt-8 flex justify-center gap-1.5"></div>
         </div>
-
     </div>
 </section>
 

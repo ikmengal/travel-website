@@ -231,5 +231,55 @@
 
         // --------------- Page Ready --------------- //
         console.log('Testimonials Form Loaded Successfully.');
+
+        // --------------- State --------------- //
+        $(document).on('change', '#country_id', function () {
+            let id = $(this).val();
+
+            if (id == '') {
+                $('#state_id').html('<option value="">Select State</option>');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('testimonials.get-state') }}", // apna route
+                type: "GET", // ya POST agar route POST hai
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    let options = '<option value="">Select State</option>';
+                    $.each(response.data, function (index, state) {
+                        options += `<option value="${state.id}">${state.name}</option>`;
+                    });
+                    $('#state_id').html(options).trigger('change');
+                }
+            });
+        });
+
+        // --------------- City --------------- //
+        $(document).on('change', '#state_id', function () {
+            let id = $(this).val();
+
+            if (id == '') {
+                $('#city_id').html('<option value="">Select City</option>');
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('testimonials.get-city') }}",
+                type: "GET",
+                data: {
+                    id: id
+                },
+                success: function (response) {
+                    let options = '<option value="">Select City</option>';
+                    $.each(response.data, function (index, city) {
+                        options += `<option value="${city.id}">${city.name}</option>`;
+                    });
+                    $('#city_id').html(options).trigger('change');
+                }
+            });
+        });
     });
 </script>

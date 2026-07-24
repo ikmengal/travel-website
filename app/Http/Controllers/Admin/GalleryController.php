@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\{
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Gallery;
+use App\Models\Country;
 
 
 class GalleryController extends Controller
@@ -101,7 +102,8 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        return view('admin.gallery.create');
+        $countries = Country::get();
+        return view('admin.gallery.create', get_defined_vars());
     }
 
     /**
@@ -112,9 +114,11 @@ class GalleryController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:galleries,slug',
+            'country_id' => 'required',
             'category' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             'caption' => 'nullable|string|max:255',
+            'short_description' => 'nullable|string',
             'description' => 'nullable|string',
             'sort_order' => 'nullable|integer|min:0',
             'featured' => 'required|boolean',
@@ -131,10 +135,12 @@ class GalleryController extends Controller
         DB::beginTransaction();
         try {
             $gallery = new Gallery();
+            $gallery->country_id = $request->country_id;
             $gallery->title = $request->title;
             $gallery->slug = Str::slug($request->slug);
             $gallery->category = $request->category;
             $gallery->caption = $request->caption;
+            $gallery->short_description = $request->short_description;
             $gallery->description = $request->description;
             $gallery->sort_order = $request->sort_order ?? 0;
             $gallery->featured = $request->featured;
@@ -175,7 +181,8 @@ class GalleryController extends Controller
      */
     public function edit(Gallery $gallery)
     {
-        return view('admin.gallery.edit', compact('gallery'));
+        $countries = Country::get();
+        return view('admin.gallery.edit', get_defined_vars());
     }
 
     /**
@@ -185,10 +192,12 @@ class GalleryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'country_id' => 'required',
             'slug' => 'required|string|max:255|unique:galleries,slug,' . $gallery->id,
             'category' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'caption' => 'nullable|string|max:255',
+            'short_description' => 'nullable|string',
             'description' => 'nullable|string',
             'sort_order' => 'nullable|integer|min:0',
             'featured' => 'required|boolean',
@@ -204,10 +213,12 @@ class GalleryController extends Controller
 
         DB::beginTransaction();
         try {
+            $gallery->country_id = $request->country_id;
             $gallery->title = $request->title;
             $gallery->slug = Str::slug($request->slug);
             $gallery->category = $request->category;
             $gallery->caption = $request->caption;
+            $gallery->short_description = $request->short_description;
             $gallery->description = $request->description;
             $gallery->sort_order = $request->sort_order ?? 0;
             $gallery->featured = $request->featured;

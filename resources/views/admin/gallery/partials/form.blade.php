@@ -31,10 +31,47 @@
             </div>
 
             {{-- Category --}}
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label class="form-label">Category</label>
                 <input type="text" name="category" class="form-control" value="{{ old('category', $gallery->category ?? '') }}" placeholder="Beach">
                 <small class="text-danger error-text category_error"></small>
+            </div>
+
+            {{-- Caption --}}
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Caption</label>
+                <input type="text" name="caption" class="form-control" value="{{ old('caption', $gallery->caption ?? '') }}" placeholder="Short caption">
+                <small class="text-danger error-text caption_error"></small>
+            </div>
+
+            {{-- Country --}}
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Country</label>
+                <select name="country_id" class="form-select select2">
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('country_id', $gallery->country_id ?? '') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <small class="text-danger error-text country_id_error"></small>
+            </div>
+
+            {{-- Status --}}
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select select2">
+                    <option value="1"
+                        {{ old('status', $gallery->status ?? 1)==1 ? 'selected':'' }}>
+                        Active
+                    </option>
+                    <option value="0"
+                        {{ old('status', $gallery->status ?? 1)==0 ? 'selected':'' }}>
+                        Inactive
+                    </option>
+                </select>
+                <small class="text-danger error-text status_error"></small>
             </div>
 
             {{-- Sort --}}
@@ -60,33 +97,17 @@
                 <small class="text-danger error-text featured_error"></small>
             </div>
 
-            {{-- Status --}}
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Status</label>
-                <select name="status" class="form-select select2">
-                    <option value="1"
-                        {{ old('status', $gallery->status ?? 1)==1 ? 'selected':'' }}>
-                        Active
-                    </option>
-                    <option value="0"
-                        {{ old('status', $gallery->status ?? 1)==0 ? 'selected':'' }}>
-                        Inactive
-                    </option>
-                </select>
-                <small class="text-danger error-text status_error"></small>
-            </div>
-
-            {{-- Caption --}}
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Caption</label>
-                <input type="text" name="caption" class="form-control" value="{{ old('caption', $gallery->caption ?? '') }}" placeholder="Short caption">
-                <small class="text-danger error-text caption_error"></small>
+            {{-- Short description --}}
+            <div class="col-12 mb-3">
+                <label class="form-label">Short Description</label>
+                <textarea name="short_description" id="short_description" class="form-control">{{ old('short_description', $gallery->short_description ?? '') }}</textarea>
+                <small class="text-danger error-text description_error"></small>
             </div>
 
             {{-- Description --}}
             <div class="col-12 mb-3">
                 <label class="form-label">Description</label>
-                <textarea name="description" id="description" rows="8" class="form-control">{{ old('description', $gallery->description ?? '') }}</textarea>
+                <textarea name="description" id="description" rows="3" class="form-control">{{ old('description', $gallery->description ?? '') }}</textarea>
                 <small class="text-danger error-text description_error"></small>
             </div>
         </div>

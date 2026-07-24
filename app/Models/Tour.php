@@ -21,12 +21,27 @@ class Tour extends Model
         'rating' => 'decimal:2',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Parent Relations
-    |--------------------------------------------------------------------------
-    */
+    // ------------------- Scopes ------------------- //
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
 
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
+    }
+
+    // ----------------- Accessor ----------------- //
+    public function getFeaturedImageAttribute($value)
+    {
+        if ($value && file_exists(public_path($value))) {
+            return asset($value);
+        }
+        return asset('images/destinations/hero.jpg');
+    }
+
+    // ------------------- Parent Relations ------------------- //
     public function destination()
     {
         return $this->belongsTo(Destination::class);
@@ -37,12 +52,7 @@ class Tour extends Model
         return $this->belongsTo(TourCategory::class,'tour_category_id');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Child Relations
-    |--------------------------------------------------------------------------
-    */
-
+    // ------------------- Child Relations ------------------- //
     public function images()
     {
         return $this->hasMany(TourImage::class)
@@ -71,12 +81,7 @@ class Tour extends Model
             ->orderBy('departure_date');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Future Modules
-    |--------------------------------------------------------------------------
-    */
-
+    // ------------------- Future Modules ------------------- //
     public function bookings()
     {
         return $this->hasMany(Booking::class);

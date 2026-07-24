@@ -19,4 +19,14 @@ class Counter extends Model
         'sort_order',
         'status',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
 }

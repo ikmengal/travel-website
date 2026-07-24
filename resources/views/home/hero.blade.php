@@ -1,145 +1,222 @@
-<section class="relative min-h-[900px] flex flex-col justify-between overflow-hidden bg-[#031129]">
-    <div class="absolute inset-0 z-0">
-        <img
-            src="{{ asset('images/hero/hero-main.png') }}"
-            alt="Mountains and Lake Reflection"
-            class="w-full h-full object-cover">
-            <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%);"></div>
-    </div>
+@push('css')
+    <style>
+        .heroSlider{
+            position:relative;
+        }
 
-    <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-18 z-20 my-auto">
-        <div class="grid lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-7 flex flex-col items-start space-y-6">
-                <div class="inline-flex items-center gap-2 rounded-full bg-slate-900/40 backdrop-blur-md px-4 py-2 border border-white/10 text-white text-xs font-medium tracking-wide uppercase">
-                    <span class="text-blue-400 text-sm">✈</span> #1 Travel Booking Platform
-                </div>
+        .heroSlider .swiper-slide-active .hero-bg{
+            animation:heroZoom 7s ease forwards;
+        }
 
-                <h1 class="hero-title text-5xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.15]">
-                    Discover Amazing <br>
-                    Places Around <br>
-                    The <span class="text-blue-500">World</span>
-                </h1>
+        @keyframes heroZoom{
+            from{
+                transform:scale(1);
+            }
+            to{
+                transform:scale(1.08);
+            }
+        }
 
-                <p class="hero-text max-w-xl text-base sm:text-lg text-slate-100 font-normal leading-relaxed drop-shadow-sm">
-                    Explore breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages designed for modern explorers.
-                </p>
+        .hero-title{
+            opacity:0;
+            transform:translateY(40px);
+        }
 
-                <div class="flex items-center gap-3 pt-2">
-                    <div class="flex -space-x-2">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100" alt="User">
-                    </div>
-                    <div>
-                        <div class="text-white font-bold text-base leading-none">50K+</div>
-                        <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
-                    </div>
-                </div>
-            </div>
+        .swiper-slide-active .hero-title{
+            opacity:1;
+            transform:translateY(0);
+            transition:1s;
+        }
 
-            <div class="lg:col-span-5 relative w-full h-[380px] hidden lg:block">
-                <div class="absolute top-0 right-4 w-80 bg-white p-3 rounded-2xl shadow-xl flex items-center gap-4 z-10">
-                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&q=80&w=150" class="w-16 h-16 rounded-xl object-cover" alt="Bali">
-                    <div>
-                        <h4 class="text-slate-800 font-bold text-sm">Bali, Indonesia</h4>
-                        <p class="text-slate-400 text-xs">French Polynesia</p>
-                        <div class="flex items-center gap-1 mt-1 text-blue-600 text-xs font-bold">
-                            <span class="text-yellow-500">⭐</span> 4.9 <span class="text-slate-400 font-normal">(220 Reviews)</span>
-                        </div>
-                    </div>
-                </div>
+        .hero-text{
+            opacity:0;
+            transform:translateY(40px);
+        }
 
-                <div class="absolute top-24 right-4 w-80 bg-black/40 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/20 flex items-center gap-4 z-10">
-                    <div class="h-14 w-14 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 transform rotate-45 -translate-x-0.5 translate-y-0.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold text-sm tracking-wide">Best Price Guarantee</h4>
-                        <p class="text-slate-300 text-[11px] mt-0.5 font-normal leading-tight">We ensure best price for your trips</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        .swiper-slide-active .hero-text{
+            opacity:1;
+            transform:translateY(0);
+            transition:1.2s .2s;
+        }
 
-{{-- <section class="relative min-h-[900px] flex flex-col justify-between overflow-hidden bg-[#031129]">
-    <div class="absolute inset-0 z-0">
-        <img
-            src="{{ asset('images/hero/hero-main.png') }}"
-            alt="Mountains and Lake Reflection"
-            class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-r from-[#07152d]/95 via-[#07152d]/70 to-transparent"></div>
-    </div>
+        .travelTag{
+            opacity:0;
+            transform:translateX(-60px);
+        }
 
-    <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-18 z-20 my-auto">
-        <div class="grid lg:grid-cols-12 gap-8 items-center">
-            <div class="lg:col-span-7 flex flex-col items-start space-y-6">
-                <div class="inline-flex items-center gap-2 rounded-full bg-slate-900/40 backdrop-blur-md px-4 py-2 border border-white/10 text-white text-xs font-medium tracking-wide uppercase">
-                    <span class="text-blue-400 text-sm">✈</span> #1 Travel Booking Platform
-                </div>
+        .swiper-slide-active .travelTag{
+            opacity:1;
+            transform:translateX(0);
+            transition:1s;
+        }
 
-                <h1 class="hero-title text-5xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.15]">
-                    Discover Amazing <br>
-                    Places Around <br>
-                    The <span class="text-blue-500">World</span>
-                </h1>
+        .infoCard1,
+        .infoCard2{
+            opacity:0;
+            transform:translateX(120px);
+        }
 
-                <p class="hero-text max-w-xl text-base sm:text-lg text-slate-100 font-normal leading-relaxed drop-shadow-sm">
-                    Explore breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages designed for modern explorers.
-                </p>
+        .swiper-slide-active .infoCard1{
+            opacity:1;
+            transform:translateX(0);
+            transition:1s;
+        }
 
-                <div class="flex items-center gap-3 pt-2">
-                    <div class="flex -space-x-2">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100" alt="User">
-                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100" alt="User">
-                    </div>
-                    <div>
-                        <div class="text-white font-bold text-base leading-none">50K+</div>
-                        <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
-                    </div>
-                </div>
-            </div>
+        .swiper-slide-active .infoCard2{
+            opacity:1;
+            transform:translateX(0);
+            transition:1s .25s;
+        }
 
-            <div class="lg:col-span-5 relative w-full h-[380px] hidden lg:block">
-                <img src="{{ asset('images/hero/hero-shape.png') }}"
-                    class="w-[580px] rounded-[45px] border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,.45)]">
-                <div class="absolute -left-10 -top-15 w-80 rounded-3xl bg-white/95 p-5 shadow-2xl backdrop-blur-xl">
-                    <div class="flex gap-4">
+        /* .heroSlider .swiper-button-next,
+        .heroSlider .swiper-button-prev{
+            color:#fff;
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            background:rgba(255,255,255,.15);
+            backdrop-filter:blur(10px);
+            z-index:50;
+        }
+
+        .heroSlider .swiper-button-next::after,
+        .heroSlider .swiper-button-prev::after{
+            font-size:20px;
+            font-weight:700;
+        }
+
+        .heroSlider .swiper-button-next,
+        .heroSlider .swiper-button-prev,
+        .heroSlider .swiper-pagination{
+            z-index:999;
+        } */
+    </style>
+@endpush
+<div class="swiper heroSlider">
+    <div class="swiper-wrapper">
+        @foreach($banners as $key => $banner)
+            @php
+                $badgeClasses = [
+                    'bg-blue-500/10 text-blue-500 flex items-center border border-blue-500',
+                    'bg-cyan-500/10 text-cyan-500 flex items-center border border-cyan-500',
+                    'bg-purple-500/10 text-purple-400 flex items-center backdrop-blur-md border border-purple-500',
+                    'bg-amber-500/10 text-amber-400 flex items-center backdrop-blur-md border border-amber-500',
+                ];
+                $badgeClass = $badgeClasses[$key % count($badgeClasses)];
+            @endphp
+            <div class="swiper-slide">
+                <section class="relative h-screen min-h-[800px] max-h-[900px] flex flex-col justify-between overflow-hidden bg-[#031129]">
+                    <div class="absolute inset-0 z-0">
                         <img
-                            src="{{ asset('images/destinations/bali.jpg') }}"
-                            class="h-20 w-20 rounded-2xl object-cover">
-                        <div>
-                            <h3 class="font-bold text-slate-900">
-                                Bali, Indonesia
-                            </h3>
-                            <p class="mt-1 text-sm text-slate-500">
-                                Tropical Paradise
-                            </p>
-                            <div class="mt-2 font-semibold text-blue-600">
-                                ⭐ 4.9 (4,200 Reviews)
+                            src="{{ $banner->image }}"
+                            alt="{{ $banner->title }}"
+                            class="hero-bg w-full h-full object-cover object-center">
+                            <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.05) 100%);"></div>
+                    </div>
+
+                    <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-12 z-20 my-auto">
+                        <div class="grid lg:grid-cols-12 gap-8 items-center">
+                            <div class="lg:col-span-7 flex flex-col items-start space-y-6">
+                                <div class="travelTag inline-flex items-center gap-2 rounded-full bg-slate-900/40 backdrop-blur-md px-4 py-2 border border-white/10 text-white text-xs font-medium tracking-wide uppercase">
+                                    <span class="text-blue-400 text-sm">✈</span> {{ $banner->title ?? '#1 Travel Booking Platform' }}
+                                </div>
+
+                                <h3 class="hero-title text-5xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+                                    {{ $banner->subtitle ?? '' }} <br>
+                                    {{ $banner->subtitle_1 ?? '' }} <br>
+                                    {{ $banner->subtitle_2 ?? '' }} <span class="text-blue-500">{{ $banner->subtitle_3 ?? '' }}</span>
+                                </h3>
+
+                                <p class="hero-text max-w-xl text-base sm:text-lg text-slate-100 font-normal leading-relaxed drop-shadow-sm">
+                                    {{ $banner->description ?? "breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages designed for modern explorers." }}
+                                </p>
+
+                                <div class="flex items-center gap-3 pt-2">
+                                    <div class="flex -space-x-2">
+                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/10.png') }}" alt="User">
+                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt="User">
+                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/4.png') }}" alt="User">
+                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/2.png') }}" alt="User">
+                                    </div>
+                                    <div>
+                                        <div class="text-white font-bold text-base leading-none">{{ $banner->avatars_data ?? '50K+' }}</div>
+                                        <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-5 relative w-full h-[380px] hidden lg:block">
+                                <div class="infoCard1 absolute top-0 right-4 w-80 bg-white p-3 rounded-2xl shadow-xl flex items-center gap-4 z-10">
+                                    <img src="{{ $banner->image }}" class="w-16 h-16 rounded-xl object-cover" alt="Bali">
+                                    <div>
+                                        <h4 class="text-slate-800 font-bold text-sm">{{ $banner->card_location ?? "Bali, Indonesia"}}</h4>
+                                        <p class="text-slate-400 text-xs">{{ $banner->card_para ?? "French Polynesia" }}</p>
+                                        <div class="flex items-center gap-1 mt-1 text-blue-600 text-xs font-bold">
+                                            <span class="text-yellow-500">⭐</span> {{ $banner->button_text ?? '4.9' }} <span class="text-slate-400 font-normal">{{ $banner->card_reviews ?? "(220 Reviews)" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="infoCard2 absolute top-24 right-4 w-80 bg-black/40 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/20 flex items-center gap-4 z-10">
+                                    {{-- <div class="h-14 w-14 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20"> --}}
+                                    <div class="h-14 w-14 rounded-xl {{$badgeClass}} items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
+                                        <i class="{{ $banner->tag_icon ?: 'ti ti-send' }} text-2xl"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="text-white font-bold text-sm tracking-wide">{{ $banner->tag_heading ?? "Best Price Guarantee" }}</h4>
+                                        <p class="text-slate-300 text-[11px] mt-0.5 font-normal leading-tight">{{ $banner->tag_para ?? "We ensure best price for your trips" }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="absolute bottom-0 -right-15 rounded-3xl bg-white p-6 shadow-2xl">
-                    <p class="text-slate-500">
-                        Starting From
-                    </p>
-                    <h2 class="text-2xl font-black text-blue-600">
-                        $799
-                    </h2>
-                    <p class="text-sm text-slate-500">
-                        7 Days Luxury Tour
-                    </p>
-                </div>
+                </section>
             </div>
-        </div>
+        @endforeach
     </div>
-</section> --}}
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev">
+    </div>
+    <div class="swiper-button-next">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper(".heroSlider", {
+            modules: [
+                SwiperModules.Navigation,
+                SwiperModules.Pagination,
+                SwiperModules.Autoplay,
+                SwiperModules.EffectFade
+            ],
+
+            loop: true,
+            speed: 1200,
+
+            effect: "fade",
+
+            fadeEffect: {
+                crossFade: true
+            },
+
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true
+            }
+        });
+    });
+</script>

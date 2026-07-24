@@ -260,7 +260,7 @@ class BlogController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('admin.blogs.edit', compact('blog', 'categories', 'title'));
+        return view('admin.blogs.edit', get_defined_vars());
     }
 
     /**

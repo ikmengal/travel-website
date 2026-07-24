@@ -63,15 +63,66 @@
                         <div class="invalid-feedback description_error"></div>
                     </div>
 
-                    {{-- Featured Image --}}
-                    <div class="col-12 mb-3">
-                        <label class="form-label">Featured Image</label>
-                        <input type="file" name="featured_image" id="featured_image" class="form-control" accept="image/*">
-                        <div class="invalid-feedback featured_image_error"></div>
-                        <div class="mt-3">
-                            <img id="imagePreview" src="{{ isset($page->featured_image) && !empty($page->featured_image)
-                                ? asset('images/pages/'.$page->featured_image) : asset('admin/assets/img/placeholder.jpg') }}"
-                                class="img-fluid rounded border" style="display:none;max-height:220px;">
+                    {{-- Images --}}
+                    <div class="col-12">
+                        <div class="card border shadow-sm">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="ti ti-photo me-2"></i>
+                                    Page Images
+                                </h5>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    {{-- Featured Image --}}
+                                    <div class="col-md-6 mb-4">
+                                        <label class="form-label fw-semibold">Featured Image</label>
+                                        <input type="file" name="featured_image" id="featured_image" class="form-control" accept="image/*">
+                                        <div class="invalid-feedback featured_image_error"></div>
+                                        <small class="text-muted">Recommended: 1600 x 900 px</small>
+                                        <div class="mt-3">
+                                            <img id="featuredPreview" src="{{ isset($page) ? $page->image : asset('admin/assets/img/placeholder.jpg') }}"
+                                                class="img-fluid rounded border" style="height:220px;width:100%;object-fit:cover;">
+                                        </div>
+                                    </div>
+
+                                    {{-- Thumbnail Image --}}
+                                    <div class="col-md-6 mb-4">
+                                        <label class="form-label fw-semibold">Thumbnail Image</label>
+                                        <input type="file" name="thumbnail_image" id="thumbnail_image" class="form-control" accept="image/*">
+                                        <div class="invalid-feedback thumbnail_image_error"></div>
+                                        <small class="text-muted">Recommended: 600 x 600 px</small>
+                                        <div class="mt-3">
+                                            <img id="thumbnailPreview" src="{{ isset($page) ? asset('images/pages/'.$page->thumbnail_image) : asset('admin/assets/img/placeholder.jpg') }}"
+                                                class="img-fluid rounded border" style="height:220px;width:100%;object-fit:cover;">
+                                        </div>
+                                    </div>
+
+                                    {{-- Gallery Images --}}
+                                    <div class="col-12">
+                                        <label class="form-label fw-semibold">Gallery Images</label>
+                                        <input type="file" name="images[]" id="gallery_images" class="form-control"
+                                            accept="image/*" multiple>
+                                        <div class="invalid-feedback images_error"></div>
+                                        <small class="text-muted">
+                                            You can upload multiple images.
+                                        </small>
+                                        <div id="galleryPreview" class="row mt-3 g-3">
+                                            @if(isset($page) && $page->images->count())
+                                                @foreach($page->images as $image)
+                                                    <div class="col-md-3">
+                                                        <div class="card">
+                                                            <img src="{{ asset('images/pages/gallery/'.$image->image) }}"
+                                                                class="card-img-top rounded" style="height:170px;object-fit:cover;">
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -108,7 +159,7 @@
                         <label class="switch switch-warning">
                             <input type="hidden" name="featured" value="0">
                             <input type="checkbox" name="featured" value="1"
-                                class="switch-input" {{ old('featured', $page->feattred ?? '') ? 'checked' : '' }}>
+                                class="switch-input" {{ old('featured', $page->featured ?? 1) ? 'checked' : '' }}>
                             <span class="switch-toggle-slider">
                                 <span class="switch-on">
                                     <i class="ti ti-check"></i>

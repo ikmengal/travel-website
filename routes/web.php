@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\MainPageController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\{
     NewsletterSubscriberController,
     BookingTravelerController,
@@ -38,11 +39,8 @@ use App\Http\Controllers\Admin\{
     PageController
 };
 
-Route::get('/', function () {
-    return view('home.index');
-});
-
-Route::get('/pages/{slug}', [MainPageController::class, 'show'])->name('pages.show');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/main_pages/{slug}', [MainPageController::class, 'show'])->name('main_pages.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
@@ -179,6 +177,8 @@ Route::middleware(['auth'])->group(function(){
         Route::post('change-featured', 'changeFeatured')->name('change-featured');
         Route::post('change-status', 'changeStatus')->name('change-status');
         Route::post('bulk-delete', 'bulkDelete')->name('bulk-delete');
+        Route::get('get-state', 'getState')->name('get-state');
+        Route::get('get-city', 'getCity')->name('get-city');
     });
 
     //  Blog Category Custom Routes

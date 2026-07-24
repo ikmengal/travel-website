@@ -1,104 +1,110 @@
 <script>
     $(function () {
-
-        // =====================================================
-        // CSRF Setup
-        // =====================================================
-
+        // -------------- CSRF Setup -------------- //
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        // =====================================================
-        // Select2
-        // =====================================================
-
+        // -------------- Select2 -------------- //
         $('.select2').select2({
             width: '100%'
         });
 
-        // =====================================================
-        // CKEditor 4
-        // =====================================================
-
+        // -------------- CKEditor 4 -------------- //
         if ($('#description').length) {
-
             CKEDITOR.replace('description', {
                 height: 350
             });
-
         }
 
-        // =====================================================
-        // Auto Slug
-        // =====================================================
-
+        // -------------- Auto Slug -------------- //
         $('#title').on('keyup blur', function () {
-
             let slug = $(this).val()
                 .toLowerCase()
                 .trim()
                 .replace(/[^\w\s-]/g, '')
                 .replace(/\s+/g, '-')
                 .replace(/--+/g, '-');
-
             $('#slug').val(slug);
-
         });
 
-        // =====================================================
-        // Image Preview
-        // =====================================================
+        // -------------- Images Preview -------------- //
+        // $('#featured_image').change(function (e) {
 
-        $('#featured_image').change(function (e) {
+        //     const file = e.target.files[0];
 
-            const file = e.target.files[0];
+        //     if (!file) {
 
-            if (!file) {
+        //         $('#imagePreview').hide();
 
-                $('#imagePreview').hide();
+        //         return;
 
-                return;
+        //     }
 
+        //     const reader = new FileReader();
+
+        //     reader.onload = function (event) {
+
+        //         $('#imagePreview')
+        //             .attr('src', event.target.result)
+        //             .show();
+
+        //     };
+
+        //     reader.readAsDataURL(file);
+
+        // });
+
+        // Featured Preview
+        $('#featured_image').on('change', function(){
+            let reader = new FileReader();
+            reader.onload = function(e){
+                $('#featuredPreview').attr('src',e.target.result);
             }
-
-            const reader = new FileReader();
-
-            reader.onload = function (event) {
-
-                $('#imagePreview')
-                    .attr('src', event.target.result)
-                    .show();
-
-            };
-
-            reader.readAsDataURL(file);
-
+            reader.readAsDataURL(this.files[0]);
         });
 
-        // =====================================================
-        // Form Submit
-        // =====================================================
+        // Thumbnail Preview
+        $('#thumbnail_image').on('change', function(){
+            let reader = new FileReader();
+            reader.onload = function(e){
+                $('#thumbnailPreview').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
 
+        // Gallery Preview
+        $('#gallery_images').on('change',function(){
+            $('#galleryPreview').html('');
+            Array.from(this.files).forEach(file=>{
+                let reader=new FileReader();
+                reader.onload=function(e){
+                    $('#galleryPreview').append(`
+                        <div class="col-md-3">
+                            <div class="card">
+                                <img src="${e.target.result}" class="card-img-top rounded" style="height:170px;object-fit:cover;">
+                            </div>
+                        </div>
+                    `);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // -------------- Form Submit -------------- //
         $('#pageForm').submit(function (e) {
-
             e.preventDefault();
-
             if (CKEDITOR.instances.description) {
-
                 CKEDITOR.instances.description.updateElement();
-
             }
 
             let form = this;
-
             let formData = new FormData(form);
 
             // Remove Old Errors
             $('.is-invalid').removeClass('is-invalid');
-
             $('.invalid-feedback').html('');
 
             $('#submitBtn')
@@ -106,64 +112,36 @@
                 .html('<span class="spinner-border spinner-border-sm me-2"></span>Saving...');
 
             $.ajax({
-
                 url: $(form).attr('action'),
-
                 type: $(form).attr('method'),
-
                 data: formData,
-
                 processData: false,
-
                 contentType: false,
-
                 success: function (response) {
-
                     toastr.success(response.message);
-
                     window.location.href = "{{ route('pages.index') }}";
-
                 },
-
                 error: function (xhr) {
-
                     $('#submitBtn')
                         .prop('disabled', false)
                         .html('<i class="ti ti-device-floppy me-1"></i> Save Page');
-
                     if (xhr.status === 422) {
-
                         $.each(xhr.responseJSON.errors, function (key, value) {
-
                             let input = $('[name="' + key + '"]');
-
                             if (!input.length) {
-
                                 input = $('[name="' + key + '[]"]');
-
                             }
-
                             input.addClass('is-invalid');
-
-                            $('.' + key.replace(/\./g, '_') + '_error')
-                                .text(value[0]);
-
+                            $('.' + key.replace(/\./g, '_') + '_error').text(value[0]);
                         });
-
                     } else {
-
                         toastr.error(
                             xhr.responseJSON?.message ??
                             'Something went wrong.'
                         );
-
                     }
-
                 }
-
             });
-
         });
-
     });
 </script>

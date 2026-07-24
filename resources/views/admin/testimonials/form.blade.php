@@ -72,6 +72,38 @@
                         </select>
                         <span class="text-danger rating_error"></span>
                     </div>
+
+                    {{-- Country --}}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Country <span class="text-danger">*</span></label>
+                        <select name="country_id" id="country_id" class="form-select select2">
+                            <option value="">Select Country</option>
+                            @foreach($countries as $key => $country)
+                                <option value="{{ $country->id }}" {{ old('country_id', $country->id ?? '') }}>
+                                    {{ $country->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger country_id_error"></span>
+                    </div>
+
+                    {{-- State --}}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">State <span class="text-danger">*</span></label>
+                        <select name="state_id" id="state_id" class="form-select select2">
+                            <option value="">Select State</option>
+                        </select>
+                        <span class="text-danger state_id_error"></span>
+                    </div>
+
+                    {{-- City --}}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">City</label>
+                        <select name="city_id" id="city_id" class="form-select select2">
+                            <option value="">Select City</option>
+                        </select>
+                        <span class="text-danger city_id_error"></span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,11 +10,13 @@ class Gallery extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'country_id',
         'title',
         'slug',
         'category',
         'image',
         'caption',
+        'short_description',
         'description',
         'sort_order',
         'featured',
@@ -52,5 +54,11 @@ class Gallery extends Model
             return asset('images/gallery/'.$this->attributes['image']);
         }
         return asset('admin/assets/img/avatars/1.png');
+    }
+
+    // ----------------- Relationship ----------------- //
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 }

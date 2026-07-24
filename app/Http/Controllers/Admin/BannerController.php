@@ -100,60 +100,171 @@ class BannerController extends Controller
         return view('admin.banners.create', get_defined_vars());
     }
 
+    // /**
+    //  * Store resource.
+    //  */
+    // public function store(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'title' => 'required|string|max:255',
+    //         'subtitle' => 'nullable|string|max:255',
+    //         'subtitle_1' => 'nullable|string|max:255',
+    //         'subtitle_2' => 'nullable|string|max:255',
+    //         'subtitle_3' => 'nullable|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'button_text' => 'nullable|string|max:100',
+    //         'button_url' => 'nullable|url|max:255',
+    //         'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
+    //         'featured' => 'required|boolean',
+    //         'status' => 'required|boolean',
+    //         'sort_order' => 'nullable|integer|min:0',
+    //         'meta_title' => 'nullable|string|max:255',
+    //         'meta_description' => 'nullable|string',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'errors' => $validator->errors()
+    //         ],422);
+    //     }
+
+    //     try {
+    //         $data = $request->except('image');
+
+    //         $data['featured'] = $request->featured ?? 0;
+    //         $data['status'] = $request->status ?? 0;
+    //         $data['sort_order'] = $request->sort_order ?? 0;
+    //         if($request->hasFile('image')){
+    //             $image = $request->file('image');
+    //             $imageName = time().'_'.$image->getClientOriginalName();
+    //             $image->move(
+    //                 public_path('images/banners'),
+    //                 $imageName
+    //             );
+    //             $data['image'] = $imageName;
+    //         }
+
+    //         $banner = Banner::create($data);
+
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'Banner created successfully',
+    //             'data' => $banner
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => $e->getMessage()
+    //         ],500);
+    //     }
+    // }
+
     /**
-     * Store resource.
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'button_text' => 'nullable|string|max:100',
-            'button_url' => 'nullable|url|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'featured' => 'required|boolean',
-            'status' => 'required|boolean',
-            'sort_order' => 'nullable|integer|min:0',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string',
+        $request->validate([
+            'title'             => 'required|string|max:255',
+            'subtitle'          => 'nullable|string|max:255',
+            'subtitle_1'        => 'nullable|string|max:255',
+            'subtitle_2'        => 'nullable|string|max:255',
+            'subtitle_3'        => 'nullable|string|max:255',
+
+            'description'       => 'nullable|string',
+
+            'avatars_data'      => 'nullable|string',
+
+            'card_location'     => 'nullable|string|max:255',
+            'card_para'         => 'nullable|string|max:255',
+            'card_reviews'      => 'nullable|string|max:255',
+
+            'tag_icon'          => 'nullable|string|max:255',
+            'tag_heading'       => 'nullable|string|max:255',
+            'tag_para'          => 'nullable|string',
+
+            'button_text'       => 'nullable|string|max:255',
+            'button_url'        => 'nullable|url|max:255',
+
+            'image'             => 'required|image|mimes:jpg,jpeg,png,webp|max:3072',
+
+            'featured'          => 'required|boolean',
+            'status'            => 'required|boolean',
+            'sort_order'        => 'nullable|integer|min:0',
+
+            'meta_title'        => 'nullable|string|max:255',
+            'meta_description'  => 'nullable|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ],422);
-        }
+        DB::beginTransaction();
 
         try {
-            $data = $request->except('image');
 
-            $data['featured'] = $request->featured ?? 0;
-            $data['status'] = $request->status ?? 0;
-            $data['sort_order'] = $request->sort_order ?? 0;
-            if($request->hasFile('image')){
+            $imageName = null;
+
+            if ($request->hasFile('image')) {
+
                 $image = $request->file('image');
-                $imageName = time().'_'.$image->getClientOriginalName();
-                $image->move(
-                    public_path('images/banners'),
-                    $imageName
-                );
-                $data['image'] = $imageName;
+
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                $image->move(public_path('images/banners'), $imageName);
             }
 
-            $banner = Banner::create($data);
+            Banner::create([
+
+                'title'                => $request->title,
+                'subtitle'             => $request->subtitle,
+                'subtitle_1'           => $request->subtitle_1,
+                'subtitle_2'           => $request->subtitle_2,
+                'subtitle_3'           => $request->subtitle_3,
+
+                'description'          => $request->description,
+
+                'avatars_data'         => $request->avatars_data,
+
+                'card_location'        => $request->card_location,
+                'card_para'            => $request->card_para,
+                'card_reviews'         => $request->card_reviews,
+
+                'tag_icon'             => $request->tag_icon,
+                'tag_heading'          => $request->tag_heading,
+                'tag_para'             => $request->tag_para,
+
+                'button_text'          => $request->button_text,
+                'button_url'           => $request->button_url,
+
+                'image'                => $imageName,
+
+                'featured'             => $request->featured,
+                'status'               => $request->status,
+                'sort_order'           => $request->sort_order ?? 0,
+
+                'meta_title'           => $request->meta_title,
+                'meta_description'     => $request->meta_description,
+
+            ]);
+
+            DB::commit();
 
             return response()->json([
-                'status' => true,
-                'message' => 'Banner created successfully',
-                'data' => $banner
+                'status'  => true,
+                'message' => 'Banner created successfully.'
             ]);
+
         } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            if (!empty($imageName) && file_exists(public_path('images/banners/' . $imageName))) {
+                unlink(public_path('images/banners/' . $imageName));
+            }
+
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => $e->getMessage()
-            ],500);
+            ], 500);
         }
     }
 
@@ -175,75 +286,194 @@ class BannerController extends Controller
         return view('admin.banners.edit', get_defined_vars());
     }
 
+    // /**
+    //  * Update resource.
+    //  */
+    // public function update(Request $request, Banner $banner)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'title'              => 'required|string|max:255',
+    //         'subtitle'           => 'nullable|string|max:255',
+    //         'subtitle_1'           => 'nullable|string|max:255',
+    //         'subtitle_2'           => 'nullable|string|max:255',
+    //         'subtitle_3'           => 'nullable|string|max:255',
+    //         'description'        => 'required|string',
+    //         'button_text'        => 'nullable|string|max:100',
+    //         'button_url'         => 'nullable|url|max:255',
+    //         'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+    //         'sort_order'         => 'nullable|integer|min:0',
+    //         'featured'           => 'required|boolean',
+    //         'status'             => 'required|boolean',
+    //         'meta_title'         => 'nullable|string|max:255',
+    //         'meta_description'   => 'nullable|string',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'status' => false,
+    //             'errors' => $validator->errors()
+    //         ], 422);
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         //------------- Image -------------//
+    //         if ($request->hasFile('image')) {
+    //             // Delete Old Image
+    //             if (
+    //                 $banner->image &&
+    //                 file_exists(public_path('images/banners/'.$banner->image))
+    //             ) {
+    //                 unlink(public_path('images/banners/'.$banner->image));
+    //             }
+
+    //             // Upload New Image
+    //             $imageName = time() . '_' . Str::random(8) . '.' .
+    //                 $request->image->getClientOriginalExtension();
+    //             $request->image->move(
+    //                 public_path('images/banners'),$imageName
+    //             );
+    //             $banner->image = $imageName;
+    //         }
+
+    //         //------------- Update Banner -------------//
+    //         $banner->title = $request->title;
+    //         $banner->subtitle = $request->subtitle;
+    //         $banner->subtitle_1 = $request->subtitle_1;
+    //         $banner->subtitle_2 = $request->subtitle_2;
+    //         $banner->subtitle_3 = $request->subtitle_3;
+    //         $banner->description = $request->description;
+    //         $banner->button_text = $request->button_text;
+    //         $banner->button_url = $request->button_url;
+    //         $banner->featured = $request->boolean('featured');
+    //         $banner->status = $request->boolean('status');
+    //         $banner->sort_order = $request->sort_order;
+    //         $banner->meta_title = $request->meta_title;
+    //         $banner->meta_description = $request->meta_description;
+    //         $banner->save();
+
+    //         DB::commit();
+    //         return response()->json([
+    //             'status' => true,
+    //             'message' => 'Banner updated successfully.'
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
+
     /**
-     * Update resource.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Banner $banner)
     {
-        $validator = Validator::make($request->all(), [
-            'title'              => 'required|string|max:255',
-            'subtitle'           => 'nullable|string|max:255',
-            'description'        => 'required|string',
-            'button_text'        => 'nullable|string|max:100',
-            'button_url'         => 'nullable|url|max:255',
-            'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'sort_order'         => 'nullable|integer|min:0',
-            'featured'           => 'required|boolean',
-            'status'             => 'required|boolean',
-            'meta_title'         => 'nullable|string|max:255',
-            'meta_description'   => 'nullable|string',
+        $request->validate([
+            'title'             => 'required|string|max:255',
+            'subtitle'          => 'nullable|string|max:255',
+            'subtitle_1'        => 'nullable|string|max:255',
+            'subtitle_2'        => 'nullable|string|max:255',
+            'subtitle_3'        => 'nullable|string|max:255',
+
+            'description'       => 'nullable|string',
+
+            'avatars_data'      => 'nullable|string',
+
+            'card_location'     => 'nullable|string|max:255',
+            'card_para'         => 'nullable|string|max:255',
+            'card_reviews'      => 'nullable|string|max:255',
+
+            'tag_icon'          => 'nullable|string|max:255',
+            'tag_heading'       => 'nullable|string|max:255',
+            'tag_para'          => 'nullable|string',
+
+            'button_text'       => 'nullable|string|max:255',
+            'button_url'        => 'nullable|url|max:255',
+
+            'image'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+
+            'featured'          => 'required|boolean',
+            'status'            => 'required|boolean',
+            'sort_order'        => 'nullable|integer|min:0',
+
+            'meta_title'        => 'nullable|string|max:255',
+            'meta_description'  => 'nullable|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
         DB::beginTransaction();
+
         try {
-            //------------- Image -------------//
+
+            $imageName = $banner->getRawOriginal('image');
+
+            // ---------------- Image Upload ---------------- //
             if ($request->hasFile('image')) {
-                // Delete Old Image
+
                 if (
-                    $banner->image &&
-                    file_exists(public_path('images/banners/'.$banner->image))
+                    !empty($imageName) &&
+                    file_exists(public_path('images/banners/' . $imageName))
                 ) {
-                    unlink(public_path('images/banners/'.$banner->image));
+                    unlink(public_path('images/banners/' . $imageName));
                 }
 
-                // Upload New Image
-                $imageName = time() . '_' . Str::random(8) . '.' .
-                    $request->image->getClientOriginalExtension();
-                $request->image->move(
-                    public_path('images/banners'),$imageName
-                );
-                $banner->image = $imageName;
+                $image = $request->file('image');
+
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                $image->move(public_path('images/banners'), $imageName);
             }
 
-            //------------- Update Banner -------------//
-            $banner->title = $request->title;
-            $banner->subtitle = $request->subtitle;
-            $banner->description = $request->description;
-            $banner->button_text = $request->button_text;
-            $banner->button_url = $request->button_url;
-            $banner->featured = $request->boolean('featured');
-            $banner->status = $request->boolean('status');
-            $banner->sort_order = $request->sort_order;
-            $banner->meta_title = $request->meta_title;
-            $banner->meta_description = $request->meta_description;
-            $banner->save();
+            // ---------------- Update ---------------- //
+            $banner->update([
+
+                'title'            => $request->title,
+                'subtitle'         => $request->subtitle,
+                'subtitle_1'       => $request->subtitle_1,
+                'subtitle_2'       => $request->subtitle_2,
+                'subtitle_3'       => $request->subtitle_3,
+
+                'description'      => $request->description,
+
+                'avatars_data'     => $request->avatars_data,
+
+                'card_location'    => $request->card_location,
+                'card_para'        => $request->card_para,
+                'card_reviews'     => $request->card_reviews,
+
+                'tag_icon'         => $request->tag_icon,
+                'tag_heading'      => $request->tag_heading,
+                'tag_para'         => $request->tag_para,
+
+                'button_text'      => $request->button_text,
+                'button_url'       => $request->button_url,
+
+                'image'            => $imageName,
+
+                'featured'         => $request->featured,
+                'status'           => $request->status,
+                'sort_order'       => $request->sort_order ?? 0,
+
+                'meta_title'       => $request->meta_title,
+                'meta_description' => $request->meta_description,
+
+            ]);
 
             DB::commit();
+
             return response()->json([
-                'status' => true,
+                'status'  => true,
                 'message' => 'Banner updated successfully.'
             ]);
+
         } catch (\Exception $e) {
+
             DB::rollBack();
+
             return response()->json([
-                'status' => false,
+                'status'  => false,
                 'message' => $e->getMessage()
             ], 500);
         }

@@ -1,6 +1,5 @@
 <section class="py-16 bg-slate-50/60 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
-
         <!-- Section Header -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
@@ -95,71 +94,141 @@
                             ]
                         ];
                     @endphp
+                    @if (isset($featuredTours) && !blank($featuredTours))
+                        @foreach($featuredTours as $key => $tour)
+                            @php
+                                $badgeClasses = [
+                                    'bg-blue-600 text-white',
+                                    'bg-emerald-500 text-white',
+                                    'bg-amber-500 text-white',
+                                    'bg-violet-600 text-white',
+                                    'bg-rose-500 text-white',
+                                    'bg-cyan-500 text-white',
+                                    'bg-orange-500 text-white',
+                                ];
 
-                    @foreach($tours as $tour)
-                        <div class="swiper-slide group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] hover:shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition-all duration-300 flex flex-col overflow-hidden h-auto">
+                                $badgeClass = $badgeClasses[$key % count($badgeClasses)];
+                            @endphp
+                            <div class="swiper-slide group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] hover:shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition-all duration-300 flex flex-col overflow-hidden h-auto">
+                                <!-- Image Header Section -->
+                                <div class="relative aspect-[1.4/1] w-full overflow-hidden bg-slate-100">
+                                    <img
+                                        src="{{ $tour->featured_image }}"
+                                        alt="{{ $tour->title ?? '' }}"
+                                        class="w-full h-full object-cover transform duration-700 ease-out group-hover:scale-105">
 
-                            <!-- Image Header Section -->
-                            <div class="relative aspect-[1.4/1] w-full overflow-hidden bg-slate-100">
-                                <img
-                                    src="{{ asset('images/destinations/'.$tour['image']) }}"
-                                    alt="{{ $tour['title'] }}"
-                                    class="w-full h-full object-cover transform duration-700 ease-out group-hover:scale-105">
+                                    <!-- Custom Left Badge -->
+                                    <div class="absolute top-3 left-3 z-10">
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide shadow-sm {{ $badgeClass }}">
+                                            {{ $tour->reviews_count ?? 0 }} Reviews
+                                        </span>
+                                    </div>
 
-                                <!-- Custom Left Badge -->
-                                <div class="absolute top-3 left-3 z-10">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide shadow-sm {{ $tour['badge_class'] }}">
-                                        {{ $tour['badge'] }}
-                                    </span>
+                                    <!-- Floating Wishlist Button -->
+                                    <button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/70 backdrop-blur-md text-slate-700 hover:text-red-500 hover:bg-white flex items-center justify-center transition shadow-sm z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                        </svg>
+                                    </button>
                                 </div>
 
-                                <!-- Floating Wishlist Button -->
-                                <button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/70 backdrop-blur-md text-slate-700 hover:text-red-500 hover:bg-white flex items-center justify-center transition shadow-sm z-10">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                    </svg>
-                                </button>
+                                <!-- Card Body Content -->
+                                <div class="p-5 flex flex-col flex-1 justify-between">
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight leading-snug group-hover:text-blue-600 transition-colors duration-200 text-left">
+                                            {{ $tour->title ?? '' }} <span class="text-[11px] font-semibold text-slate-500">{{ $tour->tagline ?? '' }}</span>
+                                        </h3>
+
+                                        <div class="flex items-center gap-1.5 mt-2.5 text-[11px] font-semibold text-slate-400 justify-flex-start">
+                                            <span>{{ $tour->duration_days ?? 2 }} Days</span>
+                                            <span class="text-slate-300">•</span>
+                                            <span>{{ $tour->duration_nights ?? 3 }} Nights</span>
+                                            <span class="text-slate-300">•</span>
+                                            <span class="text-slate-500/90">{{ $tour->popular ?? 8 }} Places</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer Price & Ratings Layout Row -->
+                                    <div class="flex items-center justify-between mt-6 pt-3.5 border-t border-slate-100 gap-2">
+                                        <div class="flex items-baseline gap-1.5 min-h-[24px]">
+                                            @if(!empty($tour->discount_price))
+                                                <span class="text-xs text-slate-400 line-through font-medium">${{ $tour->price ?? '' }}</span>
+                                            @endif
+                                            <span class="text-base font-extrabold text-blue-600 tracking-tight">${{ $tour->discount_price ?? $tour->price }}</span>
+                                        </div>
+
+                                        <div class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-50 border border-slate-100/80 px-2 py-1 rounded-lg">
+                                            <span class="text-amber-500 text-xs leading-none">★</span>
+                                            <span class="leading-none">{{ $tour->rating ?? 23 }}</span>
+                                            <span class="text-slate-400 font-medium font-sans text-[10px]">({{ $tour->reviews_count ?? 34.8 }})</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        @endforeach
+                    @else
+                        @foreach($tours as $tour)
+                            <div class="swiper-slide group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] hover:shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition-all duration-300 flex flex-col overflow-hidden h-auto">
+                                <!-- Image Header Section -->
+                                <div class="relative aspect-[1.4/1] w-full overflow-hidden bg-slate-100">
+                                    <img
+                                        src="{{ asset('images/destinations/'.$tour['image']) }}"
+                                        alt="{{ $tour['title'] }}"
+                                        class="w-full h-full object-cover transform duration-700 ease-out group-hover:scale-105">
 
-                            <!-- Card Body Content -->
-                            <div class="p-5 flex flex-col flex-1 justify-between">
-                                <div>
-                                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight leading-snug group-hover:text-blue-600 transition-colors duration-200 text-left">
-                                        {{ $tour['title'] }}
-                                    </h3>
-
-                                    <div class="flex items-center gap-1.5 mt-2.5 text-[11px] font-semibold text-slate-400 justify-flex-start">
-                                        <span>{{ $tour['days'] }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span>{{ $tour['nights'] }}</span>
-                                        <span class="text-slate-300">•</span>
-                                        <span class="text-slate-500/90">{{ $tour['places'] }}</span>
+                                    <!-- Custom Left Badge -->
+                                    <div class="absolute top-3 left-3 z-10">
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wide shadow-sm {{ $tour['badge_class'] }}">
+                                            {{ $tour['badge'] }}
+                                        </span>
                                     </div>
+
+                                    <!-- Floating Wishlist Button -->
+                                    <button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-white/70 backdrop-blur-md text-slate-700 hover:text-red-500 hover:bg-white flex items-center justify-center transition shadow-sm z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                        </svg>
+                                    </button>
                                 </div>
 
-                                <!-- Footer Price & Ratings Layout Row -->
-                                <div class="flex items-center justify-between mt-6 pt-3.5 border-t border-slate-100 gap-2">
-                                    <div class="flex items-baseline gap-1.5 min-h-[24px]">
-                                        @if(!empty($tour['old_price']))
-                                            <span class="text-xs text-slate-400 line-through font-medium">${{ $tour['old_price'] }}</span>
-                                        @endif
-                                        <span class="text-base font-extrabold text-blue-600 tracking-tight">${{ $tour['price'] }}</span>
+                                <!-- Card Body Content -->
+                                <div class="p-5 flex flex-col flex-1 justify-between">
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight leading-snug group-hover:text-blue-600 transition-colors duration-200 text-left">
+                                            {{ $tour['title'] }}
+                                        </h3>
+
+                                        <div class="flex items-center gap-1.5 mt-2.5 text-[11px] font-semibold text-slate-400 justify-flex-start">
+                                            <span>{{ $tour['days'] }}</span>
+                                            <span class="text-slate-300">•</span>
+                                            <span>{{ $tour['nights'] }}</span>
+                                            <span class="text-slate-300">•</span>
+                                            <span class="text-slate-500/90">{{ $tour['places'] }}</span>
+                                        </div>
                                     </div>
 
-                                    <div class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-50 border border-slate-100/80 px-2 py-1 rounded-lg">
-                                        <span class="text-amber-500 text-xs leading-none">★</span>
-                                        <span class="leading-none">{{ $tour['rating'] }}</span>
-                                        <span class="text-slate-400 font-medium font-sans text-[10px]">({{ $tour['reviews'] }})</span>
+                                    <!-- Footer Price & Ratings Layout Row -->
+                                    <div class="flex items-center justify-between mt-6 pt-3.5 border-t border-slate-100 gap-2">
+                                        <div class="flex items-baseline gap-1.5 min-h-[24px]">
+                                            @if(!empty($tour['old_price']))
+                                                <span class="text-xs text-slate-400 line-through font-medium">${{ $tour['old_price'] }}</span>
+                                            @endif
+                                            <span class="text-base font-extrabold text-blue-600 tracking-tight">${{ $tour['price'] }}</span>
+                                        </div>
+
+                                        <div class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-700 bg-slate-50 border border-slate-100/80 px-2 py-1 rounded-lg">
+                                            <span class="text-amber-500 text-xs leading-none">★</span>
+                                            <span class="leading-none">{{ $tour['rating'] }}</span>
+                                            <span class="text-slate-400 font-medium font-sans text-[10px]">({{ $tour['reviews'] }})</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
