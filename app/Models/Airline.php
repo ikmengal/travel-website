@@ -33,20 +33,36 @@ class Airline extends Model
         'status'=>'boolean',
     ];
 
-    // ------------------------------------- Relationships ------------------------------------- //
-    // public function flights()
-    // {
-    //     return $this->hasMany(Flight::class);
-    // }
+    // ---------------- Relationships ---------------- //
+    public function flights()
+    {
+        return $this->hasMany(Flight::class);
+    }
 
-    // ------------------------------------- Scopes ------------------------------------- //
+    // ---------------- Scopes ---------------- //
     public function scopeActive($query)
     {
-        return $query->where('status',true);
+        return $query->where('status', true);
     }
 
     public function scopeFeatured($query)
     {
-        return $query->where('featured',true);
+        return $query->where('featured', true);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query
+            ->orderBy('sort_order')
+            ->orderBy('name');
+    }
+
+    // ---------------- Accessor ---------------- //
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo && file_exists(public_path('images/airlines/' . $this->logo))) {
+            return asset('images/airlines/' . $this->logo);
+        }
+        return asset('admin/assets/img/placeholder.jpg');
     }
 }

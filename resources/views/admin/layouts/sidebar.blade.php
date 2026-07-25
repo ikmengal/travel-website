@@ -182,6 +182,24 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-item {{ Route::is('flight_classes.*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-plane"></i>
+                <div data-i18n="Flight Management">Flight Management</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('flight_classes') ? 'open active' : '' }}">
+                    <a href="{{ route('flight_classes.index') }}" class="menu-link">
+                    <div data-i18n="Flight Classes">Flight Classes</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('airlines') ? 'open active' : '' }}">
+                    <a href="{{ route('airlines.index') }}" class="menu-link">
+                    <div data-i18n="Airlines">Airlines</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="menu-item {{ Route::is('bookings.*') ? 'active open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-ticket"></i>

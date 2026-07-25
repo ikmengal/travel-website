@@ -42,6 +42,6 @@ class MainPageController extends Controller
         ->where('featured',1)
         ->take(4)
         ->get();
-        return view('pages.show', get_defined_vars());
+        return view('pages.show_new', get_defined_vars());
     }
 }

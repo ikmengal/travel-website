@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\{
     TourDepartureController,
     TourCategoryController,
     BlogCategoryController,
+    FlightClassController,
     DestinationController,
     TourIncludeController,
     TourExcludeController,
@@ -24,6 +25,7 @@ use App\Http\Controllers\Admin\{
     PaymentsController,
     SettingController,
     PartnerController,
+    AirlineController,
     BlogTagController,
     CounterController,
     BookingController,
@@ -248,6 +250,20 @@ Route::middleware(['auth'])->group(function(){
         Route::post('bulk-delete','bulkDelete')->name('bulk-delete');
     });
 
+    // Flight Class Custom Routes
+    Route::controller(FlightClassController::class)->prefix('flight_classes')->name('flight_classes.')->group(function () {
+        Route::post('change-featured','changeFeatured')->name('change-featured');
+        Route::post('change-status','changeStatus')->name('change-status');
+        Route::post('bulk-delete','bulkDelete')->name('bulk-delete');
+    });
+
+    // Airline Custom Routes
+    Route::controller(AirlineController::class)->prefix('airlines')->name('airlines.')->group(function () {
+        Route::post('change-featured','changeFeatured')->name('change-featured');
+        Route::post('change-status','changeStatus')->name('change-status');
+        Route::post('bulk-delete','bulkDelete')->name('bulk-delete');
+    });
+
     Route::resource('newsletter_subscribers', NewsletterSubscriberController::class);
     Route::resource('booking_travelers', BookingTravelerController::class);
     Route::resource('contact_messages', ContactMessageController::class);
@@ -255,6 +271,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('tour_departures', TourDepartureController::class);
     Route::resource('tour_categories', TourCategoryController::class);
     Route::resource('blog_categories', BlogCategoryController::class);
+    Route::resource('flight_classes', FlightClassController::class);
     Route::resource('tour_includes', TourIncludeController::class);
     Route::resource('tour_excludes', TourExcludeController::class);
     Route::resource('blog_comments', BlogCommentController::class);
@@ -267,6 +284,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('blog_tags', BlogTagController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('bookings', BookingController::class);
+    Route::resource('airlines', AirlineController::class);
     Route::resource('partners', PartnerController::class);
     Route::resource('counters', CounterController::class);
     Route::resource('gallery', GalleryController::class);

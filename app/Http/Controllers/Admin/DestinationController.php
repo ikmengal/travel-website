@@ -62,16 +62,10 @@ class DestinationController extends Controller
             return DataTables::eloquent($query)
             ->addIndexColumn()
             ->addColumn('checkbox', function ($destination) {
-                return view(
-                    'admin.destinations.partials.checkbox',
-                    compact('destination')
-                )->render();
+                return view('admin.destinations.partials.checkbox', compact('destination'))->render();
             })
             ->addColumn('image', function ($destination) {
-                return view(
-                    'admin.destinations.partials.image',
-                    compact('destination')
-                )->render();
+                return view('admin.destinations.partials.image', compact('destination'))->render();
             })
             ->addColumn('destination', function ($destination) {
                 return view('admin.destinations.partials.destination', compact('destination'))->render();
@@ -84,14 +78,10 @@ class DestinationController extends Controller
                     : '-';
             })
             ->addColumn('tours', function ($destination) {
-                return '<span class="badge bg-label-info">'
-                    .$destination->tours_count.
-                    '</span>';
+                return '<span class="badge bg-label-info">'.$destination->tours_count.'</span>';
             })
             ->addColumn('hotels', function ($destination) {
-                return '<span class="badge bg-label-success">'
-                    .$destination->hotels_count.
-                    '</span>';
+                return '<span class="badge bg-label-success">'.$destination->hotels_count.'</span>';
             })
             ->addColumn('featured', function ($destination) {
                 return $destination->is_featured
@@ -111,19 +101,11 @@ class DestinationController extends Controller
                     ->format('d M Y');
             })
             ->addColumn('action', function ($destination) {
-                return view('admin.destinations.partials.action',compact('destination'))->render();
+                return view('admin.destinations.partials.action', compact('destination'))->render();
             })
             ->rawColumns([
-                'checkbox',
-                'image',
-                'destination',
-                'country',
-                'tours',
-                'hotels',
-                'featured',
-                'popular',
-                'status',
-                'action'
+                'checkbox', 'image', 'destination', 'country', 'tours',
+                'hotels', 'featured', 'popular', 'status', 'action'
             ])
             ->make(true);
         }
@@ -135,7 +117,6 @@ class DestinationController extends Controller
         $this->authorize('destinations-create');
 
         $title = 'Create Destination';
-
         $countries = Country::where('status', 1)
             ->orderBy('name')
             ->get();
