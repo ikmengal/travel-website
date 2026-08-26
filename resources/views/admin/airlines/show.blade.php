@@ -405,63 +405,23 @@
 
             {{-- Information --}}
             <div class="card">
-
                 <div class="card-header">
-
-                    <h5 class="mb-0">
-
-                        Information
-
-                    </h5>
-
+                    <h5 class="mb-0">Information</h5>
                 </div>
-
                 <div class="card-body">
-
                     <table class="table table-borderless mb-0">
-
                         <tr>
-
-                            <th width="120">
-
-                                Created
-
-                            </th>
-
-                            <td>
-
-                                {{ $airline->created_at->format('d M Y h:i A') }}
-
-                            </td>
-
+                            <th width="120">Created</th>
+                            <td>{{ $airline->created_at->format('d M Y h:i A') }}</td>
                         </tr>
-
                         <tr>
-
-                            <th>
-
-                                Updated
-
-                            </th>
-
-                            <td>
-
-                                {{ $airline->updated_at->format('d M Y h:i A') }}
-
-                            </td>
-
+                            <th>Updated</th>
+                            <td>{{ $airline->updated_at->format('d M Y h:i A') }}</td>
                         </tr>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
 @endsection

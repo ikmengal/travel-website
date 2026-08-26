@@ -1,5 +1,22 @@
 <?php
 
+use App\Models\Setting;
+
+function Setting(){
+    $setting = Setting::first();
+    if(isset($setting) && !empty($setting)){
+        return $setting;
+    }else{
+        return $setting = [
+            'site_name' => env('APP_NAME'),
+            'site_tagline' => env('APP_NAME', 'Explore The World With Us'),
+            'site_email' => env('APP_NAME', 'admin@travelbooking.com'),
+            'site_phone' => env('APP_NAME', '+92-300-1234567'),
+            'site_address' => env('APP_NAME', 'Karachi, Pakistan'),
+        ];
+    }
+}
+
 if (!function_exists('bookingStatusBadge')) {
     function bookingStatusBadge($status)
     {

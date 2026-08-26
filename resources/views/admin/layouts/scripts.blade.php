@@ -57,4 +57,16 @@
     if (typeof description !== 'undefined') {
         CKEDITOR.replace('description');
     }
+
+    if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/sw.js')
+                .then(function(registration){
+                console.log("Service Worker Registered");
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        });
+    }
 </script>

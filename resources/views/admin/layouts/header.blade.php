@@ -7,6 +7,17 @@
     <meta name="description" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <meta name="theme-color" content="{{ $setting->theme_color ?? '#696cff' }}">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Travel Booking">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ isset($setting->logo) && !empty($setting->logo)
+        ? asset('settings/qdaVDv8kpjdBom5JJccsrE6T849zkRVZipGIEYez.png')
+        : asset('icons/apple-touch-icon.png')
+    }}">
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon/favicon.ico') }}" />
 
