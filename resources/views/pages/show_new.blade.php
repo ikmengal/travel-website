@@ -2130,7 +2130,7 @@
                                             <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">
                                                 {{ Str::limit(strip_tags($item->short_description),80) }}
                                             </p>
-                                            <a href="{{ route('pages.show',$item->slug) }}" class="inline-flex items-center gap-1 mt-2 text-blue-600 font-bold text-xs hover:gap-2 transition-all">
+                                            <a href="{{ route('main_pages.show', $item->slug) }}" class="inline-flex items-center gap-1 mt-2 text-blue-600 font-bold text-xs hover:gap-2 transition-all">
                                                 Read More <i class="ti ti-arrow-right"></i>
                                             </a>
                                         </div>
@@ -2147,7 +2147,7 @@
                                     <span class="text-cyan-600 text-xs font-bold tracking-[.15em] uppercase">Latest Blogs</span>
                                     <h3 class="text-xl font-black text-slate-900 mt-1">Travel Tips & Inspiration</h3>
                                 </div>
-                                <a href="{{ Route::has('blogs.index') ? route('blogs.index') : '#' }}" class="text-blue-600 font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all">
+                                <a href="#" class="text-blue-600 font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all">
                                     View All <i class="ti ti-arrow-right"></i>
                                 </a>
                             </div>
@@ -2164,7 +2164,7 @@
                                             <p class="text-xs text-slate-500 mt-1.5 line-clamp-2">
                                                 {{ Str::limit(strip_tags($blog->short_description),80) }}
                                             </p>
-                                            <a href="{{ route('blogs.show',$blog->slug) }}" class="inline-flex items-center gap-1 mt-2 text-blue-600 font-bold text-xs hover:gap-2 transition-all">
+                                            <a href="#" class="inline-flex items-center gap-1 mt-2 text-blue-600 font-bold text-xs hover:gap-2 transition-all">
                                                 Read More <i class="ti ti-arrow-right"></i>
                                             </a>
                                         </div>
@@ -2331,7 +2331,7 @@
 
             <div class="grid md:grid-cols-2 gap-5">
                 @if($previousPage)
-                    <a href="{{ route('pages.show',$previousPage->slug) }}" class="navCard block">
+                    <a href="{{ route('main_pages.show', $previousPage->slug) }}" class="navCard block">
                         <div class="flex items-center gap-2 text-blue-600 font-bold text-xs">
                             <i class="ti ti-arrow-left"></i> Previous Page
                         </div>
@@ -2343,7 +2343,7 @@
                 @endif
 
                 @if($nextPage)
-                    <a href="{{ route('pages.show',$nextPage->slug) }}" class="navCard block">
+                    <a href="{{ route('main_pages.show', $nextPage->slug) }}" class="navCard block">
                         <div class="flex items-center justify-end gap-2 text-blue-600 font-bold text-xs">
                             Next Page <i class="ti ti-arrow-right"></i>
                         </div>
@@ -2356,6 +2356,64 @@
             </div>
         </div>
     </section>
+
+    <!------------- MEET OUR TEAM ------------->
+    @if(isset($teamMembers) && $teamMembers->count())
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-blue-600 text-xs font-bold tracking-[.15em] uppercase">Our Team</span>
+                    <h2 class="text-2xl lg:text-3xl font-black mt-3 text-slate-900">Meet Our Team</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($teamMembers as $member)
+                        <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.04)] overflow-hidden text-center transition duration-300 hover:shadow-[0_16px_32px_rgba(15,23,42,0.08)] hover:-translate-y-1">
+                            <div class="aspect-square w-full overflow-hidden bg-slate-100">
+                                <img src="{{ $member->image }}" alt="{{ $member->name }}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-base font-black text-slate-900">{{ $member->name }}</h3>
+                                <p class="text-xs font-bold text-blue-600 mt-1">{{ $member->designation }}</p>
+                                @if(!empty($member->short_bio))
+                                    <p class="text-xs text-slate-500 mt-3 leading-relaxed">{{ $member->short_bio }}</p>
+                                @endif
+                                @if(!empty($member->facebook) || !empty($member->instagram) || !empty($member->linkedin) || !empty($member->twitter) || !empty($member->youtube))
+                                    <div class="flex items-center justify-center gap-2 mt-4">
+                                        @if(!empty($member->facebook))
+                                            <a href="{{ $member->facebook }}" target="_blank" rel="noopener" class="h-8 w-8 rounded-full bg-slate-100 text-slate-600 hover:bg-blue-600 hover:text-white flex items-center justify-center transition">
+                                                <i class="ti ti-brand-facebook text-sm"></i>
+                                            </a>
+                                        @endif
+                                        @if(!empty($member->instagram))
+                                            <a href="{{ $member->instagram }}" target="_blank" rel="noopener" class="h-8 w-8 rounded-full bg-slate-100 text-slate-600 hover:bg-pink-600 hover:text-white flex items-center justify-center transition">
+                                                <i class="ti ti-brand-instagram text-sm"></i>
+                                            </a>
+                                        @endif
+                                        @if(!empty($member->linkedin))
+                                            <a href="{{ $member->linkedin }}" target="_blank" rel="noopener" class="h-8 w-8 rounded-full bg-slate-100 text-slate-600 hover:bg-blue-800 hover:text-white flex items-center justify-center transition">
+                                                <i class="ti ti-brand-linkedin text-sm"></i>
+                                            </a>
+                                        @endif
+                                        @if(!empty($member->twitter))
+                                            <a href="{{ $member->twitter }}" target="_blank" rel="noopener" class="h-8 w-8 rounded-full bg-slate-100 text-slate-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
+                                                <i class="ti ti-brand-twitter text-sm"></i>
+                                            </a>
+                                        @endif
+                                        @if(!empty($member->youtube))
+                                            <a href="{{ $member->youtube }}" target="_blank" rel="noopener" class="h-8 w-8 rounded-full bg-slate-100 text-slate-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition">
+                                                <i class="ti ti-brand-youtube text-sm"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     <div id="backToTop"><i class="ti ti-arrow-up"></i></div>
 

@@ -304,8 +304,41 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $this->authorize('users-delete');
+
+        if ($user->id === auth()->id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You cannot delete your own account.'
+            ], 422);
+        }
+
+        DB::beginTransaction();
+        try {
+            if ($user->avatar) {
+                $avatar = public_path('images/users/' . $user->avatar);
+                if (File::exists($avatar)) {
+                    File::delete($avatar);
+                }
+            }
+
+            $user->syncRoles([]);
+            $user->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User deleted successfully.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

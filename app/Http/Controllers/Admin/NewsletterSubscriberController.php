@@ -16,19 +16,19 @@ use Illuminate\Support\Str;
 use App\Models\Newsletter;
 
 
-class NewsletterSubscriberController extends Controller
+class NewsletterSubscriberController extends Controller implements HasMiddleware
 {
     /**
      * Constructor
      */
-    public function __construct()
+    public static function middleware(): array
     {
         return [
-            new Middleware('permission:newsletter-list', only :['index']),
-            new Middleware('permission:newsletter-create', only :['create', 'store']),
-            new Middleware('permission:newsletter-show', only :['show']),
-            new Middleware('permission:newsletter-edit', only :['edit', 'update']),
-            new Middleware('permission:newsletter-delete', only :['destroy', 'bulkDelete']),
+            new Middleware('permission:newsletter-list', only: ['index']),
+            new Middleware('permission:newsletter-create', only: ['create', 'store']),
+            new Middleware('permission:newsletter-show', only: ['show']),
+            new Middleware('permission:newsletter-edit', only: ['edit', 'update']),
+            new Middleware('permission:newsletter-delete', only: ['destroy', 'bulkDelete']),
         ];
     }
 

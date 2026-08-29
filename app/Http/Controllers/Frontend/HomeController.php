@@ -19,16 +19,16 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $banners = Banner::orderBy('sort_order')->active()->get();
-        $partners = Partner::active()->orderBy('sort_order')->take(6)->get();
+        $partners = Partner::active()->orderBy('sort_order')->get();
 
-        $destinations = Destination::with(['reviews', 'wishlists'])->active()
-            ->featured()->latest()->take(8)->get();
+        $destinations = Destination::with(['reviews', 'wishlists', 'country'])->active()
+            ->orderBy('sort_order')
+            ->get();
 
-        $featuredTours = Tour::active()
-            ->featured()
+        $tours = Tour::active()
             ->with(['destination','category'])
-            ->latest()
-            ->take(8)
+            ->orderBy('sort_order')
+            ->orderByDesc('featured')
             ->get();
 
         $gallery = Gallery::with('country')->active()

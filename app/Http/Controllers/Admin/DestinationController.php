@@ -210,7 +210,7 @@ class DestinationController extends Controller
                 'description'       => $request->description,
 
                 'featured_image' => $featuredImage,
-                'banner_image'   => $featuredImage,
+                'banner_image'   => $bannerImage,
 
                 'starting_price' => $request->starting_price,
 
@@ -536,9 +536,9 @@ class DestinationController extends Controller
         $this->authorize('destinations-edit');
 
         try {
-            $path = public_path($image->image);
-            if (File::exists('images/destinations/'.$path)) {
-                File::delete('images/destinations/'.$path);
+            $path = public_path('images/destinations/' . $image->image);
+            if (File::exists($path)) {
+                File::delete($path);
             }
             $image->delete();
             return response()->json([

@@ -230,6 +230,138 @@ class SettingSeeder extends Seeder
                 'value' => '1',
                 'type' => 'boolean',
             ],
+
+            /*
+            |--------------------------------------------------------------------------
+            | Homepage Content Sections
+            |--------------------------------------------------------------------------
+            */
+            [
+                'group' => 'content',
+                'key' => 'why_choose_heading',
+                'value' => 'We Make Travel Easy & Fun',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_subheading',
+                'value' => 'Travel with confidence. Our team takes care of every detail so you can focus on making memories.',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_1_title',
+                'value' => 'Best Price Guarantee',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_1_text',
+                'value' => 'We beat any qualifying price you find online',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_2_title',
+                'value' => '24/7 Customer Support',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_2_text',
+                'value' => "We're here to help you anytime, anywhere",
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_3_title',
+                'value' => 'Secure Booking',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_3_text',
+                'value' => 'Your data is protected and 100% safe',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_4_title',
+                'value' => 'Easy & Fast Booking',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'why_choose_4_text',
+                'value' => 'Book in just a few clicks and enjoy your trip',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'mobile_app_eyebrow',
+                'value' => 'Mobile Application',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'mobile_app_heading',
+                'value' => 'Travel Anywhere. Book Anytime.',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'mobile_app_description',
+                'value' => 'Experience seamless travel booking with our all-in-one mobile app. Book flights, luxury hotels, and tailored tours in just a few taps.',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'mobile_app_image',
+                'value' => 'images/app/phone1.png',
+                'type' => 'image',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_eyebrow',
+                'value' => 'Start Your Journey',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_heading',
+                'value' => 'Ready For Your Next Adventure?',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_description',
+                'value' => 'Discover breathtaking destinations, exclusive deals and unforgettable experiences — all crafted just for you.',
+                'type' => 'textarea',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_button_1_text',
+                'value' => 'Explore Tours',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_button_1_url',
+                'value' => '/tours',
+                'type' => 'url',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_button_2_text',
+                'value' => 'Contact Us',
+                'type' => 'text',
+            ],
+            [
+                'group' => 'content',
+                'key' => 'cta_button_2_url',
+                'value' => '/contact',
+                'type' => 'url',
+            ],
         ];
 
         foreach ($settings as $setting) {

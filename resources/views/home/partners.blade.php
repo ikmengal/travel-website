@@ -21,12 +21,6 @@
                             </div>
                         </div>
                     @endforeach
-                @else
-                    <div class="w-full flex items-center justify-center lg:px-4 opacity-60 hover:opacity-100 transition duration-300">
-                        <span class="font-semibold text-lg tracking-tight text-slate-700 flex items-center gap-1">
-                            🏢 <span class="font-bold">Expedia</span>
-                        </span>
-                    </div>
                 @endif
             </div>
         </div>

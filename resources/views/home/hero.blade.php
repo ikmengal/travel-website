@@ -117,32 +117,46 @@
                     <div class="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-12 z-20 my-auto">
                         <div class="grid lg:grid-cols-12 gap-8 items-center">
                             <div class="lg:col-span-7 flex flex-col items-start space-y-6">
-                                <div class="travelTag inline-flex items-center gap-2 rounded-full bg-slate-900/40 backdrop-blur-md px-4 py-2 border border-white/10 text-white text-xs font-medium tracking-wide uppercase">
-                                    <span class="text-blue-400 text-sm">✈</span> {{ $banner->title ?? '#1 Travel Booking Platform' }}
+                                <div class="travelTag inline-flex items-center gap-2 rounded-full bg-slate-900/40 backdrop-blur-md px-4 py-2 border border-white/10 text-white text-xs font-semibold tracking-wide uppercase">
+                                    <span class="text-blue-400 text-sm">✈</span> {{ $banner->subtitle ?? $banner->title ?? '#1 Travel Booking Platform' }}
                                 </div>
 
-                                <h3 class="hero-title text-5xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-                                    {{ $banner->subtitle ?? '' }} <br>
-                                    {{ $banner->subtitle_1 ?? '' }} <br>
-                                    {{ $banner->subtitle_2 ?? '' }} <span class="text-blue-500">{{ $banner->subtitle_3 ?? '' }}</span>
+                                <h3 class="hero-title text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-extrabold tracking-tight text-white leading-[1.2]">
+                                    {{ $banner->subtitle_1 ?? '' }}
+                                    <span class="block text-lg sm:text-xl lg:text-2xl font-semibold text-blue-300 mt-3">
+                                        {{ $banner->subtitle_2 ?? '' }}
+                                    </span>
                                 </h3>
 
-                                <p class="hero-text max-w-xl text-base sm:text-lg text-slate-100 font-normal leading-relaxed drop-shadow-sm">
+                                <p class="hero-text max-w-xl text-sm sm:text-base text-slate-200 font-normal leading-relaxed drop-shadow-sm">
                                     {{ $banner->description ?? "breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages designed for modern explorers." }}
                                 </p>
 
-                                <div class="flex items-center gap-3 pt-2">
-                                    <div class="flex -space-x-2">
-                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/10.png') }}" alt="User">
-                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt="User">
-                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/4.png') }}" alt="User">
-                                        <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/2.png') }}" alt="User">
+                                @if(!empty($banner->subtitle_3))
+                                    <div class="hero-text inline-flex items-center gap-2 rounded-full bg-blue-500/15 border border-blue-500/30 backdrop-blur-md px-4 py-2 text-xs font-semibold text-blue-200">
+                                        <span class="text-amber-400">★</span> {{ $banner->subtitle_3 }}
                                     </div>
-                                    <div>
-                                        <div class="text-white font-bold text-base leading-none">{{ $banner->avatars_data ?? '50K+' }}</div>
-                                        <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
+                                @endif
+
+                                <div class="flex flex-wrap items-center gap-6 pt-2">
+                                    <a href="{{ $banner->button_url ?: '#' }}" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 hover:from-blue-500 hover:to-blue-400 transition-all duration-200 group">
+                                        {{ $banner->button_text ?? 'Explore Tours' }}
+                                        <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                                    </a>
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex -space-x-2">
+                                            <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/10.png') }}" alt="User">
+                                            <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/1.png') }}" alt="User">
+                                            <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/4.png') }}" alt="User">
+                                            <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/2.png') }}" alt="User">
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-bold text-base leading-none">{{ $banner->avatars_data ?? '50K+' }}</div>
+                                            <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="lg:col-span-5 relative w-full h-[380px] hidden lg:block">

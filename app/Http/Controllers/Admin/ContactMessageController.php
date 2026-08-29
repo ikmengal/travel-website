@@ -18,22 +18,19 @@ use App\Models\{
 };
 use Illuminate\Validation\Rule;
 
-class ContactMessageController extends Controller
+class ContactMessageController extends Controller implements HasMiddleware
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public static function middleware(): array
     {
         return [
-            new Middleware('permission:contacts-list', only:['index']),
-            new Middleware('permission:contacts-show', only:['show']),
-            new Middleware('permission:contacts-edit', only:[
+            new Middleware('permission:contacts-list', only: ['index']),
+            new Middleware('permission:contacts-show', only: ['show']),
+            new Middleware('permission:contacts-edit', only: [
                 'changeStatus',
                 'changeReadStatus',
                 'changeReplyStatus',
             ]),
-            new Middleware('permission:contacts-delete', only:[
+            new Middleware('permission:contacts-delete', only: [
                 'destroy',
                 'bulkDelete',
             ]),

@@ -10,13 +10,13 @@
             <div class="lg:col-span-5 order-2 lg:order-1 space-y-6">
                 <div>
                     <span class="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-3">
-                        Mobile Application
+                        {{ \App\Models\Setting::get('mobile_app_eyebrow', 'Mobile Application') }}
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                        Travel Anywhere.<br>Book Anytime.
+                        {!! \App\Models\Setting::get('mobile_app_heading', 'Travel Anywhere.<br>Book Anytime.') !!}
                     </h2>
                     <p class="mt-4 text-base text-slate-400 leading-relaxed max-w-xl">
-                        Experience seamless travel booking with our all-in-one mobile app. Book flights, luxury hotels, and tailored tours in just a few taps.
+                        {!! \App\Models\Setting::get('mobile_app_description', 'Experience seamless travel booking with our all-in-one mobile app. Book flights, luxury hotels, and tailored tours in just a few taps.') !!}
                     </p>
                 </div>
 
@@ -80,7 +80,7 @@
 
                     <!-- Clean wrapped landscape container matching the image aspect ratio exactly -->
                     <div class="relative rounded-[22px] overflow-hidden border border-slate-800/80 bg-slate-900 shadow-2xl transition duration-500 ease-out group-hover:scale-[1.01] group-hover:border-slate-700">
-                        <img src="{{ asset('images/app/phone1.png') }}"
+                        <img src="{{ asset(\App\Models\Setting::get('mobile_app_image', 'images/app/phone1.png')) }}"
                              alt="TravelBook Mobile Application Context Mockup"
                              class="w-full h-auto object-contain block transform scale-[1.002] transition duration-700 ease-out group-hover:scale-[1.03]">
                         <!-- Vignette Internal Overlay Layer -->

@@ -17,40 +17,6 @@
                 </a>
             </div>
         </div>
-        @php
-            $reviews = [
-                [
-                    "name"=>"Sarah Johnson",
-                    "country"=>"New York, USA",
-                    "avatar"=>"user6.png",
-                    "review"=>"Amazing experience! Everything was perfectly organized and the trip was beyond my expectations.",
-                ],
-                [
-                    "name"=>"Michael Chen",
-                    "country"=>"Toronto, Canada",
-                    "avatar"=>"user7.png",
-                    "review"=>"The best travel platform I've used. Great prices, excellent service, and unforgettable memories!",
-                ],
-                [
-                    "name"=>"Emma Williams",
-                    "country"=>"London, UK",
-                    "avatar"=>"user5.png",
-                    "review"=>"Highly recommended! The customer support was excellent and the trip was incredible.",
-                ],
-                [
-                    "name"=>"Sophie Moore",
-                    "country"=>"Sydney, Australia",
-                    "avatar"=>"user2.png",
-                    "review"=>"Highly professional team and amazing tour packages. Everything was hassle free.",
-                ],
-                [
-                    "name"=>"David Miller",
-                    "country"=>"Vancouver, Canada",
-                    "avatar"=>"user1.png",
-                    "review"=>"The best vacation we've ever had. Every detail was perfectly organized.",
-                ]
-            ];
-        @endphp
         <div class="relative px-4 sm:px-0">
             <div class="swiper testimonialSwiper">
                 <div class="swiper-wrapper">
@@ -67,15 +33,22 @@
 
                                         <div class="flex items-center gap-3">
                                             <img
-                                                src="{{ $testimonial['image'] }}"
-                                                alt="{{ $testimonial['name'] }}"
+                                                src="{{ $testimonial->image }}"
+                                                alt="{{ $testimonial->name }}"
                                                 class="w-11 h-11 rounded-full object-cover bg-slate-100 shrink-0">
                                             <div>
                                                 <h3 class="font-bold text-slate-800 text-sm tracking-tight leading-snug">
-                                                    {{ $testimonial['name'] }}
+                                                    {{ $testimonial->name }}
                                                 </h3>
                                                 <p class="text-[11px] text-slate-400 font-medium mt-0.5">
-                                                    {{ isset($testimonial['city']->name) && !empty($testimonial['city']->name) ? $testimonial['city']->name.', ' : $testimonial['state']->name.', ' }} {{ $testimonial['country']->name ?? '' }}
+                                                    @php
+                                                        $loc = collect([
+                                                            $testimonial->city?->name,
+                                                            $testimonial->state?->name,
+                                                            $testimonial->country?->name,
+                                                        ])->filter()->implode(', ');
+                                                    @endphp
+                                                    {{ $loc }}
                                                 </p>
                                             </div>
                                         </div>
@@ -83,36 +56,6 @@
                                     <div class="mt-5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed flex-1">
                                         {!! $testimonial->review !!}
                                     </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        @foreach($reviews as $review)
-                            <div class="swiper-slide h-auto">
-                                <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.01)] flex flex-col justify-between h-full">
-                                    <div>
-                                        <div class="flex items-center gap-0.5 text-amber-400 text-xs mb-4">
-                                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                        </div>
-
-                                        <div class="flex items-center gap-3">
-                                            <img
-                                                src="{{ asset('images/users/'.$review['avatar']) }}"
-                                                alt="{{ $review['name'] }}"
-                                                class="w-11 h-11 rounded-full object-cover bg-slate-100 shrink-0">
-                                            <div>
-                                                <h3 class="font-bold text-slate-800 text-sm tracking-tight leading-snug">
-                                                    {{ $review['name'] }}
-                                                </h3>
-                                                <p class="text-[11px] text-slate-400 font-medium mt-0.5">
-                                                    {{ $review['country'] }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="mt-5 text-xs sm:text-sm text-slate-500 font-medium leading-relaxed flex-1">
-                                        “{{ $review['review'] }}”
-                                    </p>
                                 </div>
                             </div>
                         @endforeach

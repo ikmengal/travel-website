@@ -11,23 +11,23 @@
                 <!-- Left Information Column -->
                 <div class="lg:col-span-7 space-y-6">
                     <span class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-xs font-bold text-white uppercase tracking-wider backdrop-blur-md border border-white/10">
-                        <span>✈</span> Start Your Journey
+                        <span>✈</span> {{ \App\Models\Setting::get('cta_eyebrow', 'Start Your Journey') }}
                     </span>
 
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white tracking-tight">
-                        Ready For Your<br>Next Adventure?
+                        {!! \App\Models\Setting::get('cta_heading', 'Ready For Your<br>Next Adventure?') !!}
                     </h2>
 
                     <p class="max-w-xl text-base text-blue-100/90 leading-relaxed">
-                        Discover breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages specially crafted for you.
+                        {{ \App\Models\Setting::get('cta_description', 'Discover breathtaking destinations, luxury stays, unforgettable experiences, and exclusive travel packages specially crafted for you.') }}
                     </p>
 
                     <div class="pt-2 flex flex-wrap gap-4">
-                        <a href="#" class="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-blue-700 shadow-sm hover:bg-blue-50 transition duration-200">
-                            Explore Tours
+                        <a href="{{ \App\Models\Setting::get('cta_button_1_url', '/tours') }}" class="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-blue-700 shadow-sm hover:bg-blue-50 transition duration-200">
+                            {{ \App\Models\Setting::get('cta_button_1_text', 'Explore Tours') }}
                         </a>
-                        <a href="#" class="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md hover:bg-white/20 transition duration-200">
-                            Contact Us
+                        <a href="{{ \App\Models\Setting::get('cta_button_2_url', '/contact') }}" class="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-md hover:bg-white/20 transition duration-200">
+                            {{ \App\Models\Setting::get('cta_button_2_text', 'Contact Us') }}
                         </a>
                     </div>
                 </div>

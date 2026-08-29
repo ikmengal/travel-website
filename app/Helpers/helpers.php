@@ -9,10 +9,10 @@ function Setting(){
     }else{
         return $setting = [
             'site_name' => env('APP_NAME'),
-            'site_tagline' => env('APP_NAME', 'Explore The World With Us'),
-            'site_email' => env('APP_NAME', 'admin@travelbooking.com'),
-            'site_phone' => env('APP_NAME', '+92-300-1234567'),
-            'site_address' => env('APP_NAME', 'Karachi, Pakistan'),
+            'site_tagline' => env('APP_TAGLINE', 'Explore The World With Us'),
+            'site_email' => env('APP_EMAIL', 'admin@travelbooking.com'),
+            'site_phone' => env('APP_PHONE', '+92-300-1234567'),
+            'site_address' => env('APP_ADDRESS', 'Karachi, Pakistan'),
         ];
     }
 }

@@ -7,7 +7,7 @@
                 WHY CHOOSE US
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                We Make Travel Easy & Fun
+                {{ \App\Models\Setting::get('why_choose_heading', 'We Make Travel Easy & Fun') }}
             </h2>
         </div>
 
@@ -22,8 +22,8 @@
                     </svg>
                 </div>
                 <div class="space-y-1">
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">Best Price Guarantee</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">We beat any price you find online</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">{{ \App\Models\Setting::get('why_choose_1_title', 'Best Price Guarantee') }}</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">{{ \App\Models\Setting::get('why_choose_1_text', 'We beat any qualifying price you find online') }}</p>
                 </div>
             </div>
 
@@ -35,8 +35,8 @@
                     </svg>
                 </div>
                 <div class="space-y-1">
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">24/7 Customer Support</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">We're here to help anytime, anywhere</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">{{ \App\Models\Setting::get('why_choose_2_title', '24/7 Customer Support') }}</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">{{ \App\Models\Setting::get('why_choose_2_text', "We're here to help anytime, anywhere") }}</p>
                 </div>
             </div>
 
@@ -48,8 +48,8 @@
                     </svg>
                 </div>
                 <div class="space-y-1">
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">Secure Booking</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">Your data is protected and 100% safe</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">{{ \App\Models\Setting::get('why_choose_3_title', 'Secure Booking') }}</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">{{ \App\Models\Setting::get('why_choose_3_text', 'Your data is protected and 100% safe') }}</p>
                 </div>
             </div>
 
@@ -61,8 +61,8 @@
                     </svg>
                 </div>
                 <div class="space-y-1">
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">Easy & Fast Booking</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">Book in just a few clicks and enjoy your trip</p>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base tracking-tight">{{ \App\Models\Setting::get('why_choose_4_title', 'Easy & Fast Booking') }}</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">{{ \App\Models\Setting::get('why_choose_4_text', 'Book in just a few clicks and enjoy your trip') }}</p>
                 </div>
             </div>
 

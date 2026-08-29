@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\{
-    Middleware
+    HasMiddleware, Middleware
 };
 use Illuminate\Support\Facades\{
     Validator, Storage, DB
@@ -17,14 +17,14 @@ use App\Models\{
     Blog, BlogTag
 };
 
-class BlogController extends Controller
+class BlogController extends Controller implements HasMiddleware
 {
     /**
      * Constructor
      */
-    public function __construct()
+    public static function middleware(): array
     {
-        return[
+        return [
             new Middleware('permission:blog-list', only: ['index']),
             new Middleware('permission:blog-create', only: ['create','store']),
             new Middleware('permission:blog-show', only: ['show']),

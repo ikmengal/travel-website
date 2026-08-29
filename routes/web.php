@@ -51,7 +51,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-    Route::view('/dashboard', 'admin.dashboard.index')->name('dashboard');
     Route::get('logout', [AuthenticationController::class, 'destroy'])->name('logout');
 });
 
@@ -278,7 +277,7 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('destinations', DestinationController::class);
     Route::resource('testimonials', TestimonialController::class);
     Route::resource('team_members', TeamMemberController::class);
-    Route::resource('permissions', PermissionController::class);
+    Route::resource('permissions', PermissionController::class)->only(['index', 'store', 'show', 'destroy']);
     Route::resource('tour_images', TourImageController::class);
     Route::resource('payments', PaymentsController::class);
     Route::resource('blog_tags', BlogTagController::class);
@@ -299,10 +298,12 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('faqs', FaqsController::class);
 });
 
-Route::get('/states/{country}', function ($country) {
-    return \App\Models\State::where('country_id', $country)->orderBy('name')->get();
-});
+Route::middleware('auth')->group(function () {
+    Route::get('/states/{country}', function ($country) {
+        return \App\Models\State::where('country_id', $country)->orderBy('name')->get();
+    });
 
-Route::get('/cities/{state}', function ($state) {
-    return \App\Models\City::where('state_id', $state)->orderBy('name')->get();
+    Route::get('/cities/{state}', function ($state) {
+        return \App\Models\City::where('state_id', $state)->orderBy('name')->get();
+    });
 });

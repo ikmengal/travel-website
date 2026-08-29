@@ -13,19 +13,16 @@ use Illuminate\Support\Facades\{
 use Illuminate\Http\Request;
 use App\Models\Coupon;
 
-class CouponController extends Controller
+class CouponController extends Controller implements HasMiddleware
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public static function middleware(): array
     {
         return [
-            new Middleware('permission:coupons-list', only :['index']),
-            new Middleware('permission:coupons-create', only :['create', 'store']),
-            new Middleware('permission:coupons-show', only :['show']),
-            new Middleware('permission:coupons-edit', only :['edit', 'update']),
-            new Middleware('permission:coupons-delete', only :['destroy', 'bulkDelete']),
+            new Middleware('permission:coupons-list', only: ['index']),
+            new Middleware('permission:coupons-create', only: ['create', 'store']),
+            new Middleware('permission:coupons-show', only: ['show']),
+            new Middleware('permission:coupons-edit', only: ['edit', 'update']),
+            new Middleware('permission:coupons-delete', only: ['destroy', 'bulkDelete']),
         ];
     }
 

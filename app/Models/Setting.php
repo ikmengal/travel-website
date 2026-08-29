@@ -57,10 +57,14 @@ class Setting extends Model
     public static function get(string $key, $default = null)
     {
         $settings = Cache::rememberForever('app_settings', function () {
-            return self::where('status', true)->get()->keyBy('key');
+            return self::where('status', true)->pluck('value', 'key')->all();
         });
 
-        return $settings[$key]->value ?? $default;
+        if (!is_array($settings)) {
+            $settings = self::where('status', true)->pluck('value', 'key')->all();
+        }
+
+        return $settings[$key] ?? $default;
     }
 
     // --------------------- Set (create or update) a setting value by key. --------------------- //

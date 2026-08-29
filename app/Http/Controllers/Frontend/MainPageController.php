@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Page;
 use App\Models\Blog;
 use App\Models\Faq;
-use App\Models\Member;
-use App\Models\Testimonial;
+use App\Models\TeamMember;
 
 class MainPageController extends Controller
 {
@@ -38,8 +37,9 @@ class MainPageController extends Controller
             ->take(6)
             ->get();
 
-        $teamMembers = Testimonial::where('status',1)
+        $teamMembers = TeamMember::where('status',1)
         ->where('featured',1)
+        ->orderBy('sort_order')
         ->take(4)
         ->get();
         return view('pages.show_new', get_defined_vars());

@@ -16,7 +16,7 @@ use App\Models\{
     Booking
 };
 
-class BookingTravelerController extends Controller
+class BookingTravelerController extends Controller implements HasMiddleware
 {
     /**
      * Constructor
@@ -25,10 +25,10 @@ class BookingTravelerController extends Controller
     {
         return [
             new Middleware('permission:booking-travelers-list', only: ['index']),
-            new middleware('permission:booking-travelers-create', only: ['create', 'store']),
-            new middleware('permission:booking-travelers-edit', only: ['edit', 'update']),
-            new middleware('permission:booking-travelers-show', only: ['show']),
-            new middleware('permission:booking-travelers-delete', only: ['destroy', 'bulkDelete']),
+            new Middleware('permission:booking-travelers-create', only: ['create', 'store']),
+            new Middleware('permission:booking-travelers-edit', only: ['edit', 'update']),
+            new Middleware('permission:booking-travelers-show', only: ['show']),
+            new Middleware('permission:booking-travelers-delete', only: ['destroy', 'bulkDelete']),
         ];
     }
 

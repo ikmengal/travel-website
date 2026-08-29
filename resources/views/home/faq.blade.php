@@ -23,27 +23,6 @@
 
             <!-- Right Interactive Accordion Wrapper -->
             <div class="lg:col-span-7 space-y-4">
-                @php
-                $faqs = [
-                    [
-                        "question" => "How do I book a tour package?",
-                        "answer" => "Choose your destination, select your preferred package, complete the booking form and make the payment securely."
-                    ],
-                    [
-                        "question" => "Can I cancel my booking?",
-                        "answer" => "Yes. Cancellation depends on the specific service terms, package choice, and targeted hotel cancellation policy."
-                    ],
-                    [
-                        "question" => "Do you offer travel insurance?",
-                        "answer" => "Yes, comprehensive international travel insurance protection can be added optionally directly during your checkout."
-                    ],
-                    [
-                        "question" => "Which payment methods are accepted?",
-                        "answer" => "We accept all major global processors including Visa, MasterCard, PayPal, Stripe, and direct Wire Bank Transfers."
-                    ],
-                ];
-                @endphp
-
                 @if (isset($databaseFaqs) && !blank($databaseFaqs))
                     @foreach($databaseFaqs as $faq)
                         <div x-data="{ open: false }"
@@ -74,40 +53,6 @@
                                 x-cloak>
                                 <div class="px-6 pb-6 text-sm text-slate-500 leading-relaxed border-t border-slate-50/50 pt-3 text-left">
                                     {!! $faq['answer'] !!}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    @foreach($faqs as $faq)
-                        <div x-data="{ open: false }"
-                            class="rounded-2xl bg-white border border-slate-100 shadow-[0_4px_25px_rgba(15,23,42,0.02)] transition duration-200 overflow-hidden"
-                            :class="open ? 'border-blue-100 shadow-[0_10px_30px_rgba(37,99,235,0.04)]' : ''">
-
-                            <!-- Accordion Trigger Button -->
-                            <button @click="open = !open"
-                                    type="button"
-                                    class="flex w-full items-center justify-between p-6 text-left transition duration-150 outline-none select-none">
-                                <h3 class="font-bold text-base text-slate-900 pr-4 transition duration-150"
-                                    :class="open ? 'text-blue-600' : 'text-slate-900'">
-                                    {{ $faq['question'] }}
-                                </h3>
-
-                                <!-- Premium Smooth Rotating SVG Caret Icon -->
-                                <span class="h-6 w-6 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 shrink-0 transform transition-transform duration-200"
-                                    :class="open ? 'rotate-180 bg-blue-50 text-blue-600' : ''">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </button>
-
-                            <!-- Animated Collapse Content Wrapper -->
-                            <div x-show="open"
-                                x-collapse
-                                x-cloak>
-                                <div class="px-6 pb-6 text-sm text-slate-500 leading-relaxed border-t border-slate-50/50 pt-3 text-left">
-                                    {{ $faq['answer'] }}
                                 </div>
                             </div>
                         </div>

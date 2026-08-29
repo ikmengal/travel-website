@@ -82,18 +82,12 @@ class PermissionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $this->authorize('permissions-create');
+
         $validate = validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'permissions' => 'nullable|array|min:1',
@@ -142,25 +136,26 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $label)
     {
-        //
-    }
+        $this->authorize('permissions-list');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $permissions = Permission::where('label', $label)
+            ->orderBy('name')
+            ->pluck('name');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        if ($permissions->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Permission not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'label' => $label,
+            'permissions' => $permissions,
+        ]);
     }
 
     /**
@@ -168,41 +163,32 @@ class PermissionController extends Controller
      */
     public function destroy($label)
     {
-        // $this->authorize('permissions-delete');
-        // try {
-        //     // Remove from roles
-        //     $permission->roles()->detach();
-        //     // Delete permission
-        //     $permission->delete();
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Permission deleted successfully.'
-        //     ]);
+        $this->authorize('permissions-delete');
 
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $e->getMessage(),
-        //     ], 500);
-        // }
+        try {
+            $permissions = Permission::where('label', $label)->get();
 
-        $permission = Permission::where('label', $label)
-        ->latest('id')
-        ->first();
+            if ($permissions->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Permission not found.'
+                ], 404);
+            }
 
-        if (!$permission) {
+            foreach ($permissions as $permission) {
+                $permission->roles()->detach();
+                $permission->delete();
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Permission deleted successfully.'
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Permission not found.'
-            ], 404);
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        $permission->roles()->detach();
-        $permission->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Permission deleted successfully.'
-        ]);
     }
 }

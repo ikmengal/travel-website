@@ -17,19 +17,16 @@ use App\Models\{
     Payment
 };
 
-class PaymentsController extends Controller
+class PaymentsController extends Controller implements HasMiddleware
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public static function middleware(): array
     {
         return [
-            new Middleware('permission:payments-list', only :['index']),
-            new Middleware('permission:payments-create', only :['create', 'store']),
-            new Middleware('permission:payments-edit', only :['edit', 'update']),
-            new Middleware('permission:payments-show', only :['show']),
-            new Middleware('permission:payments-delete', only :['destroy', 'bulkDelete']),
+            new Middleware('permission:payments-list', only: ['index']),
+            new Middleware('permission:payments-create', only: ['create', 'store']),
+            new Middleware('permission:payments-edit', only: ['edit', 'update']),
+            new Middleware('permission:payments-show', only: ['show']),
+            new Middleware('permission:payments-delete', only: ['destroy', 'bulkDelete']),
         ];
     }
 
