@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="shrink-0 text-left">
-                <a href="#" class="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 transition-all duration-200 group">
+                <a href="{{ route('frontend.destinations.index') }}" class="inline-flex items-center justify-center w-full sm:w-auto rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 transition-all duration-200 group">
                     View All Showcase
                     <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </a>

@@ -151,7 +151,7 @@
                                             <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="{{ asset('admin/assets/img/avatars/2.png') }}" alt="User">
                                         </div>
                                         <div>
-                                            <div class="text-white font-bold text-base leading-none">{{ $banner->avatars_data ?? '50K+' }}</div>
+                                            <div class="text-white font-bold text-base leading-none">50K+</div>
                                             <div class="text-slate-200 text-xs mt-0.5">Happy Travelers</div>
                                         </div>
                                     </div>

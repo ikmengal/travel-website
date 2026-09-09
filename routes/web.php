@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\MainPageController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\DestinationController as FrontendDestinationController;
+use App\Http\Controllers\Frontend\TourController as FrontendTourController;
+use App\Http\Controllers\Frontend\HotelController as FrontendHotelController;
+use App\Http\Controllers\Frontend\BlogController as FrontendBlogController;
+use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Admin\{
     NewsletterSubscriberController,
     BookingTravelerController,
@@ -44,6 +49,22 @@ use App\Http\Controllers\Admin\{
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/main_pages/{slug}', [MainPageController::class, 'show'])->name('main_pages.show');
 
+Route::get('/destinations', [FrontendDestinationController::class, 'index'])->name('frontend.destinations.index');
+Route::get('/destinations/{slug}', [FrontendDestinationController::class, 'show'])->name('frontend.destinations.show');
+
+Route::get('/tours', [FrontendTourController::class, 'index'])->name('frontend.tours.index');
+Route::get('/tours/{slug}', [FrontendTourController::class, 'show'])->name('frontend.tours.show');
+
+Route::get('/hotels', [FrontendHotelController::class, 'index'])->name('frontend.hotels.index');
+Route::get('/hotels/{slug}', [FrontendHotelController::class, 'show'])->name('frontend.hotels.show');
+
+Route::get('/blogs', [FrontendBlogController::class, 'index'])->name('frontend.blogs.index');
+Route::get('/blogs/{slug}', [FrontendBlogController::class, 'show'])->name('frontend.blogs.show');
+
+Route::get('/contact', [FrontendContactController::class, 'index'])->name('frontend.contact');
+Route::post('/contact', [FrontendContactController::class, 'store'])->name('frontend.contact.store');
+Route::post('/newsletter/subscribe', [FrontendContactController::class, 'subscribeNewsletter'])->name('frontend.newsletter.subscribe');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticationController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticationController::class, 'store']);
@@ -54,7 +75,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('logout', [AuthenticationController::class, 'destroy'])->name('logout');
 });
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth'])->prefix('admin')->group(function(){
     // Setting Custom Routes
     Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
         Route::delete('{setting}/toggle-status', 'toggleStatus')->name('bulk-delete');

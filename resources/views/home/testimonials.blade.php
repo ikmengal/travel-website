@@ -11,7 +11,7 @@
             </div>
 
             <div class="shrink-0 text-left">
-                <a href="#" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 group">
+                <a href="{{ route('frontend.contact') }}" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-blue-700 transition-all duration-200 group">
                     View All Reviews
                     <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </a>

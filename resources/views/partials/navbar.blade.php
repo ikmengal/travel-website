@@ -13,12 +13,12 @@
                 </a>
 
                 <div class="hidden lg:flex items-center gap-10">
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Home</a>
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Destinations</a>
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Tours</a>
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Hotels</a>
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Blog</a>
-                    <a href="#" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Contact</a>
+                    <a href="{{ route('home') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+                    <a href="{{ route('frontend.destinations.index') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Destinations</a>
+                    <a href="{{ route('frontend.tours.index') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Tours</a>
+                    <a href="{{ route('frontend.hotels.index') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Hotels</a>
+                    <a href="{{ route('frontend.blogs.index') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Blog</a>
+                    <a href="{{ route('frontend.contact') }}" class="relative font-medium text-slate-700 transition duration-300 hover:text-blue-600 after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-0 after:bg-blue-600 after:transition-all after:duration-300 hover:after:w-full">Contact</a>
 
                     <div class="relative" @click.away="pagesOpen = false">
                         <button @click="pagesOpen = !pagesOpen" class="flex items-center gap-1.5 font-medium text-slate-700 transition duration-300 hover:text-blue-600 focus:outline-none">
@@ -72,12 +72,12 @@
              @click.outside="open=false"
              class="lg:hidden mt-4 bg-white rounded-3xl shadow-xl overflow-hidden"
              x-cloak>
-            <a href="#" class="block px-6 py-4 border-b">Home</a>
-            <a href="#" class="block px-6 py-4 border-b">Destinations</a>
-            <a href="#" class="block px-6 py-4 border-b">Tours</a>
-            <a href="#" class="block px-6 py-4 border-b">Hotels</a>
-            <a href="#" class="block px-6 py-4 border-b">Blog</a>
-            <a href="#" class="block px-6 py-4 border-b">Contact</a>
+            <a href="{{ route('home') }}" class="block px-6 py-4 border-b">Home</a>
+            <a href="{{ route('frontend.destinations.index') }}" class="block px-6 py-4 border-b">Destinations</a>
+            <a href="{{ route('frontend.tours.index') }}" class="block px-6 py-4 border-b">Tours</a>
+            <a href="{{ route('frontend.hotels.index') }}" class="block px-6 py-4 border-b">Hotels</a>
+            <a href="{{ route('frontend.blogs.index') }}" class="block px-6 py-4 border-b">Blog</a>
+            <a href="{{ route('frontend.contact') }}" class="block px-6 py-4 border-b">Contact</a>
 
             <div x-data="{ mobilePagesOpen: false }" class="border-b">
                 <button @click="mobilePagesOpen = !mobilePagesOpen" class="w-full flex items-center justify-between px-6 py-4 font-medium text-left">
@@ -87,10 +87,9 @@
                     </svg>
                 </button>
                 <div x-show="mobilePagesOpen" class="bg-slate-50/50 px-8 pb-3">
-                    <a href="{{ route('pages.show', 'about-us') }}" class="block py-2 text-sm text-slate-600">About Us</a>
-                    <a href="#" class="block py-2 text-sm text-slate-600">Our Pricing</a>
-                    <a href="#" class="block py-2 text-sm text-slate-600">Testimonials</a>
-                    <a href="#" class="block py-2 text-sm text-slate-600">FAQ</a>
+                    @foreach($pagesMenu as $page)
+                        <a href="{{ route('main_pages.show', $page->slug) }}" class="block py-2 text-sm text-slate-600">{{ $page->title }}</a>
+                    @endforeach
                 </div>
             </div>
 

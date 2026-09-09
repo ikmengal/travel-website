@@ -12,7 +12,7 @@
             </div>
 
             <div class="shrink-0 text-left">
-                <a href="#" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 transition-all duration-200 group">
+                <a href="{{ route('frontend.tours.index') }}" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 transition-all duration-200 group">
                     View All Tours
                     <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </a>
@@ -34,7 +34,7 @@
                         ];
                         $badgeColor = $badgeColors[$key % count($badgeColors)];
                     @endphp
-                    <div class="group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_16px_40px_rgba(15,23,42,0.10)] transition-all duration-300 hover:-translate-y-1 flex flex-col overflow-hidden h-full">
+                    <a href="{{ route('frontend.tours.show', $tour->slug) }}" class="group bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_16px_40px_rgba(15,23,42,0.10)] transition-all duration-300 hover:-translate-y-1 flex flex-col overflow-hidden h-full">
                         <!-- Image Header -->
                         <div class="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
                             <img
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         @else

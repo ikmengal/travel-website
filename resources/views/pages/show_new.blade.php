@@ -1006,7 +1006,7 @@
                                             <p class="text-sm text-slate-500 mt-2 line-clamp-2">
                                                 {{ Str::limit(strip_tags($item->short_description),90) }}
                                             </p>
-                                            <a href="{{ route('pages.show',$item->slug) }}" class="inline-flex items-center gap-1 mt-3 text-blue-600 font-bold text-sm hover:gap-2 transition-all">
+                                            <a href="{{ route('main_pages.show',$item->slug) }}" class="inline-flex items-center gap-1 mt-3 text-blue-600 font-bold text-sm hover:gap-2 transition-all">
                                                 Read More <i class="ti ti-arrow-right"></i>
                                             </a>
                                         </div>
@@ -1023,7 +1023,7 @@
                                     <span class="text-cyan-600 text-xs font-bold tracking-[.15em] uppercase">Latest Blogs</span>
                                     <h3 class="text-2xl font-black text-slate-900 mt-1">Travel Tips & Inspiration</h3>
                                 </div>
-                                <a href="{{ route('blogs.index') ?? '#' }}" class="text-blue-600 font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all">
+                                <a href="{{ route('frontend.blogs.index') }}" class="text-blue-600 font-bold text-sm inline-flex items-center gap-1 hover:gap-2 transition-all">
                                     View All <i class="ti ti-arrow-right"></i>
                                 </a>
                             </div>
@@ -1040,7 +1040,7 @@
                                             <p class="text-sm text-slate-500 mt-2 line-clamp-2">
                                                 {{ Str::limit(strip_tags($blog->short_description),90) }}
                                             </p>
-                                            <a href="{{ route('blogs.show',$blog->slug) }}" class="inline-flex items-center gap-1 mt-3 text-blue-600 font-bold text-sm hover:gap-2 transition-all">
+                                            <a href="{{ route('frontend.blogs.show',$blog->slug) }}" class="inline-flex items-center gap-1 mt-3 text-blue-600 font-bold text-sm hover:gap-2 transition-all">
                                                 Read More <i class="ti ti-arrow-right"></i>
                                             </a>
                                         </div>
@@ -1197,7 +1197,7 @@
 
             <div class="grid md:grid-cols-2 gap-6">
                 @if($previousPage)
-                    <a href="{{ route('pages.show',$previousPage->slug) }}" class="navCard block">
+                    <a href="{{ route('main_pages.show',$previousPage->slug) }}" class="navCard block">
                         <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
                             <i class="ti ti-arrow-left"></i> Previous Page
                         </div>
@@ -1209,7 +1209,7 @@
                 @endif
 
                 @if($nextPage)
-                    <a href="{{ route('pages.show',$nextPage->slug) }}" class="navCard block">
+                    <a href="{{ route('main_pages.show',$nextPage->slug) }}" class="navCard block">
                         <div class="flex items-center justify-end gap-2 text-blue-600 font-bold text-sm">
                             Next Page <i class="ti ti-arrow-right"></i>
                         </div>

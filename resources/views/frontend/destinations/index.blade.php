@@ -1,38 +1,35 @@
-<section class="py-16 bg-white overflow-hidden" id="destinations">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-        <!-- Top Header -->
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-                <span class="text-xs font-bold text-blue-600 uppercase tracking-widest block mb-1.5">
-                    TOP DESTINATIONS
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                    Explore Top Destinations
-                </h2>
-            </div>
+@extends('layouts.app')
 
-            <div class="shrink-0 text-left">
-                <a href="{{ route('frontend.destinations.index') }}" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/10 hover:bg-blue-700 transition-all duration-200 group">
-                    View All Destinations
-                    <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
-                </a>
-            </div>
+@section('title', 'All Destinations - TravelBook')
+
+@section('content')
+
+<section class="relative h-[46vh] min-h-[380px] overflow-hidden bg-[#031129]">
+    <div class="absolute inset-0 z-0">
+        <img src="{{ asset('images/destinations/hero.jpg') }}" alt="Destinations" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+    </div>
+    <div class="relative z-10 flex items-center h-full max-w-7xl mx-auto px-6">
+        <div>
+            <span class="text-blue-400 text-xs font-bold uppercase tracking-[.15em]">Explore</span>
+            <h1 class="text-4xl md:text-6xl font-black text-white mt-3">All Destinations</h1>
+            <p class="text-slate-300 mt-3 text-base max-w-lg">Discover breathtaking destinations from around the world and find your next adventure.</p>
         </div>
+    </div>
+</section>
 
-        <!-- Destination Cards Grid -->
-        @if (isset($destinations) && !blank($destinations))
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        @if($destinations->count())
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach($destinations as $dest)
                     <a href="{{ route('frontend.destinations.show', $dest->slug) }}" class="group relative aspect-[4/5] rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                        <img
-                            src="{{ $dest->featured_image }}"
-                            alt="{{ $dest->name ?? '' }}"
-                            class="absolute inset-0 w-full h-full object-cover transform duration-700 group-hover:scale-110" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-0"></div>
+                        <img src="{{ $dest->featured_image }}" alt="{{ $dest->name }}" class="absolute inset-0 w-full h-full object-cover transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
                         @if($dest->reviews->count() > 0)
                             <div class="absolute top-3 right-3 inline-flex items-center gap-0.5 bg-blue-600 px-2 py-1 rounded-lg text-[11px] font-bold text-white z-10 shadow-sm">
-                                <span class="text-[10px] text-amber-400">★</span>{{ $dest->reviews->count() }}
+                                <span class="text-[10px] text-amber-400">&#9733;</span>{{ $dest->reviews->count() }}
                             </div>
                         @endif
 
@@ -42,11 +39,8 @@
                             </div>
                         @endif
 
-                        <!-- Bottom Overlay -->
                         <div class="absolute bottom-0 inset-x-0 p-4 flex flex-col text-left z-10">
-                            <h3 class="text-white font-bold text-base sm:text-lg tracking-tight leading-tight drop-shadow">
-                                {{ $dest->name ?? '' }}
-                            </h3>
+                            <h3 class="text-white font-bold text-base sm:text-lg tracking-tight leading-tight drop-shadow">{{ $dest->name }}</h3>
                             <p class="text-xs text-slate-200 font-medium mt-1 flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-blue-300">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -63,3 +57,5 @@
         @endif
     </div>
 </section>
+
+@endsection
